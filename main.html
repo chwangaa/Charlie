@@ -26,7 +26,7 @@
         </div>
 	</header>
 
-    <div id="wrapper">
+    <div id="wrapper" style="display:none">
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
@@ -122,12 +122,14 @@
 			
 		document.getElementById('start').addEventListener('click',
 			function(){
-				document.getElementById('landing-page').style.display = 'none'
+				document.getElementById('landing-page').style.display = 'none';
+				document.getElementById('wrapper').style.display = 'block';
 			});
 			
 		document.getElementById('home').addEventListener('click',
 			function(){
-				document.getElementById('landing-page').style.display = 'table'
+				document.getElementById('landing-page').style.display = 'table';
+				document.getElementById('wrapper').style.display = 'none';
 			});
 		
 					
