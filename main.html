@@ -1,0 +1,221 @@
+<!DOCTYPE>
+<html>
+
+<head>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/simple-sidebar.css" rel="stylesheet">
+    <link href="css/jqcloud.css", ref="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="js/papaparse.min.js"></script>
+    <script src ='js/charlie.js'></script>
+    <script src="js/bootstrap.min.js"></script>
+    <title>Group Charlie</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#">
+                        Multilingual SMS
+                    </a>
+                </li>
+                <li>
+                    <a href="#" id="filters">Filters</a>
+                </li>
+                <li>
+                    <a href="#" id="linkers">Linkers</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                    <button class="btn btn-default" id="menu-toggle">Menu</button>
+                    <button id="showPage1Btn" data-launch-view="page1">Page 1</button>
+                    <button id="showPage2Btn" data-launch-view="page2">Page 2</button>
+                    <button id="showPage3Btn" data-launch-view="page3">Page 3</button>
+                    <p>page buttons are here for reference, removed when switchView() implemented</p>
+                    <div id="views">
+                        <div class="view" id="page_upload">
+                            <div id="upload_form">
+                                <br>
+                                <form>
+                                    <h4>Upload your Data Source</h4>
+                                    <input type="file" name="data" id="file_source"/>
+                                    <br>
+                                    <button type="button" id="button_submit">Submit
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        
+                        <div class="view" id="page_cloudmap", style="border:1px solid #f00;height:550px;width:550px;">
+                        </div>
+
+                        <div class="view" id="page_text">
+                        </div>
+
+                    </div>
+            </div>
+        </div>
+    </div>
+        <!-- /#page-content-wrapper -->
+        <script src="js/jquery.awesomeCloud-0.2.min.js"></script>
+        <script>
+            // global data variables
+            var data_raw;
+            var data_wordcloud;
+            // global state variables
+            var WINDOW = {
+                UPLOAD: {id: 'page_upload'},
+                CLOUD: {id: 'page_cloudmap'},
+                LIST: {id: 'page_text'}
+            }
+            var CTR_dataUploaded;
+            var CTR_formatValid;
+            var CTR_WINDOW;
+
+            // initialization of state variables upon loading
+            CTR_dataUploaded = false;
+            CTR_formatValid = false;
+            CTR_WINDOW = WINDOW.UPLOAD
+            
+            switchView();
+
+            document.getElementById('file_source').addEventListener('change', 
+                readDataFromFile, false);
+
+            document.getElementById('button_submit').addEventListener('click',
+                function(){
+                    if(CTR_dataUploaded){
+                        CTR_WINDOW = WINDOW.CLOUD
+                        switchView();
+                    }
+                    else{
+                        alert("some_error_message")
+                    }
+                });
+
+            function readDataFromFile(evt) {
+                //TODO: check data format correct
+                CTR_dataUploaded = true;
+                CTR_formatValid = true;
+                
+                file_name = evt.target.files[0];
+                
+                Papa.parse(file_name, {
+                    header: true,
+                    complete: function(results) {
+                        data_raw = results.data;
+                        data_wordcloud = getWordFrequencyList(data_raw)
+                        //? To be discussed
+                        drawCloudMap(data_wordcloud, '#page_cloudmap')
+                    }
+                });
+                //TODO: getNations()
+                //TODO: getStations()
+                //TODO: renderSideBars(filters)
+            }
+
+            /* 
+                to change the page based on the value of CTR_WINDOW
+            */
+            function switchView(){
+                //TODO: precise FSM specification
+                $('.view').hide();
+                $('#' + CTR_WINDOW.id).show();
+            }
+
+            function renderSideBars(filters, sidebar_id){
+                /*
+                    filters are in the form of object, e.g.
+                    {station: ["S1", "S2"], country: ["Kenya", "Nigeria"]}
+
+                    TODO: make elements according to filters;
+                          append to the tag with sidebar_id;
+                          for each, append click event listener
+                */
+            }
+
+            function filterData(filter_label){
+                /*
+                    filter according to the label given
+                    the label should be in the format of
+                    [['Nation', 'Kenya'], ['Station', 'S1']] for example
+
+                    TODO: filter functionality 
+                */
+                drawCloudMap(words, '#page_cloudmap');
+            }
+
+            function drawCloudMap(words, container){
+                /*
+                    to construct a word cloud based on the "words"
+                    and render it to "container"
+                    ! For each constructed, needs to listen to 'click' event
+                */
+                words = words.slice(0,30);
+                list = "";
+                for(w in words){
+                    text = words[w].text;
+                    weight = words[w].weight;
+                    new_span = "<span data-weight="+weight+">"+text+"</span>"
+                    list = list.concat(new_span)
+                }
+                $(container).append(list)
+                
+                var settings = {
+                    "size" : {
+                        "grid" : 16
+                    },
+                    "options" : {
+                        "color" : "random-dark",
+                        "printMultiplier" : 3
+                    },
+                    "font" : "Futura, Helvetica, sans-serif",
+                    "shape" : "square"
+                }
+                $("#page_cloudmap").awesomeCloud( settings );
+                $('span').show()
+            }
+
+            function listSMS(sms, container){
+                /*
+                    to construct a table visualizing the sms given
+                    and render it to "container"
+                */            
+            }
+
+            $("#menu-toggle").click(function(e) {
+                e.preventDefault();
+                $("#wrapper").toggleClass("toggled");
+            });
+
+            // testing code, delete after switchView() completed
+            $('[data-launch-view]').click(function (e) {
+                    e.preventDefault();
+                    var x = $(this).attr('data-launch-view');
+                    if(x == 'page1'){
+                        CTR_WINDOW = WINDOW.UPLOAD
+                    }
+                    else if(x == 'page2'){
+                        CTR_WINDOW = WINDOW.CLOUD
+                    }
+                    else{
+                        CTR_WINDOW = WINDOW.LIST
+                    }
+                    switchView()
+            });
+
+        </script>
+    </div>
+</body>
+</html>

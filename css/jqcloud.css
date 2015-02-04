@@ -1,0 +1,99 @@
+/* fonts */
+
+div.jqcloud {
+  font-family: "Helvetica", "Arial", sans-serif;
+  font-size: 10px;
+  line-height: normal;
+}
+
+div.jqcloud a {
+  font-size: inherit;
+  text-decoration: none;
+}
+
+div.jqcloud span.w10 { font-size: 550%; }
+div.jqcloud span.w9 { font-size: 500%; }
+div.jqcloud span.w8 { font-size: 450%; }
+div.jqcloud span.w7 { font-size: 400%; }
+div.jqcloud span.w6 { font-size: 350%; }
+div.jqcloud span.w5 { font-size: 300%; }
+div.jqcloud span.w4 { font-size: 250%; }
+div.jqcloud span.w3 { font-size: 200%; }
+div.jqcloud span.w2 { font-size: 150%; }
+div.jqcloud span.w1 { font-size: 100%; }
+
+/* colors */
+
+div.jqcloud { color: #09f; }
+div.jqcloud a { color: inherit; }
+div.jqcloud a:hover { color: #0df; }
+div.jqcloud a:hover { color: #0cf; }
+div.jqcloud span.w10 { color: #0cf; }
+div.jqcloud span.w9 { color: #0cf; }
+div.jqcloud span.w8 { color: #0cf; }
+div.jqcloud span.w7 { color: #39d; }
+div.jqcloud span.w6 { color: #90c5f0; }
+div.jqcloud span.w5 { color: #90a0dd; }
+div.jqcloud span.w4 { color: #90c5f0; }
+div.jqcloud span.w3 { color: #a0ddff; }
+div.jqcloud span.w2 { color: #99ccee; }
+div.jqcloud span.w1 { color: #aab5f0; }
+
+/* layout */
+
+div.jqcloud {
+  overflow: hidden;
+  position: relative;
+}
+
+div.jqcloud span { padding: 0; }
+
+
+#file_browse_wrapper {
+width: 93px;
+height: 28px;
+background: url('file_browse_normal.png') 0 0 no-repeat;
+border:none;
+overflow:hidden;
+margin: 0 auto;
+}
+#file_browse_wrapper:hover {
+background: url('file_browse_hover.png') 0 0 no-repeat;
+}
+#file_browse_wrapper:active {
+background: url('file_browse_pressed.png') 0 0 no-repeat;
+}
+#csv-file{
+margin-left:-145px;
+opacity:0;
+-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+}
+
+#title{
+	font-variant:small-caps;
+	font-size:30px;
+	z-index:10;
+	margin:0 auto;
+	margin-top:20px;
+	left:0;
+	right:0;
+}
+
+#content{
+	text-align: center;
+	padding: 2px;
+	width: 100%;
+	margin: 0 auto;
+	display: block;
+}
+
+body{
+	font:16px Garamond, Georgia, Times New Roman, Times, serif;
+	text-align:center;
+}
+
+#upload_form{
+	text-align: center;
+	display: inline-block;
+}
