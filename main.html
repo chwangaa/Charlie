@@ -3,8 +3,9 @@
 
 <head>
     <link href="css/bootstrap.min.css" rel="stylesheet">
-	<link href="css/landing-page.css" rel="stylesheet">
-    <link href="css/simple-sidebar.css" rel="stylesheet">
+	<link href="css/landing-page.css" rel="stylesheet"><!--TODO: clean up into separate css files-->
+    <link href="css/simple-sidebar.css" rel="stylesheet"> 
+	<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"> <!-- Using this for the 'x' icon-->
     <link href="css/jqcloud.css", ref="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="js/papaparse.min.js"></script>
@@ -17,16 +18,7 @@
 
 <body>
 
-	<header id="landing-page" class="header" style="display:table">
-		<div class="text-vertical-center">
-            <h1>Group Charlie</h1>
-            <h3>something something something</h3>
-            <br>
-            <a id="start" class="btn btn-dark btn-lg">Get Started</a>
-        </div>
-	</header>
-
-    <div id="wrapper" style="display:none">
+    <div id="wrapper">
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
@@ -48,23 +40,36 @@
         <!-- Page Content -->
         <div id="page-content-wrapper">
             <div class="container-fluid">
-					<a id="home" class="btn btn-dark btn-lg">Home</a>
-                    <button class="btn btn-default" id="menu-toggle">Menu</button>
+					<!--
+					<button class="btn btn-default" id="menu-toggle">Menu</button>
                     <button id="showPage1Btn" data-launch-view="page1">Page 1</button>
                     <button id="showPage2Btn" data-launch-view="page2">Page 2</button>
                     <button id="showPage3Btn" data-launch-view="page3">Page 3</button>
                     <p>page buttons are here for reference, removed when switchView() implemented</p>
+					-->
                     <div id="views">
+						<div class="view" id="landing-page">
+							<div class="text-vertical-center">		
+								<h1>Group Charlie</h1>
+								<h3>the best IB group</h3>
+								<br>
+								<a id="start" class="btn btn-dark btn-lg">Get Started</a>
+							</div>
+						</div>
                         <div class="view" id="page_upload">
-                            <div id="upload_form">
-                                <br>
-                                <form>
-                                    <h4>Upload your Data Source</h4>
-                                    <input type="file" name="data" id="file_source"/>
-                                    <br>
-                                    <button type="button" id="button_submit">Submit
-                                    </button>
-                                </form>
+                            <div class="text-vertical-center" id="upload_form">
+								<a id="close" class="btn btn-light btn-lg pull-right toggle"><i class="fa fa-times"></i></a>
+								<form>
+									<h2>Step 1: Input question</h2>
+									<input type="text" name="question" id="question_field"/>
+									<br>
+									<h2>Step 2: Upload your data source</h2>
+									<input type="text" name="file_display" id="file_display" readonly/>
+									<a id="file_submit" class="btn btn-dark btn-lg">Browse</a>
+									<input type="file" name="data" id="file_source"/>
+									<br>
+									<a id="button_submit" class="btn btn-dark btn-lg">Submit</a>
+								</form>
                             </div>
                         </div>
                         
@@ -90,6 +95,7 @@
 		var data_wordcloud;
 		// global state variables
 		var WINDOW = {
+			LANDING: {id: 'landing-page'},
 			UPLOAD: {id: 'page_upload'},
 			CLOUD: {id: 'page_cloudmap'},
 			LIST: {id: 'page_text'}
@@ -102,9 +108,10 @@
 		// initialization of state variables upon loading
 		CTR_dataUploaded = false;
 		CTR_formatValid = false;
-		CTR_WINDOW = WINDOW.UPLOAD
+		CTR_WINDOW = WINDOW.LANDING;
 		
 		switchView();
+		
 
 		document.getElementById('file_source').addEventListener('change', 
 			readDataFromFile, false);
@@ -114,25 +121,31 @@
 				if(CTR_dataUploaded){
 					CTR_WINDOW = WINDOW.CLOUD
 					switchView();
+					$("#wrapper").toggleClass("toggled");
 				}
 				else{
 					alert("some_error_message")
 				}
 			});
-			
-		document.getElementById('start').addEventListener('click',
-			function(){
-				document.getElementById('landing-page').style.display = 'none';
-				document.getElementById('wrapper').style.display = 'block';
-			});
-			
-		document.getElementById('home').addEventListener('click',
-			function(){
-				document.getElementById('landing-page').style.display = 'table';
-				document.getElementById('wrapper').style.display = 'none';
-			});
 		
-					
+		document.getElementById('start').addEventListener('click', 
+			function(){
+				CTR_WINDOW = WINDOW.UPLOAD;
+				switchView();
+			});
+			
+		document.getElementById('close').addEventListener('click',
+			function(){
+				CTR_WINDOW = WINDOW.LANDING;
+				switchView();
+			});
+			
+		document.getElementById('file_submit').addEventListener('click',
+			function(){
+				file_source.click();
+			});
+			
+		
 
 		function readDataFromFile(evt) {
 			//TODO: check data format correct
@@ -140,6 +153,7 @@
 			CTR_formatValid = true;
 			
 			file_name = evt.target.files[0];
+			document.getElementById('file_display').value = document.getElementById('file_source').value;
 			
 			Papa.parse(file_name, {
 				header: true,

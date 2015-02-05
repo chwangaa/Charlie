@@ -1,13 +1,40 @@
-.header {
-    display: table;
-    position: relative;
-    width: 100%;
-    height: 100%;
+#landing-page{
     background: url(../img/bg.jpg) no-repeat center center scroll;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
     -o-background-size: cover;
+}
+
+#question_field{
+	padding:10px;
+	margin-bottom:30px;
+	width:400px;
+	font-size:1em;
+}
+
+#file_display{
+	padding:11px;
+	margin-right:20px;
+	margin-bottom:50px;
+	width:200px;
+	font-size:1em;
+}
+
+#file_source{
+	display:none;
+}
+
+#close{
+	position:fixed;
+	top:0;
+	right:0;
+}
+.view {
+    display: table;
+    position: relative;
+    width: 100%;
+    height: 100%;
 }
 
 .text-vertical-center {
