@@ -49,7 +49,7 @@
                                 <br>
                                 <form>
                                     <h4>Upload your Data Source</h4>
-                                    <input type="file" name="data" id="file_source"/>
+                                    <input type="file" name="data" id="file_source" accept='.csv'/>
                                     <br>
                                     <button type="button" id="button_submit">Submit
                                     </button>
@@ -82,6 +82,7 @@
             var CTR_dataUploaded;
             var CTR_formatValid;
             var CTR_WINDOW;
+            var CTR_ERROR_MSG;
 
             // initialization of state variables upon loading
             CTR_dataUploaded = false;
@@ -100,29 +101,40 @@
                         switchView();
                     }
                     else{
-                        alert("some_error_message")
+                        alert(CTR_ERROR_MSG)
                     }
                 });
 
             function readDataFromFile(evt) {
                 //TODO: check data format correct
-                CTR_dataUploaded = true;
-                CTR_formatValid = true;
-                
                 file_name = evt.target.files[0];
                 
-                Papa.parse(file_name, {
-                    header: true,
-                    complete: function(results) {
-                        data_raw = results.data;
-                        data_wordcloud = getWordFrequencyList(data_raw)
-                        //? To be discussed
-                        drawCloudMap(data_wordcloud, '#page_cloudmap')
-                    }
-                });
+                CTR_formatValid = validateFile(file_name)
+                if(CTR_formatValid){
+                    Papa.parse(file_name, {
+                        header: true,
+                        complete: function(results) {
+                            data_raw = results.data;
+                            data_wordcloud = getWordFrequencyList(data_raw)
+                            //? To be discussed
+                            drawCloudMap(data_wordcloud, '#page_cloudmap')
+                        }
+                    });
+                    CTR_dataUploaded = true
+                }
+                else{
+                    CTR_ERROR_MSG = 'File must be of the csv format'
+                }
                 //TODO: getNations()
                 //TODO: getStations()
                 //TODO: renderSideBars(filters)
+            }
+
+            function validateFile(file_name){
+                if(file_name.type == 'text/csv')
+                    return true
+                else
+                    return false
             }
 
             /* 
