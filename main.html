@@ -3,6 +3,7 @@
 
 <head>
     <link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/landing-page.css" rel="stylesheet">
     <link href="css/simple-sidebar.css" rel="stylesheet">
     <link href="css/jqcloud.css", ref="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -15,8 +16,17 @@
 </head>
 
 <body>
-    <div id="wrapper">
 
+	<header id="landing-page" class="header" style="display:table">
+		<div class="text-vertical-center">
+            <h1>Group Charlie</h1>
+            <h3>something something something</h3>
+            <br>
+            <a id="start" class="btn btn-dark btn-lg">Get Started</a>
+        </div>
+	</header>
+
+    <div id="wrapper" style="display:none">
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
@@ -38,6 +48,7 @@
         <!-- Page Content -->
         <div id="page-content-wrapper">
             <div class="container-fluid">
+					<a id="home" class="btn btn-dark btn-lg">Home</a>
                     <button class="btn btn-default" id="menu-toggle">Menu</button>
                     <button id="showPage1Btn" data-launch-view="page1">Page 1</button>
                     <button id="showPage2Btn" data-launch-view="page2">Page 2</button>
@@ -66,168 +77,182 @@
                     </div>
             </div>
         </div>
+		<!-- /#page-content-wrapper -->
+		
     </div>
-        <!-- /#page-content-wrapper -->
-        <script src="js/jquery.awesomeCloud-0.2.min.js"></script>
-        <script>
-            // global data variables
-            var data_raw;
-            var data_wordcloud;
-            // global state variables
-            var WINDOW = {
-                UPLOAD: {id: 'page_upload'},
-                CLOUD: {id: 'page_cloudmap'},
-                LIST: {id: 'page_text'}
-            }
-            var CTR_dataUploaded;
-            var CTR_formatValid;
-            var CTR_WINDOW;
-            var CTR_ERROR_MSG;
+	
+	<script src="js/jquery.awesomeCloud-0.2.min.js"></script>
+	<script>
+		// global data variables
+		var data_raw;
+		var data_wordcloud;
+		// global state variables
+		var WINDOW = {
+			UPLOAD: {id: 'page_upload'},
+			CLOUD: {id: 'page_cloudmap'},
+			LIST: {id: 'page_text'}
+		}
+		
+		var CTR_dataUploaded;
+		var CTR_formatValid;
+		var CTR_WINDOW;
 
-            // initialization of state variables upon loading
-            CTR_dataUploaded = false;
-            CTR_formatValid = false;
-            CTR_WINDOW = WINDOW.UPLOAD
+		// initialization of state variables upon loading
+		CTR_dataUploaded = false;
+		CTR_formatValid = false;
+		CTR_WINDOW = WINDOW.UPLOAD
+		
+		switchView();
+
+		document.getElementById('file_source').addEventListener('change', 
+			readDataFromFile, false);
+
+		document.getElementById('button_submit').addEventListener('click',
+			function(){
+				if(CTR_dataUploaded){
+					CTR_WINDOW = WINDOW.CLOUD
+					switchView();
+				}
+				else{
+					alert("some_error_message")
+				}
+			});
+			
+		document.getElementById('start').addEventListener('click',
+			function(){
+				document.getElementById('landing-page').style.display = 'none';
+				document.getElementById('wrapper').style.display = 'block';
+			});
+			
+		document.getElementById('home').addEventListener('click',
+			function(){
+				document.getElementById('landing-page').style.display = 'table';
+				document.getElementById('wrapper').style.display = 'none';
+			});
+		
+					
+
+        function readDataFromFile(evt) {
+            //TODO: check data format correct
+            file_name = evt.target.files[0];
             
-            switchView();
-
-            document.getElementById('file_source').addEventListener('change', 
-                readDataFromFile, false);
-
-            document.getElementById('button_submit').addEventListener('click',
-                function(){
-                    if(CTR_dataUploaded){
-                        CTR_WINDOW = WINDOW.CLOUD
-                        switchView();
-                    }
-                    else{
-                        alert(CTR_ERROR_MSG)
+            CTR_formatValid = validateFile(file_name)
+            if(CTR_formatValid){
+                Papa.parse(file_name, {
+                    header: true,
+                    complete: function(results) {
+                        data_raw = results.data;
+                        data_wordcloud = getWordFrequencyList(data_raw)
+                        //? To be discussed
+                        drawCloudMap(data_wordcloud, '#page_cloudmap')
                     }
                 });
-
-            function readDataFromFile(evt) {
-                //TODO: check data format correct
-                file_name = evt.target.files[0];
-                
-                CTR_formatValid = validateFile(file_name)
-                if(CTR_formatValid){
-                    Papa.parse(file_name, {
-                        header: true,
-                        complete: function(results) {
-                            data_raw = results.data;
-                            data_wordcloud = getWordFrequencyList(data_raw)
-                            //? To be discussed
-                            drawCloudMap(data_wordcloud, '#page_cloudmap')
-                        }
-                    });
-                    CTR_dataUploaded = true
-                }
-                else{
-                    CTR_ERROR_MSG = 'File must be of the csv format'
-                }
-                //TODO: getNations()
-                //TODO: getStations()
-                //TODO: renderSideBars(filters)
+                CTR_dataUploaded = true
             }
-
-            function validateFile(file_name){
-                if(file_name.type == 'text/csv')
-                    return true
-                else
-                    return false
+            else{
+                CTR_ERROR_MSG = 'File must be of the csv format'
             }
+            //TODO: getNations()
+            //TODO: getStations()
+            //TODO: renderSideBars(filters)
+        }
 
-            /* 
-                to change the page based on the value of CTR_WINDOW
-            */
-            function switchView(){
-                //TODO: precise FSM specification
-                $('.view').hide();
-                $('#' + CTR_WINDOW.id).show();
-            }
+        function validateFile(file_name){
+            if(file_name.type == 'text/csv')
+                return true
+            else
+                return false
+        }
 
-            function renderSideBars(filters, sidebar_id){
-                /*
-                    filters are in the form of object, e.g.
-                    {station: ["S1", "S2"], country: ["Kenya", "Nigeria"]}
+		/* 
+			to change the page based on the value of CTR_WINDOW
+		*/
+		function switchView(){
+			//TODO: precise FSM specification
+			$('.view').hide();
+			$('#' + CTR_WINDOW.id).show();
+		}
 
-                    TODO: make elements according to filters;
-                          append to the tag with sidebar_id;
-                          for each, append click event listener
-                */
-            }
+		function renderSideBars(filters, sidebar_id){
+			/*
+				filters are in the form of object, e.g.
+				{station: ["S1", "S2"], country: ["Kenya", "Nigeria"]}
 
-            function filterData(filter_label){
-                /*
-                    filter according to the label given
-                    the label should be in the format of
-                    [['Nation', 'Kenya'], ['Station', 'S1']] for example
+				TODO: make elements according to filters;
+					  append to the tag with sidebar_id;
+					  for each, append click event listener
+			*/
+		}
 
-                    TODO: filter functionality 
-                */
-                drawCloudMap(words, '#page_cloudmap');
-            }
+		function filterData(filter_label){
+			/*
+				filter according to the label given
+				the label should be in the format of
+				[['Nation', 'Kenya'], ['Station', 'S1']] for example
 
-            function drawCloudMap(words, container){
-                /*
-                    to construct a word cloud based on the "words"
-                    and render it to "container"
-                    ! For each constructed, needs to listen to 'click' event
-                */
-                words = words.slice(0,30);
-                list = "";
-                for(w in words){
-                    text = words[w].text;
-                    weight = words[w].weight;
-                    new_span = "<span data-weight="+weight+">"+text+"</span>"
-                    list = list.concat(new_span)
-                }
-                $(container).append(list)
-                
-                var settings = {
-                    "size" : {
-                        "grid" : 16
-                    },
-                    "options" : {
-                        "color" : "random-dark",
-                        "printMultiplier" : 3
-                    },
-                    "font" : "Futura, Helvetica, sans-serif",
-                    "shape" : "square"
-                }
-                $("#page_cloudmap").awesomeCloud( settings );
-                $('span').show()
-            }
+				TODO: filter functionality 
+			*/
+			drawCloudMap(words, '#page_cloudmap');
+		}
 
-            function listSMS(sms, container){
-                /*
-                    to construct a table visualizing the sms given
-                    and render it to "container"
-                */            
-            }
+		function drawCloudMap(words, container){
+			/*
+				to construct a word cloud based on the "words"
+				and render it to "container"
+				! For each constructed, needs to listen to 'click' event
+			*/
+			words = words.slice(0,30);
+			list = "";
+			for(w in words){
+				text = words[w].text;
+				weight = words[w].weight;
+				new_span = "<span data-weight="+weight+">"+text+"</span>"
+				list = list.concat(new_span)
+			}
+			$(container).append(list)
+			
+			var settings = {
+				"size" : {
+					"grid" : 16
+				},
+				"options" : {
+					"color" : "random-dark",
+					"printMultiplier" : 3
+				},
+				"font" : "Futura, Helvetica, sans-serif",
+				"shape" : "square"
+			}
+			$("#page_cloudmap").awesomeCloud( settings );
+			$('span').show()
+		}
 
-            $("#menu-toggle").click(function(e) {
-                e.preventDefault();
-                $("#wrapper").toggleClass("toggled");
-            });
+		function listSMS(sms, container){
+			/*
+				to construct a table visualizing the sms given
+				and render it to "container"
+			*/            
+		}
 
-            // testing code, delete after switchView() completed
-            $('[data-launch-view]').click(function (e) {
-                    e.preventDefault();
-                    var x = $(this).attr('data-launch-view');
-                    if(x == 'page1'){
-                        CTR_WINDOW = WINDOW.UPLOAD
-                    }
-                    else if(x == 'page2'){
-                        CTR_WINDOW = WINDOW.CLOUD
-                    }
-                    else{
-                        CTR_WINDOW = WINDOW.LIST
-                    }
-                    switchView()
-            });
+		$("#menu-toggle").click(function(e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
 
-        </script>
-    </div>
+		// testing code, delete after switchView() completed
+		$('[data-launch-view]').click(function (e) {
+				e.preventDefault();
+				var x = $(this).attr('data-launch-view');
+				if(x == 'page1'){
+					CTR_WINDOW = WINDOW.UPLOAD
+				}
+				else if(x == 'page2'){
+					CTR_WINDOW = WINDOW.CLOUD
+				}
+				else{
+					CTR_WINDOW = WINDOW.LIST
+				}
+				switchView()
+		});
+	</script>
 </body>
 </html>
