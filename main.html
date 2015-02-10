@@ -184,9 +184,25 @@
         		return true;
         	}
         }
-
+        /*
+        	handler for box ticking event
+        */
         function updateData(data){
-        	
+        	countries = getSelectedCountries();
+        	rstations = getSelectedRStations();
+        	// progressively filter the texts by country and then by station
+        	filtered_country = filterByCountry(data_raw, countries)
+        	sms = filterByStation(filter_country, rstations)
+			data_wordcloud = getWordFrequencyList(data_raw)
+            drawCloudMap(data_wordcloud, '#cloud_tags')
+        }
+
+        function getSelectedCountries(){
+        	return data_countries;
+        }
+
+        function getSelectedRStations(){
+        	return data_stations;
         }
 
 		/* 
