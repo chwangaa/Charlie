@@ -11,6 +11,8 @@
     <script src="js/papaparse.min.js"></script>
     <script src ='js/charlie.js'></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/tabularSMS.js"></script>
+    <script src="js/jput.min.js" type="text/javascript"></script>
     <title>Group Charlie</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -84,6 +86,26 @@
             </div>
         </div>
     </div>
+     <table id="tableau" jput="t_template">
+        <tbody jput="tbody_template">
+        <tr>
+            <td style="padding-right: 20px">{{Index}}</td>
+            <td style="padding-right: 20px">{{RStation}}</td>
+            <td style="padding-right: 20px">{{Country}}</td>
+            <td style="padding-right: 20px">{{SMS}}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <table>
+        <tbody id="tbody">
+        <td style="padding-right: 20px">Index</td>
+        <td width = "3%" style="padding-right: 20px">Radio Station</td>
+        <td style="padding-right: 20px">Country</td>
+        <td style="padding-right: 20px">SMS</td>
+        </tbody>
+    </table>
+
     <!-- /#page-content-wrapper -->
 
 </div>
@@ -146,29 +168,26 @@
 				document.getElementById('landing-page').style.display = 'table';
 				document.getElementById('wrapper').style.display = 'none';
 			});
-		
-		function findSMS(keyWord, dataArray){
-	            var smsArray=[];
-	            var reg =  (" " + keyWord + " ")
-	            for(var i=0; i< dataArray.length; i++){
-	                for(key in dataArray[i]){
-	                     if(key=="SMS" && dataArray[i][key].toLowerCase().search(keyWord)!=-1) {
-	                        //console.log(JSON.stringify(dataArray[i]));
-	                        smsArray.push(JSON.stringify(dataArray[i])+"<br>");
-	                    }
-	                }
-	        }
-	        return smsArray;
-	    }
-  		
-  		document.getElementById("cloud_tags").addEventListener("click", 
-  			function(e){
+		document.getElementById('tableau').style.visibility="hidden";
+		document.getElementById('tbody').style.visibility="hidden";
+
+  	        document.getElementById("cloud_tags").addEventListener("click",
+  		    function(e){
       			document.getElementById("displayWord").innerHTML = "You clicked on "+e.target.id;
-      			document.getElementById("demo").innerHTML =
-      			findSMS(e.target.id, data_raw)
+      			var smsArray = findSMS(e.target.id, data_raw);
+      			console.log(smsArray)
+      			document.getElementById('tableau').style.visibility="visible";
+      			document.getElementById('tbody').style.visibility="visible";
+      			$(document).ready(function(){
+		                $("#tbody").jPut({
+		                    jsonData:smsArray,
+		                    name:"tbody_template",
+		                });
+	                });
                 CTR_WINDOW = WINDOW.LIST
                 switchView()
-  			});
+  		});
+		
         
         function readDataFromFile(evt) {
             //TODO: check data format correct
