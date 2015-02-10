@@ -28,3 +28,18 @@ function getWordFrequencyList(data){
   
   return word_list
 }
+
+function getAttributeList(data, attribute){
+	var attribute_list = [];
+	for(i in data){
+		var sms = data[i];
+		var value = sms[attribute];
+		attribute_list.push(value);
+	}
+	var counter = Counter(attribute_list);
+	var unique_attributes = [];
+	for(var key in counter){
+		unique_attributes.push(key)
+	}
+	return unique_attributes;
+}
