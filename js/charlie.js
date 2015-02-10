@@ -1,9 +1,9 @@
 function Counter(list){
-  var counter = {}
-  for(var i = 0, j = list.length; i < j; i++){
-    counter[list[i]] = (counter[list[i]] || 0) + 1;
-  }
-  return counter
+	var counter = {}
+	for(var i = 0, j = list.length; i < j; i++){
+	   counter[list[i]] = (counter[list[i]] || 0) + 1;
+	}
+	return counter
 }
 
 
@@ -27,4 +27,35 @@ function getWordFrequencyList(data){
 	})
   
   return word_list
+}
+
+function getAttributeList(data, attribute){
+	var attribute_list = [];
+	for(i in data){
+		var sms = data[i];
+		var value = sms[attribute];
+		attribute_list.push(value);
+	}
+	var counter = Counter(attribute_list);
+	var unique_attributes = [];
+	for(var key in counter){
+		unique_attributes.push(key)
+	}
+	return unique_attributes;
+}
+
+function filterByCountry(data, country_names){
+	function f(e){
+		var country_name = e.Country;
+		return (country_names.indexOf(e.Country)>=0);
+	}
+	return data.filter(f);
+}
+
+function filterByStation(data, station_names){
+	function f(e){
+		var station_name = e.Country;
+		return (station_names.indexOf(e.RStation)>=0);
+	}
+	return data.filter(f);	
 }
