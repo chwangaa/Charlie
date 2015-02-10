@@ -92,6 +92,7 @@
 	<script>
 		// global data variables
 		var data_raw;
+		var data_filtered;
 		var data_wordcloud;
 		var data_countries;
 		var data_rstations;
@@ -121,7 +122,7 @@
 		document.getElementById('button_submit').addEventListener('click',
 			function(){
 				if(CTR_formatValid){
-					data_wordcloud = getWordFrequencyList(data_raw)
+					data_wordcloud = getWordFrequencyList(data_filtered)
                 	//? To be discussed
                 	drawCloudMap(data_wordcloud, '#cloud_tags')
 					CTR_WINDOW = WINDOW.CLOUD
@@ -152,6 +153,7 @@
                 header: true,
                 complete: function(results) {
                     data_raw = results.data;
+                    data_filtered = data_raw;
                     CTR_formatValid = validateInput(data_raw[0]);
                     if(CTR_formatValid){
 		     			// if valid, should start interpreting data
@@ -185,15 +187,15 @@
         	}
         }
         /*
-        	handler for box ticking event
+        	handler for box ticking event (the filtering action)
         */
         function updateData(data){
         	countries = getSelectedCountries();
         	rstations = getSelectedRStations();
         	// progressively filter the texts by country and then by station
         	filtered_country = filterByCountry(data_raw, countries)
-        	sms = filterByStation(filter_country, rstations)
-			data_wordcloud = getWordFrequencyList(data_raw)
+        	data_filtered = filterByStation(filter_country, rstations)
+			data_wordcloud = getWordFrequencyList(data_filtered)
             drawCloudMap(data_wordcloud, '#cloud_tags')
         }
 
