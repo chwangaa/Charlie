@@ -21,6 +21,7 @@ function setUpCanvas() {
 
 /*
     Appends list of words into HTML as a list, then calls function to set up canvas.
+    The tag container should be different than the canvas container, as required by the TagCanvas library.
     TODO(Daria): Pass appropriate container here (might need multiple ones).
 */
 function drawCloudMap(words, container) {
@@ -40,7 +41,7 @@ function drawCloudMap(words, container) {
         list = list.concat(new_item)
     }
     list = list.concat("</ul>");
-    $(container).append(list)
+    $(container).empty().append(list)
     try {
       setUpCanvas();
     } catch(e) {
