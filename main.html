@@ -12,6 +12,7 @@
     <script src ='js/charlie.js'></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/tabularSMS.js"></script>
+    <script src="js/sidebar.js"></script>
     <title>Group Charlie</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -207,7 +208,7 @@
         	rstations = getSelectedRStations();
         	// progressively filter the texts by country and then by station
         	filtered_country = filterByCountry(data_raw, countries)
-        	data_filtered = filterByStation(filter_country, rstations)
+        	data_filtered = filterByStation(filtered_country, rstations)
 			data_wordcloud = getWordFrequencyList(data_filtered)
             drawCloudMap(data_wordcloud, '#cloud_tags')
         }
@@ -217,7 +218,7 @@
         }
 
         function getSelectedRStations(){
-        	return data_stations;
+        	return data_rstations;
         }
 		/* 
 			to change the page based on the value of CTR_WINDOW
@@ -257,28 +258,6 @@
 				}
 				switchView()
 		});
-		function renderSideBars(filters, sidebar_id){
-    		$(sidebar_id).append("Countries:<br>");
-    			for(var i = 0; i < filters.countries.length; i++) {
-        			var name = filters.countries[i];
-        			var box = $('<input/>').attr({
-			            type: "checkbox",
-			            value: name
-		        });
-		        $(sidebar_id).append(box);
-		        $(sidebar_id).append(" " + name + "<br>");
-		    }
-		    $(sidebar_id).append("Stations:<br>");
-		    for(var i = 0; i < filters.stations.length; i++) {
-		        var name = filters.stations[i];
-		        var box = $('<input/>').attr({
-		            type: "checkbox",
-		            value: name
-		        });
-		        $(sidebar_id).append(box);
-		        $(sidebar_id).append(" " + name + "<br>");
-		    }
-        }
 	</script>
 </body>
 </html>

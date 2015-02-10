@@ -34,7 +34,9 @@ function getAttributeList(data, attribute){
 	for(i in data){
 		var sms = data[i];
 		var value = sms[attribute];
-		attribute_list.push(value);
+		if(value != undefined){
+			attribute_list.push(value);
+		}
 	}
 	var counter = Counter(attribute_list);
 	var unique_attributes = [];
