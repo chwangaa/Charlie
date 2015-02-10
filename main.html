@@ -11,6 +11,7 @@
     <script src="js/papaparse.min.js"></script>
     <script src ='js/charlie.js'></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/tabularSMS.js"></script>
     <title>Group Charlie</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -146,6 +147,15 @@
 				document.getElementById('landing-page').style.display = 'table';
 				document.getElementById('wrapper').style.display = 'none';
 			});
+
+        document.getElementById("cloud_tags").addEventListener("click", 
+            function(e){
+              document.getElementById("displayWord").innerHTML = "You clicked on "+e.target.id;
+              document.getElementById("demo").innerHTML =
+              findSMS(e.target.id, data_raw)
+              CTR_WINDOW = WINDOW.LIST
+              switchView()
+          });
 		
         
         function readDataFromFile(evt) {

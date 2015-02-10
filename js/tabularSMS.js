@@ -1,5 +1,3 @@
-
-
 		function findSMS(keyWord, dataArray){
             var smsArray=[];
             var reg =  (" " + keyWord + " ")
@@ -13,12 +11,3 @@
         }
         return smsArray;
       }
-
-      document.getElementById("cloud_tags").addEventListener("click", function(e)
-      {
-          document.getElementById("displayWord").innerHTML = "You clicked on "+e.target.id;
-          document.getElementById("demo").innerHTML =
-          findSMS(e.target.id, data_raw)
-          CTR_WINDOW = WINDOW.LIST
-          switchView()
-      });
