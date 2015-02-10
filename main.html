@@ -3,7 +3,7 @@
 
 <head>
     <link href="css/bootstrap.min.css" rel="stylesheet">
-	<link href="css/landing-page.css" rel="stylesheet">
+    <link href="css/landing-page.css" rel="stylesheet">
     <link href="css/simple-sidebar.css" rel="stylesheet">
     <!-- TODO: Do we need this css? -->
     <link href="css/jqcloud.css", ref="stylesheet">
@@ -12,84 +12,86 @@
     <script src ='js/charlie.js'></script>
     <script src="js/bootstrap.min.js"></script>
     <title>Group Charlie</title>
-        <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 
 <body>
 
-	<header id="landing-page" class="header" style="display:table">
-		<div class="text-vertical-center">
-            <h1>Group Charlie</h1>
-            <h3>something something something</h3>
-            <br>
-            <a id="start" class="btn btn-dark btn-lg">Get Started</a>
-        </div>
-	</header>
+<header id="landing-page" class="header" style="display:table">
+    <div class="text-vertical-center">
+        <h1>Group Charlie</h1>
+        <h3>something something something</h3>
+        <br>
+        <a id="start" class="btn btn-dark btn-lg">Get Started</a>
+    </div>
+</header>
 
-    <div id="wrapper" style="display:none">
-        <!-- Sidebar -->
-        <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
-                <li class="sidebar-brand">
-                    <a href="#">
-                        Multilingual SMS
-                    </a>
-                </li>
-                <li id='li_filters'>
-                    <a href="#" id="filters">Filters</a>
-                </li>
-                <li>
-                    <a href="#" id="linkers">Linkers</a>
-                </li>
-            </ul>
-        </div>
-        <!-- /#sidebar-wrapper -->
+<div id="wrapper" style="display:none">
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+            <li class="sidebar-brand">
+                <a href="#">
+                    Multilingual SMS
+                </a>
+            </li>
+            <li id='li_filters'>
+                <a href="#" id="filters">Filters</a>
+            </li>
+            <li>
+                <a href="#" id="linkers">Linkers</a>
+            </li>
+        </ul>
+    </div>
+    <!-- /#sidebar-wrapper -->
 
-        <!-- Page Content -->
-        <div id="page-content-wrapper">
-            <div class="container-fluid">
-					<a id="home" class="btn btn-dark btn-lg">Home</a>
-                    <button class="btn btn-default" id="menu-toggle">Menu</button>
-                    <button id="showPage1Btn" data-launch-view="page1">Page 1</button>
-                    <button id="showPage2Btn" data-launch-view="page2">Page 2</button>
-                    <button id="showPage3Btn" data-launch-view="page3">Page 3</button>
-                    <p>page buttons are here for reference, removed when switchView() implemented</p>
-                    <div id="views">
-                        <div class="view" id="page_upload">
-                            <div id="upload_form">
-                                <br>
-                                <form>
-                                    <h4>Upload your Data Source</h4>
-                                    <input type="file" name="data" id="file_source" accept='.csv'/>
-                                    <br>
-                                    <button type="button" id="button_submit">Submit
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                        
-                        <div class="view" id="page_cloudmap">
-	                        <canvas width="600" height="600" id="cloud_canvas"/>
-							<div id="cloud_tags"/>
-                        </div>
-
-                        <div class="view" id="page_text">
-                        </div>
-
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <a id="home" class="btn btn-dark btn-lg">Home</a>
+            <button class="btn btn-default" id="menu-toggle">Menu</button>
+            <button id="showPage1Btn" data-launch-view="page1">Page 1</button>
+            <button id="showPage2Btn" data-launch-view="page2">Page 2</button>
+            <button id="showPage3Btn" data-launch-view="page3">Page 3</button>
+            <p>page buttons are here for reference, removed when switchView() implemented</p>
+            <div id="views">
+                <div class="view" id="page_upload">
+                    <div id="upload_form">
+                        <br>
+                        <form>
+                            <h4>Upload your Data Source</h4>
+                            <input type="file" name="data" id="file_source" accept='.csv'/>
+                            <br>
+                            <button type="button" id="button_submit">Submit
+                            </button>
+                        </form>
                     </div>
+                </div>
+
+                <div class="view" id="page_cloudmap">
+                    <canvas width="600" height="600" id="cloud_canvas"/>
+                    <div id="cloud_tags"/>
+                </div>
+
+                <div class="view" id="page_text">
+                </div>
+
             </div>
         </div>
-		<!-- /#page-content-wrapper -->
-		
     </div>
-	
-	<script src="js/jquery.awesomeCloud-0.2.min.js"></script>
-	<!-- /#wrapper -->
-	
-    <script src="js/tagcanvas.min.js" type="text/javascript"></script>
-    <script src="js/wordcloud.js" type="text/javascript"></script>
-	<script>
+    <p id="displayWord" align="justify"></p>
+    <p id="demo" align="justify"></p>
+    <!-- /#page-content-wrapper -->
+
+</div>
+
+<script src="js/jquery.awesomeCloud-0.2.min.js"></script>
+<!-- /#wrapper -->
+
+<script src="js/tagcanvas.min.js" type="text/javascript"></script>
+<script src="js/wordcloud.js" type="text/javascript"></script>
+<script>
 		// global data variables
 		var data_raw;
 		var data_filtered;
@@ -107,17 +109,14 @@
 		var CTR_formatValid;
 		var CTR_WINDOW;
 		var CTR_ERROR_MSG
-
 		// initialization of state variables upon loading
 		// CTR_dataUploaded = false;
 		CTR_formatValid = false;
 		CTR_WINDOW = WINDOW.UPLOAD
 		
 		switchView();
-
 		document.getElementById('file_source').addEventListener('change', 
 			readDataFromFile, false);
-
 		
 		document.getElementById('button_submit').addEventListener('click',
 			function(){
@@ -144,7 +143,28 @@
 				document.getElementById('landing-page').style.display = 'table';
 				document.getElementById('wrapper').style.display = 'none';
 			});
-
+		
+		function findSMS(keyWord, dataArray){
+	            var smsArray=[];
+	            var reg =  (" " + keyWord + " ")
+	            for(var i=0; i< dataArray.length; i++){
+	                for(key in dataArray[i]){
+	                     if(key=="SMS" && dataArray[i][key].toLowerCase().search(keyWord)!=-1) {
+	                        //console.log(JSON.stringify(dataArray[i]));
+	                        smsArray.push(JSON.stringify(dataArray[i])+"<br>");
+	                    }
+	                }
+	        }
+	        return smsArray;
+	    }
+  		
+  		document.getElementById("cloud_tags").addEventListener("click", 
+  			function(e){
+      			document.getElementById("displayWord").innerHTML = "You clicked on "+e.target.id;
+      			document.getElementById("demo").innerHTML =
+      			findSMS(e.target.id, data_raw)
+  			});
+        
         function readDataFromFile(evt) {
             //TODO: check data format correct
             file_name = evt.target.files[0];
@@ -168,7 +188,6 @@
             //TODO: getStations()
             //TODO: renderSideBars(filters)
         }
-
         function validateInput(data){
         	if(data.SMS == undefined){
         		CTR_ERROR_MSG = "dataset does not have SMS attribute defined"
@@ -206,7 +225,6 @@
         function getSelectedRStations(){
         	return data_stations;
         }
-
 		/* 
 			to change the page based on the value of CTR_WINDOW
 		*/
@@ -216,30 +234,20 @@
 			$('.view').hide();
 			$('#' + CTR_WINDOW.id).show();
 		}
-
 		function filterData(filter_label){
 			/*
 				filter according to the label given
 				the label should be in the format of
 				[['Nation', 'Kenya'], ['Station', 'S1']] for example
-
 				TODO: filter functionality 
 			*/
 			drawCloudMap(words, '#cloud_tags');
 		}
-
-		function listSMS(sms, container){
-			/*
-				to construct a table visualizing the sms given
-				and render it to "container"
-			*/            
-		}
-
+		
 		$("#menu-toggle").click(function(e) {
 			e.preventDefault();
 			$("#wrapper").toggleClass("toggled");
 		});
-
 		// testing code, delete after switchView() completed
 		$('[data-launch-view]').click(function (e) {
 				e.preventDefault();
@@ -255,7 +263,6 @@
 				}
 				switchView()
 		});
-
 		function renderSideBars(filters, sidebar_id){
     		$(sidebar_id).append("Countries:<br>");
     			for(var i = 0; i < filters.countries.length; i++) {
@@ -278,7 +285,6 @@
 		        $(sidebar_id).append(" " + name + "<br>");
 		    }
         }
-
 	</script>
 </body>
 </html>
