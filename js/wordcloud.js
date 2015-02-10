@@ -36,7 +36,7 @@ function drawCloudMap(words, container) {
         } else {
             colour = topicColour[0];
         }
-        new_item = "<li> <a data-weight="+weight+" style=\"color:"+colour+"\" href=\"/mock\">"+text+"</a></li>"
+        new_item = "<li> <a data-weight="+weight+" id=" +text+ " style=\"color:"+colour+"\" href=\"#\">"+text+"</a></li>"
         list = list.concat(new_item)
     }
     list = list.concat("</ul>");
