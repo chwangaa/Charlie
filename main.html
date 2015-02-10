@@ -71,17 +71,19 @@
 
                 <div class="view" id="page_cloudmap">
                     <canvas width="600" height="600" id="cloud_canvas"/>
+                    </canvas>
                     <div id="cloud_tags"/>
+                    </div>
                 </div>
 
                 <div class="view" id="page_text">
+                    <p id="displayWord" align="justify"></p>
+    				<p id="demo" align="justify"></p>
                 </div>
 
             </div>
         </div>
     </div>
-    <p id="displayWord" align="justify"></p>
-    <p id="demo" align="justify"></p>
     <!-- /#page-content-wrapper -->
 
 </div>
@@ -131,6 +133,7 @@
 					alert(CTR_ERROR_MSG)
 				}
 			});
+
 			
 		document.getElementById('start').addEventListener('click',
 			function(){
@@ -163,6 +166,8 @@
       			document.getElementById("displayWord").innerHTML = "You clicked on "+e.target.id;
       			document.getElementById("demo").innerHTML =
       			findSMS(e.target.id, data_raw)
+                CTR_WINDOW = WINDOW.LIST
+                switchView()
   			});
         
         function readDataFromFile(evt) {
@@ -188,6 +193,7 @@
             //TODO: getStations()
             //TODO: renderSideBars(filters)
         }
+
         function validateInput(data){
         	if(data.SMS == undefined){
         		CTR_ERROR_MSG = "dataset does not have SMS attribute defined"
@@ -208,7 +214,7 @@
         /*
         	handler for box ticking event (the filtering action)
         */
-        function updateData(data){
+        function updateData(){
         	countries = getSelectedCountries();
         	rstations = getSelectedRStations();
         	// progressively filter the texts by country and then by station
