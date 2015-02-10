@@ -93,6 +93,8 @@
 		// global data variables
 		var data_raw;
 		var data_wordcloud;
+		var data_countries;
+		var data_rstations;
 		// global state variables
 		var WINDOW = {
 			UPLOAD: {id: 'page_upload'},
@@ -153,10 +155,10 @@
                     CTR_formatValid = validateInput(data_raw[0]);
                     if(CTR_formatValid){
 		     			// if valid, should start interpreting data
-		     			countries = getAttributeList(data_raw, 'Country')
-		     			rstations = getAttributeList(data_raw, 'RStation')
-		     			data = {countries: countries, stations: rstations}
-		     			renderSideBars(data, '#li_filters')
+		     			data_countries = getAttributeList(data_raw, 'Country')
+		     			data_rstations = getAttributeList(data_raw, 'RStation')
+		     			sidebar_data = {countries: data_countries, stations: data_rstations}
+		     			renderSideBars(sidebar_data, '#li_filters')
      				}
                 }
             });
@@ -181,6 +183,10 @@
         	else{
         		return true;
         	}
+        }
+
+        function updateData(data){
+        	
         }
 
 		/* 
