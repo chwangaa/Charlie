@@ -1,0 +1,26 @@
+#sidebar-link-container{
+	display:table;
+	height:auto;
+	width:100%;
+	padding:10px;
+}
+
+.sidebar-link{
+	display:table-cell;
+	text-align:center;
+	color:white;
+	padding:10px;
+}
+
+.sidebar-link:hover{
+	color:#FF8C00;
+}
+
+.sidebar-link:null{
+	color:
+}
+
+.glyphicon{
+	font-size:20px;
+}
+

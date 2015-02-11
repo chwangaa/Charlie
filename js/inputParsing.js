@@ -1,7 +1,9 @@
 function readDataFromFile(evt) {
     //TODO: check data format correct
     file_name = evt.target.files[0];
-    
+	//I added these two lines to display file name, sorry.
+	displayFileName = document.getElementById('file_source').value.split("\\")
+	document.getElementById('file_display').value = displayFileName[displayFileName.length -1];
     Papa.parse(file_name, {
         header: true,
         complete: function(results) {

@@ -2,13 +2,13 @@
 <html>
 
 <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/landing-page.css" rel="stylesheet">
+	<link href="css/upload-page.css" rel="stylesheet">
+	<link href="css/sidebar.css" rel="stylesheet">
     <link href="css/simple-sidebar.css" rel="stylesheet">
     <script src="http://code.highcharts.com/highcharts.js"></script>
-    <!-- TODO: Do we need this css? -->
-    <link href="css/jqcloud.css", ref="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="js/papaparse.min.js"></script>
     <script src ='js/charlie.js'></script>
     <script src = 'js/main.js'></script>
@@ -17,14 +17,10 @@
     <script src="js/sidebar.js"></script>
     <script src="js/inputParsing.js"></script>
     <script src="js/jput.min.js" type="text/javascript"></script>
-
-
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.4/js/jquery.dataTables.js"></script>
-
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/plug-ins/9dcbecd42ad/integration/jqueryui/dataTables.jqueryui.js"></script>
-<link rel="stylesheet" type="text/css" href="https://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css">
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/plug-ins/9dcbecd42ad/integration/jqueryui/dataTables.jqueryui.css">
-
+	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.4/js/jquery.dataTables.js"></script>
+	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/plug-ins/9dcbecd42ad/integration/jqueryui/dataTables.jqueryui.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/plug-ins/9dcbecd42ad/integration/jqueryui/dataTables.jqueryui.css">
     <title>Group Charlie</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -32,23 +28,21 @@
 
 <body>
 
-<header id="landing-page" class="header" style="display:table">
-    <div class="text-vertical-center">
-        <h1>Group Charlie</h1>
-        <br>
-        <a id="start" class="btn btn-dark btn-lg">Get Started</a>
-    </div>
-</header>
-
-<div id="wrapper" style="display:none">
+<div id="wrapper">
     <!-- Sidebar -->
     <div id="sidebar-wrapper">
         <ul class="sidebar-nav">
-            <li class="sidebar-brand">
-                <a href="#">
-                    Multilingual SMS
-                </a>
-            </li>
+			<div id="sidebar-link-container">
+				<a class="sidebar-link" switch-view="page_landing">
+					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+				</a>
+				<a class="sidebar-link" switch-view="page_prev">
+					<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+				</a>
+				<a class="sidebar-link" switch-view="page_for">
+					<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+				</a>
+			</div>
             <li id='li_filters'>
                 <a href="#" id="filters">Filters</a>
             </li>
@@ -62,41 +56,48 @@
     <!-- Page Content -->
     <div id="page-content-wrapper">
         <div class="container-fluid">
-            <a id="home" class="btn btn-dark btn-lg">Home</a>
+            <!--<a id="home" class="btn btn-dark btn-lg">Home</a>
             <button class="btn btn-default" id="menu-toggle">Menu</button>
             <button id="showPage1Btn" data-launch-view="page1">Page 1</button>
             <button id="showPage2Btn" data-launch-view="page2">Page 2</button>
             <button id="showPage3Btn" data-launch-view="page3">Page 3</button>
             <button id="showPage4Btn" data-launch-view="page4">Page 4</button>
-
-            <p>page buttons are here for reference, removed when switchView() implemented</p>
+            <p>page buttons are here for reference, removed when switchView() implemented</p>-->
             <div id="views">
+                <div class="view" id="page_landing">
+					<div class="text-vertical-center">		
+						<h1>Group Charlie</h1>
+						<h3>the best IB group</h3>
+						<br>
+						<a id="start" class="btn btn-dark btn-lg" switch-view="page_upload">Start</a>
+					</div>
+				</div>
                 <div class="view" id="page_upload">
-                    <div id="upload_form">
-                        <br>
-                        <form>
-                            <h4>What is your Question?</h4>
-                            <input type="text" name="question" id="question">
-                            <h4>What options are you looking for</h4>
-                            <input type="text" name="answers" id="answers">
-                            <h4>Upload your Data Source</h4>
+					<div class="text-vertical-center">
+						<form>
+							<h2>1. Input question</h2>
+							<input type="text" class= "question_field" name="question" id="question"/>
+							<h2>2. Input options</h2>
+							<input type="text" class= "question_field" name="answers" id="answers"/>
+							<h2>3. Upload your data source</h2>
+							<a id="file_submit" class="btn btn-dark btn-lg">Browse</a>
+							<input type="text" name="file_display" id="file_display" readonly/>
                             <input type="file" name="data" id="file_source" accept='.csv'/>
-                            <br>
-                            <button type="button" id="button_submit">Submit
-                            </button>
-                        </form>
-                    </div>
+							<br>
+							<a id="button_submit" class="btn btn-dark btn-lg">Submit</a>
+						</form>
+					</div>
                 </div>
-
                 <div class="view" id="page_cloudmap">
-                    <canvas width="600" height="600" id="cloud_canvas"/>
-                    </canvas>
-                    <div id="cloud_tags"/>
-                    </div>
+					<div class="text-vertical-center">
+						<h1 id="cloud_question">(question)</h1>
+						<canvas width="600" height="600" id="cloud_canvas"/>
+						</canvas>
+						<div id="cloud_tags"/>
+						</div>
+					</div>                    
                 </div>
-
                 <div class="view" id="page_text">
-
                     <table id='pretty'>
                         <thead>
                         <tr>
@@ -118,14 +119,12 @@
             </div>
         </div>
     </div>
-
     <!-- /#page-content-wrapper -->
-
 </div>
-
-<script src="js/jquery.awesomeCloud-0.2.min.js"></script>
 <!-- /#wrapper -->
 
+
+<script src="js/jquery.awesomeCloud-0.2.min.js"></script>
 <script src="js/tagcanvas.min.js" type="text/javascript"></script>
 <script src="js/wordcloud.js" type="text/javascript"></script>
 <script>
@@ -167,7 +166,8 @@
                 answers = document.getElementById('answers').value
                 data_answers = parseAnswers(answers)
                 data_options = getOptions(data_answers)
-                if(CTR_formatValid){
+                if(CTR_formatValid){ 
+					document.getElementById("cloud_question").innerHTML = document.getElementById('question').value;
 					data_wordcloud = getWordFrequencyList(data_filtered)
                 	poll = new Poll(data_raw, data_answers)
                     poll.renderChart()
@@ -179,20 +179,12 @@
 					alert(CTR_ERROR_MSG)
 				}
 			});
+			
+		document.getElementById('file_submit').addEventListener('click',
+		function(){
+			file_source.click();
+		});
 
-			
-		document.getElementById('start').addEventListener('click',
-			function(){
-				document.getElementById('landing-page').style.display = 'none';
-				document.getElementById('wrapper').style.display = 'block';
-			});
-			
-		document.getElementById('home').addEventListener('click',
-			function(){
-				document.getElementById('landing-page').style.display = 'table';
-				document.getElementById('wrapper').style.display = 'none';
-			});
-        
         document.getElementById("cloud_tags").addEventListener("click",
             function(e){
                 document.getElementById("displayWord").innerHTML = "You clicked on "+e.target.id;
@@ -214,24 +206,32 @@
 			e.preventDefault();
 			$("#wrapper").toggleClass("toggled");
 		});
-		// testing code, delete after switchView() completed
-		$('[data-launch-view]').click(function (e) {
-				e.preventDefault();
-				var x = $(this).attr('data-launch-view');
-				if(x == 'page1'){
-					CTR_WINDOW = WINDOW.UPLOAD
-				}
-				else if(x == 'page2'){
-					CTR_WINDOW = WINDOW.CLOUD
-				}
-				else if(x == 'page3'){
-					CTR_WINDOW = WINDOW.LIST
-				}
-                else{
-                    CTR_WINDOW = WINDOW.CHART
-                }
-
-				switchView()
+		
+		$('[switch-view]').click(function (e) {
+			e.preventDefault();
+			var x = $(this).attr('switch-view');
+			if(x == 'page_landing'){
+				CTR_WINDOW = WINDOW.LANDING
+				$("#wrapper").toggleClass("toggled",false);
+			}
+			else if(x == 'page_upload'){
+				CTR_WINDOW = WINDOW.UPLOAD
+				$("#wrapper").toggleClass("toggled",true);
+			}
+			else if(x == 'page_cloudmap'){
+				CTR_WINDOW = WINDOW.CLOUD
+			}
+			else if(x == 'page_text'){
+				CTR_WINDOW = WINDOW.LIST
+			}
+			else if(x == 'page_prev'){
+				if (CTR_WINDOW == WINDOW.LIST){CTR_WINDOW = WINDOW.CLOUD}
+				else if (CTR_WINDOW == WINDOW.CLOUD){CTR_WINDOW = WINDOW.UPLOAD}
+			}
+			else if(x == 'page_for'){
+				if (CTR_WINDOW == WINDOW.UPLOAD && CTR_formatValid){CTR_WINDOW = WINDOW.CLOUD}
+			}
+			switchView()
 		});
         /* 
             to change the page based on the value of CTR_WINDOW
