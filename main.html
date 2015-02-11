@@ -62,7 +62,6 @@
     <!-- Page Content -->
     <div id="page-content-wrapper">
         <div class="container-fluid">
-            <a id="home" class="btn btn-dark btn-lg">Home</a>
             <button class="btn btn-default" id="menu-toggle">Menu</button>
             <button id="showPage1Btn" data-launch-view="page1">Page 1</button>
             <button id="showPage2Btn" data-launch-view="page2">Page 2</button>
@@ -71,6 +70,16 @@
 
             <p>page buttons are here for reference, removed when switchView() implemented</p>
             <div id="views">
+                
+                <div class="view" id="page_landing">
+                    <div class="text-vertical-center">      
+                        <h1>Group Charlie</h1>
+                        <h3>the best IB group</h3>
+                        <br>
+                        <a id="start" class="btn btn-dark btn-lg" switch-view="page_upload">Start</a>
+                    </div>
+                </div>
+                
                 <div class="view" id="page_upload">
                     <div id="upload_form">
                         <br>
@@ -154,7 +163,7 @@
 		// initialization of state variables upon loading
 		// CTR_dataUploaded = false;
 		CTR_formatValid = false;
-		CTR_WINDOW = WINDOW.UPLOAD
+		CTR_WINDOW = WINDOW.LANDING;
 		switchView();
 
 
