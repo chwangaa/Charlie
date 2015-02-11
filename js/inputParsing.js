@@ -6,6 +6,11 @@ function readDataFromFile(evt) {
         header: true,
         complete: function(results) {
             data_raw = results.data;
+            for(i in data_raw){
+            	if(data_raw[i].SMS == undefined){
+            		data_raw.splice(i, 1)
+            	}
+            }
             data_filtered = data_raw;
             CTR_formatValid = validateInput(data_raw[0]);
             if(CTR_formatValid){
@@ -17,27 +22,23 @@ function readDataFromFile(evt) {
 				}
         }
     });
-    //TODO: getNations()
-    //TODO: getStations()
-    //TODO: renderSideBars(filters)
 }
 
 
 
 function parseAnswers(input){
-	options = input.split(';')
+	// remove all the space first
+	options = input.replace(/\s+/g, '').split(';')
 	parsed_answer = {}
 	for(i = 0; i < options.length; i++){
 		option = options[i]
 		label = option.split(':')[0]
 		answers = option.split(':')[1].split(',')
-		a = []
 		for(j = 0; j < answers.length; j++){
 			ans = answers[j]
-			a.push(ans)
-		}
-		
-		parsed_answer[label] = a
+			parsed_answer[ans] = label
+
+		}		
 	}
 	return parsed_answer
 }
@@ -58,4 +59,18 @@ function validateInput(data){
 	else{
 		return true;
 	}
+}
+
+function getOptions(answers){
+	optionCounter = []
+	for(i in answers){
+		optionCounter.push(answers[i])
+	}
+	counter = Counter(optionCounter);
+	var options = [];
+	for(var key in counter){
+		options.push(key)
+	}
+	options.push('unknown')
+	return options;
 }

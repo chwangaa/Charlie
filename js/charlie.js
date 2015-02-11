@@ -61,3 +61,10 @@ function filterByStation(data, station_names){
 	}
 	return data.filter(f);	
 }
+
+function filterBy(data, attribute, value){
+	function f(e){
+		return (e[attribute] == value);
+	}
+	return data.filter(f);
+}
