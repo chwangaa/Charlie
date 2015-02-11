@@ -71,12 +71,12 @@
   	this.renderChart = function(){
   	return new Highcharts.Chart({
         chart: {
-            renderTo: "container",
+            renderTo: "page_charts",
             type: 'pie'
         },
 
         title: {
-            text: "Pie Chart"
+            text: data_question
         },
 
         plotOptions: {
