@@ -7,8 +7,9 @@ function updateData(){
   // progressively filter the texts by country and then by station
   filtered_country = filterByCountry(data_raw, countries)
   data_filtered = filterByStation(filtered_country, rstations)
-data_wordcloud = getWordFrequencyList(data_filtered)
-    drawCloudMap(data_wordcloud, '#cloud_tags')
+  data_wordcloud = getWordFrequencyList(data_filtered)
+  drawCloudMap(data_wordcloud, '#cloud_tags')
+  updateList(data_filtered)
 }
 
 function getSelectedCountries(){

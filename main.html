@@ -201,22 +201,8 @@
         document.getElementById("cloud_tags").addEventListener("click",
             function(e){
                 document.getElementById("displayWord").innerHTML = "You clicked on "+e.target.id;
-                var smsArray = findSMS(e.target.id, data_raw);
-                if(CTR_TABLE_INITIALIZED == true){
-                    $('#pretty').dataTable().fnDestroy();
-                }
-                else{
-                    CTR_TABLE_INITIALIZED = true
-                }
-                $('#pretty').DataTable( {
-                        data: smsArray,
-                        columns: [
-                            { data: 'Country'},
-                            { data: 'RStation'},
-                            { data: 'SMS'},
-                            { data: 'opinion'}
-                        ]
-                    } );
+                data = findSMS(e.target.id, data_raw)
+                updateList(data)
                 CTR_WINDOW = WINDOW.LIST
                 switchView()
         });
