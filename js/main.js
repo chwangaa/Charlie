@@ -76,7 +76,7 @@
   	this.renderChart = function(){
   	return new Highcharts.Chart({
         chart: {
-            renderTo: "page_charts",
+            renderTo: "chart",
             type: 'pie'
         },
 
@@ -104,7 +104,7 @@
 
         series: [{
             type: 'pie',
-            name: 'Group Charlie Test',
+            name: 'Opinions',
             data: this.getPollSeries()
         }]
 	});

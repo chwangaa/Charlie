@@ -32,7 +32,7 @@
     <!-- Sidebar -->
     <div id="sidebar-wrapper">
         <ul class="sidebar-nav">
-			<div id="sidebar-link-container">
+			<div class="sidebar-link-container">
 				<a class="sidebar-link" switch-view="page_landing">
 					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
 				</a>
@@ -43,6 +43,14 @@
 					<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 				</a>
 			</div>
+            <div class="sidebar-link-container">
+                <a class="sidebar-link" switch-view="page_cloudmap">
+                    <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span>
+                </a>
+                <a class="sidebar-link" switch-view="page_charts">
+                    <span class="glyphicon glyphicon-adjust" aria-hidden="true"></span>
+                </a>
+            </div>
             <li id='li_filters'>
                 <a href="#" id="filters">Filters</a>
             </li>
@@ -56,8 +64,8 @@
     <!-- Page Content -->
     <div id="page-content-wrapper">
         <div class="container-fluid">
-            <!--<a id="home" class="btn btn-dark btn-lg">Home</a>
-            <button class="btn btn-default" id="menu-toggle">Menu</button>
+            <!--a id="home" class="btn btn-dark btn-lg">Home</a>
+            <button class="btn btn-default" id="menu-toggle">Results</button
             <button id="showPage1Btn" data-launch-view="page1">Page 1</button>
             <button id="showPage2Btn" data-launch-view="page2">Page 2</button>
             <button id="showPage3Btn" data-launch-view="page3">Page 3</button>
@@ -113,6 +121,8 @@
                 </div>
 
                 <div class="view" id="page_charts">
+                    <div class="text-vertical-center" id="chart">
+                    </div>
                 </div>
 
             </div>
@@ -230,6 +240,9 @@
 			else if(x == 'page_cloudmap'){
 				CTR_WINDOW = WINDOW.CLOUD
 			}
+            else if(x == 'page_charts'){
+                CTR_WINDOW = WINDOW.CHART
+            }
 			else if(x == 'page_text'){
 				CTR_WINDOW = WINDOW.LIST
 			}
@@ -239,6 +252,7 @@
 			}
 			else if(x == 'page_for'){
 				if (CTR_WINDOW == WINDOW.UPLOAD && CTR_formatValid){CTR_WINDOW = WINDOW.CLOUD}
+                if (CTR_WINDOW == WINDOW.CLOUD){CTR_WINDOW = WINDOW.LIST}
 			}
 			switchView()
 		});
