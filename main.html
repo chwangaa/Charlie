@@ -62,6 +62,7 @@
     <!-- Page Content -->
     <div id="page-content-wrapper">
         <div class="container-fluid">
+            <a id="home" class="btn btn-dark btn-lg">Home</a>
             <button class="btn btn-default" id="menu-toggle">Menu</button>
             <button id="showPage1Btn" data-launch-view="page1">Page 1</button>
             <button id="showPage2Btn" data-launch-view="page2">Page 2</button>
@@ -70,16 +71,6 @@
 
             <p>page buttons are here for reference, removed when switchView() implemented</p>
             <div id="views">
-                
-                <div class="view" id="page_landing">
-                    <div class="text-vertical-center">      
-                        <h1>Group Charlie</h1>
-                        <h3>the best IB group</h3>
-                        <br>
-                        <a id="start" class="btn btn-dark btn-lg" switch-view="page_upload">Start</a>
-                    </div>
-                </div>
-                
                 <div class="view" id="page_upload">
                     <div id="upload_form">
                         <br>
@@ -105,7 +96,7 @@
                 </div>
 
                 <div class="view" id="page_text">
-                    <p id="displayWord" align="justify"></p>
+
                     <table id='pretty'>
                         <thead>
                         <tr>
@@ -117,8 +108,11 @@
                     </thead>
                     </table>
                     <br/>
-    				<p id="demo" align="justify"></p>
+                    <p id="displayWord" align="justify"></p>
+                    <p id="demo" align="justify"></p>
                 </div>
+
+                <div class="view" id="page_charts">
                 </div>
 
             </div>
