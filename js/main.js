@@ -42,14 +42,19 @@
   		if('SMS' in sms){
   			var text = sms['SMS']
   			// console.log(text)
+        opinionFound = false;
   			for(var op in options){
   				if(text.toLowerCase().indexOf(op) != -1){
   					// the SMS contains this keywords
   					updatePollOption(poll, options[op])
   					sms["opinion"] = options[op]
+            opinionFound = true;
   					break
   				}
   			}
+        if(opinionFound == false){
+          sms["opinion"] = ''
+        }
   		}
   	}
   	this.poll = poll

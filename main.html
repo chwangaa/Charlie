@@ -136,6 +136,8 @@
         var data_answers;
         var data_question;
         var data_options;
+        var table;
+
 		// global state variables
 		var WINDOW = {
             LANDING: {id: 'page_landing'},
@@ -149,9 +151,11 @@
 		var CTR_formatValid;
 		var CTR_WINDOW;
 		var CTR_ERROR_MSG
+        var CTR_TABLE_INITIALIZED;
 		// initialization of state variables upon loading
 		// CTR_dataUploaded = false;
 		CTR_formatValid = false;
+        CTR_TABLE_INITIALIZED = false;
 		CTR_WINDOW = WINDOW.LANDING;
 		switchView();
 
@@ -188,6 +192,12 @@
             function(e){
                 document.getElementById("displayWord").innerHTML = "You clicked on "+e.target.id;
                 var smsArray = findSMS(e.target.id, data_raw);
+                if(CTR_TABLE_INITIALIZED == true){
+                    $('#pretty').dataTable().fnDestroy();
+                }
+                else{
+                    CTR_TABLE_INITIALIZED = true
+                }
                 $('#pretty').DataTable( {
                         data: smsArray,
                         columns: [

@@ -64,6 +64,7 @@ function OnChangeStation(checkbox) {
         }
         data_rstations = newList;
     }
+    updateData()
 }
 
 function renderSideBars(filters, sidebar_id){
