@@ -13,6 +13,7 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/tabularSMS.js"></script>
     <script src="js/sidebar.js"></script>
+    <script src="js/inputParsing.js"></script>
     <script src="js/jput.min.js" type="text/javascript"></script>
     <title>Group Charlie</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -189,87 +190,6 @@
                 switchView()
   		});
 		
-        
-        function readDataFromFile(evt) {
-            //TODO: check data format correct
-            file_name = evt.target.files[0];
-            
-            Papa.parse(file_name, {
-                header: true,
-                complete: function(results) {
-                    data_raw = results.data;
-                    data_filtered = data_raw;
-                    CTR_formatValid = validateInput(data_raw[0]);
-                    if(CTR_formatValid){
-		     			// if valid, should start interpreting data
-		     			data_countries = getAttributeList(data_raw, 'Country')
-		     			data_rstations = getAttributeList(data_raw, 'RStation')
-		     			sidebar_data = {countries: data_countries, stations: data_rstations}
-		     			renderSideBars(sidebar_data, '#li_filters')
-     				}
-                }
-            });
-            //TODO: getNations()
-            //TODO: getStations()
-            //TODO: renderSideBars(filters)
-        }
-
-        function validateInput(data){
-        	if(data.SMS == undefined){
-        		CTR_ERROR_MSG = "dataset does not have SMS attribute defined"
-        		return false;
-        	}
-        	else if(data.Country == undefined){
-        		CTR_ERROR_MSG = "dataset does not have Country attribute defined"
-        		return false;
-        	}
-        	else if(data.RStation == undefined){
-        		CTR_ERROR_MSG = "dataset does not have RStation attribute defined"
-        		return false;
-        	}
-        	else{
-        		return true;
-        	}
-        }
-        /*
-        	handler for box ticking event (the filtering action)
-        */
-        function updateData(){
-        	countries = getSelectedCountries();
-        	rstations = getSelectedRStations();
-        	// progressively filter the texts by country and then by station
-        	filtered_country = filterByCountry(data_raw, countries)
-        	data_filtered = filterByStation(filtered_country, rstations)
-			data_wordcloud = getWordFrequencyList(data_filtered)
-            drawCloudMap(data_wordcloud, '#cloud_tags')
-        }
-
-        function getSelectedCountries(){
-        	return data_countries;
-        }
-
-        function getSelectedRStations(){
-        	return data_rstations;
-        }
-		/* 
-			to change the page based on the value of CTR_WINDOW
-		*/
-		function switchView(){
-			//TODO: precise FSM specification
-			$("#wrapper").toggleClass("toggled");
-			$('.view').hide();
-			$('#' + CTR_WINDOW.id).show();
-		}
-		function filterData(filter_label){
-			/*
-				filter according to the label given
-				the label should be in the format of
-				[['Nation', 'Kenya'], ['Station', 'S1']] for example
-				TODO: filter functionality 
-			*/
-			drawCloudMap(words, '#cloud_tags');
-		}
-		
 		$("#menu-toggle").click(function(e) {
 			e.preventDefault();
 			$("#wrapper").toggleClass("toggled");
@@ -289,6 +209,17 @@
 				}
 				switchView()
 		});
+
+
+        /* 
+            to change the page based on the value of CTR_WINDOW
+        */
+        function switchView(){
+            //TODO: precise FSM specification
+            $("#wrapper").toggleClass("toggled");
+            $('.view').hide();
+            $('#' + CTR_WINDOW.id).show();
+        }
 	</script>
 </body>
 </html>
