@@ -105,7 +105,7 @@
                 </div>
 
                 <div class="view" id="page_text">
-
+                    <p id="displayWord" align="justify"></p>
                     <table id='pretty'>
                         <thead>
                         <tr>
@@ -117,11 +117,8 @@
                     </thead>
                     </table>
                     <br/>
-                    <p id="displayWord" align="justify"></p>
     				<p id="demo" align="justify"></p>
                 </div>
-
-                <div class="view" id="page_charts">
                 </div>
 
             </div>
@@ -182,17 +179,6 @@
                     poll.renderChart()
                 	drawCloudMap(data_wordcloud, '#cloud_tags')
 					CTR_WINDOW = WINDOW.CLOUD
-
-                    $('#pretty').DataTable( {
-                        data: data_raw,
-                        columns: [
-                            { data: 'Country'},
-                            { data: 'RStation'},
-                            { data: 'SMS'},
-                            { data: 'opinion'}
-                        ]
-                    } );
-    				
                     switchView();
 				}
 				else{
@@ -212,6 +198,23 @@
 				document.getElementById('landing-page').style.display = 'table';
 				document.getElementById('wrapper').style.display = 'none';
 			});
+        
+        document.getElementById("cloud_tags").addEventListener("click",
+            function(e){
+                document.getElementById("displayWord").innerHTML = "You clicked on "+e.target.id;
+                var smsArray = findSMS(e.target.id, data_raw);
+                $('#pretty').DataTable( {
+                        data: smsArray,
+                        columns: [
+                            { data: 'Country'},
+                            { data: 'RStation'},
+                            { data: 'SMS'},
+                            { data: 'opinion'}
+                        ]
+                    } );
+                CTR_WINDOW = WINDOW.LIST
+                switchView()
+        });
 		
 		$("#menu-toggle").click(function(e) {
 			e.preventDefault();
