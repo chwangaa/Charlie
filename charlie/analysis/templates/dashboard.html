@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		{% load staticfiles %}
+		<link rel="stylesheet" type="text/css" href="{% static 'analysis/css/style.css' %}" />
+		<title>Group Charlie</title>	
+	</head>
+
+	<body>
+		<div id="title">
+			<div id = 'logo'>
+			</div>
+		</div>
+
+		<!-- List of uploaded documents -->
+		{% if documents %}
+			<ul>
+			{% for document in documents %}
+				<div class='uploaded_file'>
+					<h3 class='uploaded_file_question'>{{document.name}}</h3>
+					<p class='uploaded_file_name'>{{ document.docfile.name }}</p>
+					<li><a href="{{ document.docfile.url }}">Download Original File</a></li>
+					<li><a href="#">Data Manipulation</a></li>
+					<li><a href="{% url "analysis" document.id %}">Data Analysis</a></li>
+				</div>
+				<br/>
+			{% endfor %}
+			</ul>
+		{% else %}
+			<p>No documents.</p>
+		{% endif %}
+
+		<!-- Upload form. Note enctype attribute! -->
+		<br/>
+		<div id='upload_data'>
+			<form action="{% url "dashboard" %}" method="post" enctype="multipart/form-data">
+				{% csrf_token %}
+				<p>{{ form.non_field_errors }}</p>
+				<p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
+				<p>
+					{{ form.docfile.errors }}
+					{{ form.docfile }}
+				</p>
+				<p>
+					{{form.question.label_tag}}
+					{{ form.question}}
+				</p>
+				<p>
+					{{form.answer.label_tag}}
+					{{ form.answer}}
+				</p>
+				<p><input type="submit" value="Upload" /></p>
+			</form>
+		</div>
+		
+	</body>
+</html> 

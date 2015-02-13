@@ -1,0 +1,29 @@
+#page_upload{
+	background-color:#CF8536;
+}
+
+.question_field{
+	padding:10px;
+	margin-bottom:30px;
+	width:400px;
+	font-size:1em;
+}
+
+#file_display{
+	padding:10px;
+	margin-bottom:50px;
+	width:200px;
+	font-size:1em;
+}
+
+#file_source{
+	display:none;
+}
+
+#file_submit{
+	font-size:14;
+}
+
+#button_submit{
+	position:relative;
+};
