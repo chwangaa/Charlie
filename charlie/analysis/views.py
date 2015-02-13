@@ -8,7 +8,10 @@ from models import DataSource, SMS
 from forms import DataUploadForm
 from utils import initializeDatabaseForDataSource, getCount
 from django.views.generic.edit import UpdateView
-from django.utils import simplejson
+try:
+    import simplejson
+except ImportError:
+    import json as simplejson
 
 
 def dashboard(request):
