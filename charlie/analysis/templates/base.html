@@ -6,13 +6,16 @@
     	Project Charlie
     {% endblock %}
     </title>
+    {% block staticfiles %}
+    {% endblock %}
 </head>
 
 <body>
 	<div id='navbar'>
-		<a href="{% url 'dashboard' %}">Home</a>
-		<a href="{% url 'logout' %}">Logout</a>
-		<p>Welcome {{name}}</p>
+        {% block navbar %}
+		<a href="{% url 'logout' %}" id='logout'>Logout</a>
+        <a href="{% url 'dashboard' %}" id='home_button'>{{name}}</a>
+        {% endblock %}
 	</div>
 
     <div id="sidebar">
@@ -24,5 +27,8 @@
         {% block content %}
         {% endblock %}
     </div>
+
+    {% block scripts %}
+    {% endblock %}
 </body>
 </html>
