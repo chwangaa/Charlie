@@ -26,7 +26,7 @@
                 <td>{{sms.Country}}</td>
                 <td>{{sms.RStation}}</td>
                 <td>{{sms.SMS}}</td>
-                <td><select size="1" id="op_{{sms.Index}}">
+                <td><select size="1" id="op_{{sms.Index}}" class='option_selection'>
                     
                     {% for opinion in opinions %}
                         {% if opinion == sms.opinion %}
@@ -46,9 +46,35 @@
 </table>
 
 <script>
-    var table = $('#opinion_table').DataTable();
-    $('select').on('change', function(){
-        alert(this.value);
-    })
+    var table = $('#opinion_table').DataTable({
+    });
+    
+    $('select').on('change', function() {
+            id = this.id
+            index = id.split('_')[1]
+            opinion = this.value
+            console.log("create post is working!") // sanity check
+            $.ajax({
+                url : "update/", // the endpoint
+                type : "POST", // http method
+                data : { "index" : index,
+                         "opinion": opinion 
+                        }, // data sent with the post request
+
+                // handle a successful response
+                success : function(json) {
+                    $('#post-text').val(''); // remove the value from the input
+                    console.log(json); // log the returned json to the console
+                    console.log("success"); // another sanity check
+                },
+
+                // handle a non-successful response
+                error : function(xhr,errmsg,err) {
+                    $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+                        " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+                    console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+                }
+            });
+        });
 
 </script>

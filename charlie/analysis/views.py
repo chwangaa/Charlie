@@ -7,11 +7,12 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.template.loader import render_to_string
-
-from models import DataSource, SMS
+from table import WordTable
+from models import DataSource, SMS, Word
 from forms import DataUploadForm
 from utils import initializeDatabaseForDataSource, getCount
 from django.views.generic.edit import UpdateView
+from django_tables2 import RequestConfig
 import json
 
 
@@ -174,15 +175,26 @@ def landing(request):
     return render(request, 'landing.html')
 
 
-
 def update(request, datasource_id):
     if request.method == 'POST':
-        post_text = request.POST.get('the_post')
-        print post_text
+        index = request.POST.get('index')
+        opinion = request.POST.get('opinion')
+        print index
+        sms = DataSource.objects.get(id=datasource_id).sms_set.get(index=index)
+        sms.opinion = opinion
+        sms.save()
 
         return HttpResponse(
-                            json.dumps({'text': "what the hell"}),
+                            json.dumps({'text': sms.opinion}),
                             content_type = 'application/json'
                             )
     else:
         return HttpResponse("haha")
+
+
+def viewWords(request):
+    words = Word.objects.all().filter(word_type='NAME')
+    table = WordTable(words)
+    RequestConfig(request, paginate=False).configure(table)
+    return render(request, 'dropwords_table_view.html', {
+        "table": table, "title": "Word List"})

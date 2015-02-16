@@ -8,26 +8,25 @@ class DataSource(models.Model):
     owner = models.ForeignKey(User, related_name='owned_data')
 
 
-class Category(models.Model):
-    name = models.CharField(max_length=20)
-
-
-class CategoryLabel(models.Model):
-    label = models.CharField(max_length=20)
-    category = models.ForeignKey('Category')
-
-
 class SMS(models.Model):
     country = models.CharField(max_length=20)
     rstation = models.CharField(max_length=20)
-    text = models.CharField(max_length=200)
+    # physical limit of SMS is 160 characters
+    text = models.CharField(max_length=160)
     source = models.ForeignKey('DataSource')
     opinion = models.CharField(max_length=20)
     index = models.IntegerField()
 
 
 class Word(models.Model):
-    word = models.CharField(max_length=50)
-    country = models.CharField(max_length=20)
-    rstation = models.CharField(max_length=20)
-    sms = models.ForeignKey(SMS, related_name='words')
+    # original text
+    word = models.CharField(max_length=20)
+    # language of the original text
+    language = models.CharField(max_length=10)
+    # english translation
+    translation = models.CharField(max_length=20, null=True)
+
+    word_type = models.CharField(max_length=15, null=True)
+
+    def __unicode__(self):
+        return self.word
