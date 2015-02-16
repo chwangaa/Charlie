@@ -1,0 +1,40 @@
+<script>
+var chart = new Highcharts.Chart({
+        chart: {
+            renderTo: "pie_chart",
+            type: "pie"
+        },
+
+        title: {
+            text: "{{ title }}"
+        },
+
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                dataLabels:{
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                }
+            },
+            series: {
+                cursor: 'pointer',
+                point: {
+                    events: {
+                        click: function () {
+                            var opinion = this.name
+                            displayTable(opinion)
+                        }
+                    }
+                }
+            }
+        },
+
+        series: [{
+            data: {{ data | safe}},
+            name: "{{data_name}}"
+        }]
+
+
+});
+</script>

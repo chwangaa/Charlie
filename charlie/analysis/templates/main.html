@@ -24,6 +24,7 @@
     <script src ="{% static 'analysis/js/inputParsing.js' %}"></script>
     <script src ="{% static 'analysis/js/jput.min.js' %}"></script>
     <script src ="{% static 'analysis/js/charlie.js' %}"></script>
+    <script src ="{% static 'analysis/js/jquery.cookie.js' %}"></script>
     <script src ="{% static 'analysis/js/jquery.awesomeCloud-0.2.min.js' %}"></script>
     <script src ="{% static 'analysis/js/tagcanvas.min.js' %}"></script>
     <script src ="{% static 'analysis/js/wordcloud.js' %}"></script>
@@ -88,18 +89,7 @@
 					</div>                    
                 </div>
                 <div class="view" id="page_text">
-                    <table id='pretty', class="table table-striped table-bordered">
-                    <p id="displayWord" align="justify"></p>
-                        <thead>
-                        <tr>
-                            <th>Index</th>
-                            <th>Country</th>
-                            <th>RStation</th>
-                            <th>SMS</th>
-                            <th>Opinion</th>
-                        </tr>
-                    </thead>
-                    </table>
+                    {{table}}
                     <br/>
                 </div>
 
@@ -116,6 +106,10 @@
     <!-- /#page-content-wrapper -->
 </div>
 <!-- /#wrapper -->
+
+{{pie_chart}}
+
+{{column_chart}}
 
 <script>
 var data_raw;
@@ -147,110 +141,9 @@ data_wordfreq = {{word_freq | safe }}
 data_countries = {{data_countries | safe}}
 data_rstations = {{data_rstations | safe}}
 
-var chart = new Highcharts.Chart({
-        chart: {
-            renderTo: "pie_chart",
-            type: "pie"
-        },
-
-        title: {
-            text: "{{ chart.title }}"
-        },
-
-        plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                dataLabels:{
-                    enabled: true,
-                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                }
-            },
-            series: {
-                cursor: 'pointer',
-                point: {
-                    events: {
-                        click: function () {
-                            var opinion = this.name
-                            displayTable(opinion)
-                        }
-                    }
-                }
-            }
-        },
-
-        series: [{
-            data: {{chart.data | safe}},
-            name: "{{chart.data_name}}"
-        }]
-
-
-});
-
-var chart = new Highcharts.Chart({
-        chart: {
-            renderTo: "column_chart",
-            type: "column"
-        },
-
-        title: {
-            text: "{{ column_chart.title }}"
-        },
-        xAxis: {
-            categories: {{column_chart.countries | safe}}
-        },
-        yAxis: {
-            min: 0,
-            title: {
-                text: '#Text Message'
-            },
-            stackLabels: {
-                enabled: true,
-                style: {
-                    fontWeight: 'bold',
-                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
-                }
-            }
-        },
-        legend: {
-            align: 'right',
-            x: -30,
-            verticalAlign: 'top',
-            y: 25,
-            floating: true,
-            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
-            borderColor: '#CCC',
-            borderWidth: 1,
-            shadow: false
-        },
-        tooltip: {
-            formatter: function () {
-                return '<b>' + this.x + '</b><br/>' +
-                    this.series.name + ': ' + this.y + '<br/>' +
-                    'Total: ' + this.point.stackTotal;
-            }
-        },
-        plotOptions: {
-            column: {
-                stacking: 'normal',
-                dataLabels: {
-                    enabled: true,
-                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
-                    style: {
-                        textShadow: '0 0 3px black'
-                    }
-                }
-            }
-        },
-
-        series: {{column_chart.data |safe }}
-
-});
-
 
 drawCloudMap(data_wordfreq, '#cloud_tags')
-updateList(data_filtered)
 renderSideBars({{sidebar_filters | safe}}, '#li_filters')
-$("#wrapper").toggleClass("toggled");
 CTR_WINDOW = WINDOW.CHART;
 switchView();
 
@@ -304,6 +197,45 @@ switchView();
                 $('#filters').show()
             }
         }
+
+        var csrftoken = $.cookie('csrftoken');
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+
+        function create_post() {
+            console.log("create post is working!") // sanity check
+            $.ajax({
+                url : "update/", // the endpoint
+                type : "POST", // http method
+                data : { the_post : "haha" }, // data sent with the post request
+
+                // handle a successful response
+                success : function(json) {
+                    $('#post-text').val(''); // remove the value from the input
+                    console.log(json); // log the returned json to the console
+                    console.log("success"); // another sanity check
+                },
+
+                // handle a non-successful response
+                error : function(xhr,errmsg,err) {
+                    $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+                        " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+                    console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+                }
+            });
+        };
 	</script>
 </body>
 </html>

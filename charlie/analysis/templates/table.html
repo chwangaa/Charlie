@@ -1,29 +1,54 @@
-	<link rel="stylesheet" type="text/css" href="https://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css">
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/plug-ins/9dcbecd42ad/integration/jqueryui/dataTables.jqueryui.css">
-    <script src ="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.4/js/jquery.dataTables.js"></script>
-	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/plug-ins/9dcbecd42ad/integration/jqueryui/dataTables.jqueryui.js"></script>
-
-
-<table id='pretty'>
-    <thead>
-    <tr>
-        <th>Country</th>
-        <th>RStation</th>
-        <th>SMS</th>
-        <th>Opinion</th>
-    </tr>
-	</thead>
+<table id="opinion_table" class="display" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Index</th>
+                <th>Country</th>
+                <th>RStation</th>
+                <th>SMS</th>
+                <th>Opinion</th>
+            </tr>
+        </thead>
+ 
+        <tfoot>
+            <tr>
+                <th>Index</th>
+                <th>Country</th>
+                <th>RStation</th>
+                <th>SMS</th>
+                <th>Opinion</th>
+            </tr>
+        </tfoot>
+ 
+        <tbody>
+            {% for sms in data %}
+            <tr>
+                <td>{{sms.Index}}</td>
+                <td>{{sms.Country}}</td>
+                <td>{{sms.RStation}}</td>
+                <td>{{sms.SMS}}</td>
+                <td><select size="1" id="op_{{sms.Index}}">
+                    
+                    {% for opinion in opinions %}
+                        {% if opinion == sms.opinion %}
+                            <option value="{{opinion}}" selected>
+                                {{opinion}}
+                            </option>
+                        {% else %}
+                            <option value="{{opinion}}">
+                                {{opinion}}
+                            </option>
+                        {% endif %}                            
+                    {% endfor %}
+                </select></td>
+            </tr>
+            {% endfor %}
+        </tbody>
 </table>
 
 <script>
-    $('#pretty').DataTable( {
-            data: {{data | safe}},
-            columns: [
-                { data: 'Country'},
-                { data: 'RStation'},
-                { data: 'SMS'},
-                { data: 'opinion'}
-            ]
-        } );
+    var table = $('#opinion_table').DataTable();
+    $('select').on('change', function(){
+        alert(this.value);
+    })
+
 </script>

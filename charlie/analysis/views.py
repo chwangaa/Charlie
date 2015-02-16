@@ -1,16 +1,21 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render_to_response, render
 from django.template import RequestContext
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
+
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
+from django.template.loader import render_to_string
 
 from models import DataSource, SMS
 from forms import DataUploadForm
 from utils import initializeDatabaseForDataSource, getCount
 from django.views.generic.edit import UpdateView
-from django.utils import simplejson
+import json
 
 
+@login_required
 def dashboard(request):
     # Handle file upload
     if request.method == 'POST':
@@ -20,7 +25,8 @@ def dashboard(request):
             question = data['question']
             answers_raw = data['answer']
             newdoc = DataSource(
-                docfile=request.FILES['docfile'], name=question)
+                docfile=request.FILES['docfile'], name=question,
+                owner=request.user)
             newdoc.save()
 
             initializeDatabaseForDataSource(newdoc, answers_raw)
@@ -36,7 +42,7 @@ def dashboard(request):
     # Render list page with the documents and the form
     return render_to_response(
         'dashboard.html',
-        {'documents': documents, 'form': form},
+        {'documents': documents, 'form': form, 'name': request.user.username},
         context_instance=RequestContext(request)
     )
 
@@ -49,6 +55,12 @@ class SMSUpdate(UpdateView):
     def get_object(self, queryset=None):
         obj = SMS.objects.get(id=1)
         return obj
+
+
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('landing'))
+    # Redirect to a success page.
 
 
 def analysis(request, datasource_id):
@@ -67,17 +79,23 @@ def analysis(request, datasource_id):
                     'opinion': d.opinion,
                     'Index': d.index}
         data.append(instance)
+
+    opinions = ['aids', 'malaria', 'unknown', 'irrelevant']
+    table = render_to_string("table.html", {"data": data, "opinions": opinions})
     # get the word frequency list
     from utils import getFrequencyList
-    word_freq = simplejson.dumps(getFrequencyList(texts))
+    word_freq = json.dumps(getFrequencyList(texts))
     # get the raw data
-    data_js = simplejson.dumps(data)
+    data_js = json.dumps(data)
     # get the general opinions
     opinions = sms_set.values_list('opinion', flat=True)
     data = getCount(opinions)
     title = "Overview of Opinions Regarding: " + source.name
+
     # get pie_chart
-    chart = {"data": data, "title": title}
+    pie_chart_data = {"data": data, "title": title}
+    pie_chart = render_to_string("pie_chart.html", pie_chart_data)
+
     # get column_chart
     opinions = sms_set.values_list('opinion', flat=True).distinct()
     country_list = sms_set.values_list('country', flat=True).distinct()
@@ -91,25 +109,26 @@ def analysis(request, datasource_id):
         data = [e[1] for e in data]
         data_list.append({"name": str(o), "data": data})
 
-    column_chart = {"data": data_list, "title": title, "countries": countries}
-
+    column_chart_data = {"data": data_list, "title": title, "countries": countries}
+    column_chart = render_to_string("column_chart.html", column_chart_data)
     # get the country list and rstation list
     countries = sms_set.values_list('country', flat=True).distinct()
     rstations = sms_set.values_list('rstation', flat=True).distinct()
     countries = [str(e) for e in countries]
     rstations = [str(e) for e in rstations]
-    sidebar_filters = simplejson.dumps(
+    sidebar_filters = json.dumps(
                       {"countries": countries, "stations": rstations})
 
     context = {
         "data_raw": data_js,
-        "chart": chart,
+        "pie_chart": pie_chart,
         "column_chart": column_chart,
         "data_countries": countries,
         "data_rstations": rstations,
         "word_freq": word_freq,
         "sidebar_filters": sidebar_filters,
-        "title": source.name
+        "title": source.name,
+        "table": table
     }
 
     return render(request, 'main.html', context)
@@ -146,9 +165,23 @@ def table_view(request, datasource_id):
                     'SMS': d.text,
                     'opinion': d.opinion}
         data.append(instance)
-    data_js = simplejson.dumps(data)
+    data_js = json.dumps(data)
 
     return render(request, 'table.html', {"data": data_js})
 
+
 def landing(request):
     return render(request, 'landing.html')
+
+
+def update(request, datasource_id):
+    if request.method == 'POST':
+        post_text = request.POST.get('the_post')
+        print post_text
+
+        return HttpResponse(
+                            json.dumps({'text': "what the hell"}),
+                            content_type = 'application/json'
+                            )
+    else:
+        return HttpResponse("haha")
