@@ -49,3 +49,11 @@ function drawCloudMap(words, container) {
       document.getElementById('#page_cloudmap').style.display = 'none';
     }
 }
+
+function resizeCanvas() {
+	var canvas = document.getElementById('cloud_canvas'),
+            context = canvas.getContext('2d');
+	var canvas_container = document.getElementById('canvas_container');
+	canvas.width = canvas_container.offsetWidth - 40;
+	canvas.height = canvas_container.offsetHeight - 40;
+}

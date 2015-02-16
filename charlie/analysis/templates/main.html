@@ -7,6 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'analysis/css/bootstrap.min.css' %}" />
 	<link rel="stylesheet" type="text/css" href="{% static 'analysis/css/sidebar.css' %}" />
 	<link rel="stylesheet" type="text/css" href="{% static 'analysis/css/simple-sidebar.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'analysis/css/cloud-page.css' %}" />
 	<link rel="stylesheet" type="text/css" href="https://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css">
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/plug-ins/9dcbecd42ad/integration/jqueryui/dataTables.jqueryui.css">
 
@@ -79,13 +80,13 @@
         <div class="container-fluid">
             <div id="views">
                 <div class="view" id="page_cloudmap">
-					<div class="text-vertical-center">
-						<h1 id="cloud_question">{{title}}</h1>
-						<canvas width="600" height="600" id="cloud_canvas"/>
-						</canvas>
-						<div id="cloud_tags"/>
-						</div>
-					</div>                    
+					<div id="cloud_question">{{title}}</div>
+					</br>
+					<div id="canvas_container">
+						<canvas id="cloud_canvas" width="600px" height="600px"/>
+					</div>
+					<div id="cloud_tags"/>
+					</div>
                 </div>
                 <div class="view" id="page_text">
                     <table id='pretty', class="table table-striped table-bordered">
@@ -146,6 +147,9 @@ data_filtered = data_raw
 data_wordfreq = {{word_freq | safe }}
 data_countries = {{data_countries | safe}}
 data_rstations = {{data_rstations | safe}}
+
+window.addEventListener('resize', resizeCanvas, false);
+resizeCanvas();
 
 var chart = new Highcharts.Chart({
         chart: {
