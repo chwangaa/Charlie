@@ -1,5 +1,37 @@
+*{
+	margin:0;
+	font-family: 'Roboto', sans-serif;
+}
+
+#landing_navbar{
+	position:fixed;
+	top:0;
+	width:100%;
+	padding-left:100px;
+	padding-right:100px;
+	z-index:2;
+	text-align:center;
+}
+
+#logoproject{
+	display:inline;
+	color:black;
+	padding-top:10px;
+	padding-bottom:10px;
+	float:left;
+	font-size:2em;
+}
+
+#logocharlie{
+	display:inline;
+	color:#72D5FC;
+	padding-top:10px;
+	padding-bottom:10px;
+	float:left;
+	font-size:2em;
+}
+
 #page_landing{
-    background: url(../img/bg2.jpg) no-repeat center center scroll;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
@@ -9,8 +41,25 @@
 .view {
     display: table;
     position: relative;
-    width: 100%;
-    height: 100%;
+    padding-left:150px;
+	padding-right:150px;
+	width:100%;
+    height:80%;
+}
+
+#heading{
+	display:table-cell;
+	text-align: center;
+    vertical-align: middle;
+}
+
+#login_form{
+	padding:15px;
+	text-align: right;
+}
+
+#form_user{
+	padding:10px;
 }
 
 .text-vertical-center {
@@ -19,37 +68,35 @@
     vertical-align: middle;
 }
 
+.text-vertical-top {
+    display: table-cell;
+    text-align: center;
+    vertical-align: top;
+}
+
 .text-vertical-center h1 {
     margin: 0;
     padding: 0;
-    font-size: 4.5em;
-    font-weight: 700;
+    font-size: 4em;
+    font-weight: 300;
 }
 
-/* Custom Button Styles */
-
-.btn-dark {
-    border-radius: 0;
-    color: #fff;
-    background-color: rgba(0,0,0,0.4);
+#about{
+	display:table;
+	position: relative;
+    padding-left:150px;
+	padding-right:150px;
+	width:100%;
+	height:20%;
 }
 
-.btn-dark:hover,
-.btn-dark:focus,
-.btn-dark:active {
-    color: #fff;
-    background-color: rgba(0,0,0,0.7);
+#down_arrow{
+	text-align:center;
+	font-size:3em;
 }
-
-.btn-light {
-    border-radius: 0;
-    color: #333;
-    background-color: rgb(255,255,255);
-}
-
-.btn-light:hover,
-.btn-light:focus,
-.btn-light:active {
-    color: #333;
-    background-color: rgba(255,255,255,0.8);
+#about_text{
+	padding-top:100px;
+	padding-left:150px;
+	padding-right:150px;
+	height:100%;
 }

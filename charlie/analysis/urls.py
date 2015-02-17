@@ -3,9 +3,8 @@ from django.conf.urls import patterns, url
 import views
 
 urlpatterns = patterns('',
-    url(r'^$', views.landing, name='landing'),
-    url(r'^login/$', 'django.contrib.auth.views.login', {
-                'template_name': 'login.html'}),
+    url(r'^$','django.contrib.auth.views.login',{
+                'template_name': 'landing.html'},name='landing'),
     url(r'^logout/$', views.logout_view, name='logout'),
     url(r'^index/$', views.dashboard, name='dashboard'),
     url(r'^words/$', views.viewWords, name='word_list'),
