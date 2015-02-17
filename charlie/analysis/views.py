@@ -81,6 +81,7 @@ def analysis(request, datasource_id):
                     'Index': d.index}
         data.append(instance)
 
+    # TODO: softcode this
     opinions = ['aids', 'malaria', 'unknown', 'irrelevant']
     table = render_to_string("table.html", {"data": data, "opinions": opinions})
     # get the word frequency list
@@ -198,3 +199,22 @@ def viewWords(request):
     RequestConfig(request, paginate=False).configure(table)
     return render(request, 'dropwords_table_view.html', {
         "table": table, "title": "Word List"})
+
+
+def dataManipulation(request, datasource_id):
+    data_set = DataSource.objects.get(id=datasource_id).sms_set.all()
+    data = []
+    for d in data_set:
+        instance = {'Country': d.country,
+                    'RStation': d.rstation,
+                    'Original': d.text,
+                    'Edited': d.modifield_text, 
+                    'opinion': d.opinion,
+                    'Index': d.index,
+                    }
+        data.append(instance)
+
+    opinions = ['aids', 'malaria', 'unknown', 'irrelevant']
+    table = render_to_string("table_edit.html", {"data": data, "opinions": opinions})
+
+    return render(request, 'data_manipulation.html', {"table": table})

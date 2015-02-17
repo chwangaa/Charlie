@@ -20,7 +20,7 @@
 							<p class='uploaded_file_name'>{{ document.docfile.name }}</p>
 							<a href="{{ document.docfile.url }}">Download Original File</a>
 							<br>
-							<a href="#">Data Manipulation</a>
+							<a href="{% url "manipulation" document.id%}">Data Manipulation</a>
 							<br>
 							<a href="{% url "analysis" document.id %}">Data Analysis</a>
 						</div>

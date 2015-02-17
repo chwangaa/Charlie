@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     url(r'^index/$', views.dashboard, name='dashboard'),
     url(r'^words/$', views.viewWords, name='word_list'),
     url(r'^(?P<datasource_id>\d+)/$', views.analysis, name='analysis'),
+    url(r'^(?P<datasource_id>\d+)/manip/$', views.dataManipulation, name='manipulation'),
     url(r'^(?P<datasource_id>\d+)/chart/$', views.charts, name='charts'),
     url(r'^(?P<datasource_id>\d+)/update/$', views.update, name='update'),
 )

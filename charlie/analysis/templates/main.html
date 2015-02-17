@@ -148,9 +148,8 @@ switchView();
 
         document.getElementById("cloud_tags").addEventListener("click",
             function(e){
-                document.getElementById("displayWord").innerHTML = "You clicked on "+e.target.id;
-                data = findSMS(e.target.id, data_raw)
-                updateList(data)
+                word = e.target.id
+                table.search(word).draw()
                 CTR_WINDOW = WINDOW.LIST
                 switchView()
         });
