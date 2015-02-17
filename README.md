@@ -11,6 +11,8 @@ The project uses Django as the server framework
 [Download Link: ](https://www.djangoproject.com/download/)
 [Official Tutorials: ](https://docs.djangoproject.com/en/1.7/intro/tutorial01/)
 
+Also install `django_tables2`
+
 ### 2. Setup the Database
 
 By defualt a `sqlite` database will be used for storage. To set up the initial

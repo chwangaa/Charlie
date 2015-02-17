@@ -38,7 +38,7 @@ def dashboard(request):
         form = DataUploadForm()  # A empty, unbound form
 
     # Load documents for the list page
-    documents = DataSource.objects.all()
+    documents = DataSource.objects.all().filter(owner=request.user)
 
     # Render list page with the documents and the form
     return render_to_response(
@@ -122,6 +122,7 @@ def analysis(request, datasource_id):
                       {"countries": countries, "stations": rstations})
 
     context = {
+        "name": request.user.username,
         "data_raw": data_js,
         "pie_chart": pie_chart,
         "column_chart": column_chart,
