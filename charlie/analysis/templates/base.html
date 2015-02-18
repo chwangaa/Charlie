@@ -23,10 +23,7 @@
 	</div>
 	
     <div id="content">
-        <div id="sidebar">
-        {% block sidebar %}
-        {% endblock %}
-        </div>
+        <!-- Note that content contains the "sidebar" block, so no need to load it -->
         {% block content %}
         {% endblock %}
     </div>
