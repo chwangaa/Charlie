@@ -75,8 +75,10 @@
         <div class="container-fluid">
             <div id="views">
                 <div class="view" id="page_cloudmap">
-					<div id="cloud_question">{{title}}</div>
-					<div id="canvas_container">
+					<h3>The Topics people mention the most Frequently</h3>
+                    <h4>Click to see the Messages containing the word</h4>
+                    <h4>You can use the filters in the sidebar to customize</h4>
+                    <div id="canvas_container">
 						<canvas id="cloud_canvas" width="600px" height="600px"/>
                         </canvas>
 					</div>
@@ -84,16 +86,34 @@
 					</div>
                 </div>
                 <div class="view" id="page_text">
+                <p>fdsafsafasdfasdfsa</p>
+                    <h3>These are the original texts</h3>
+                    <h4>To make Correction on text, the opinion, please click here</h4>
+                    <a href="manip">Me Me Me</a>
                     {{table}}
                     <br/>
                 </div>
 
                 <div class="view" id="page_charts">
+                    <h3>According the Information You Provided, The result is</h3>
                     <div class="text-vertical-center" id="pie_chart">
                     {{pie_chart}}
+                    <h4>                                       </h4>
+                                        <h4>You can scroll down to see country specific breakdown</h4>
+                    <h4>You can scroll down to see country specific breakdown</h4>
+                    <h4>You can scroll down to see country specific breakdown</h4>
+                    <h4>You can scroll down to see country specific breakdown</h4>
+                    <h4>You can scroll down to see country specific breakdown</h4>
                     </div>
+                    <div width='200px' height='300px'></div>
                     <div class="text-vertical-center" id="column_chart">
                     {{column_chart}}
+                    <h4>fjakldfjsadlkfjads;lkfjasld;kfjaslk;fj</h4>
+                    <h4>fjakldfjsadlkfjads;lkfjasld;kfjaslk;fj</h4>
+                    <h4>fjakldfjsadlkfjads;lkfjasld;kfjaslk;fj</h4>
+                    <h4>fjakldfjsadlkfjads;lkfjasld;kfjaslk;fj</h4>
+
+                    <button id='word_cloud_button'>Click Here to see what are people concerned about</button>
                     </div>
                 </div>
             </div>
@@ -156,6 +176,13 @@ switchView();
 			$("#wrapper").toggleClass("toggled");
 		});
 		
+        $("#word_cloud_button").click(function(e) {
+            e.preventDefault();
+            CTR_WINDOW = WINDOW.CLOUD
+            switchView()
+        });
+
+
 		$('[switch-view]').click(function (e) {
 			e.preventDefault();
 			var x = $(this).attr('switch-view');
@@ -184,14 +211,14 @@ switchView();
             //TODO: precise FSM specification
             $(' .view').hide();
             $('#' + CTR_WINDOW.id).show();
-/*
+
             if(CTR_WINDOW == WINDOW.CHART){
-                $('#filters').hide()
+                $("#wrapper").removeClass("toggled");
             }
             else{
-                $('#filters').show()
+                $("#wrapper").addClass("toggled");
             }
-*/
+
         }
 
         var csrftoken = $.cookie('csrftoken');

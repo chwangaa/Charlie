@@ -65,6 +65,7 @@ def logout_view(request):
 
 
 def analysis(request, datasource_id):
+    print "analysis"
     source = DataSource.objects.get(id=datasource_id)
     sms_set = source.sms_set.all()
 
@@ -208,6 +209,7 @@ def viewWords(request):
 def dataManipulation(request, datasource_id):
     data_set = DataSource.objects.get(id=datasource_id).sms_set.all()
     data = []
+    print "being called"
     for d in data_set:
         instance = {'Country': d.country,
                     'RStation': d.rstation,
@@ -219,6 +221,10 @@ def dataManipulation(request, datasource_id):
         data.append(instance)
 
     opinions = ['aids', 'malaria', 'unknown', 'irrelevant']
-    table = render_to_string("table_edit.html", {"data": json.dumps(data), "opinions": opinions})
+    
+    #data_raw = json.dumps(data)
+    # print "and ", data
+    # print "shit happens"
+    table = render_to_string("table_edit.html", {"data": data, "opinions": opinions})
 
     return render(request, 'data_manipulation.html', {"table": table})
