@@ -21,49 +21,27 @@ function getSelectedRStations(){
 }
 
 function OnChangeCountry(checkbox) {
-  if (checkbox.checked) {
-      data_countries[data_countries.length] = checkbox.value;
-  }
-  else {
-      var toRemove = checkbox.value;
-      var i = 0;
-      var newList = [];
-      for (i = 0; i < data_countries.length; i++) {
-          if (data_countries[i] == checkbox.value) {
-              break;
-          } else {
-              newList[i] = data_countries[i];
-          }
-      }
-      ++i;
-      for (; i < data_countries.length; i++) {
-          newList[i-1] = data_countries[i];
-      }
-      data_countries = newList;
-  }
-  updateData()
+    if (checkbox.checked) {
+        data_countries.push(checkbox.value)
+    }
+    else {
+        var toRemove = checkbox.value;
+        data_countries = data_countries.filter(function(element) {
+          return element != toRemove
+        });
+    }
+    updateData()
 }
 
 function OnChangeStation(checkbox) {
     if (checkbox.checked) {
-        data_rstations[data_rstations.length] = checkbox.value;
+        data_rstations.push(checkbox.value);
     }
     else {
         var toRemove = checkbox.value;
-        var i = 0;
-        var newList = [];
-        for (i = 0; i < data_rstations.length; i++) {
-            if (data_rstations[i] == checkbox.value) {
-                break;
-            } else {
-                newList[i] = data_rstations[i];
-            }
-        }
-        ++i;
-        for (; i < data_rstations.length; i++) {
-            newList[i-1] = data_rstations[i];
-        }
-        data_rstations = newList;
+        data_rstations = data_rstations.filter(function(element) {
+          return element != toRemove
+        });
     }
     updateData()
 }
