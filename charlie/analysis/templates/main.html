@@ -36,36 +36,30 @@
     {%block sidebar%}
     <div id="sidebar-wrapper">
         <ul class="sidebar-nav">
-			<div class="sidebar-link-container">
-				<a href={%url 'dashboard' %} class="sidebar-link">
-					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-				</a>
-                <!-- View Traversal: Possibly a different attribute to simplify design -->
-				<a class="sidebar-link" switch-view="page_prev">
-					<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-				</a>
-				<a class="sidebar-link" switch-view="page_for">
-					<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-				</a>
-			</div>
-            <div class="sidebar-link-container">
+			<div class="sidebar-link-container" id="icons">
                 <a class="sidebar-link" switch-view="page_cloudmap">
                     <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span>
                 </a>
-                <a class="sidebar-link" switch-view="page_charts">
-                    <span class="glyphicon glyphicon-adjust" aria-hidden="true"></span>
+				<a class="sidebar-link" switch-view="page_charts">
+                   <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
                 </a>
-                <a class="sidebar-link" switch-view="page_text">
-                    <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+				<a class="sidebar-link" switch-view="page_text">
+                    <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
                 </a>
-            </div>
-            <li id='li_filters'>
-                <a href="#" id="filters">Filters</a>
-            </li>
-            <li>
-                <a href="#" id="linkers">Linkers</a>
-            </li>
-        </ul>
+			</div>
+			<div class="sidebar-link-container" id="icon_names">
+				<span class="sidebar-text"> Wordcloud</span> 
+                <span class="sidebar-text"> Charts</span>
+				<span class="sidebar-text"> SMS</span>
+			</div>
+            
+			<div class="sidebar-link-container" id="filters">
+				<span class="glyphicon glyphicon-triangle-top" id="arrow" aria-hidden="true"></span><span>Filters</span> 
+			</div>
+			<div id="filter-wrapper">
+				<li id='li_filters'>
+				</li>	
+			</div>
     </div>
     {%endblock%}
     <!-- /#sidebar-wrapper -->
@@ -168,13 +162,6 @@ switchView();
 			else if(x == 'page_text'){
 				CTR_WINDOW  = WINDOW.LIST
 			}
-			else if(x == 'page_prev'){
-				if (CTR_WINDOW == WINDOW.LIST){CTR_WINDOW = WINDOW.CLOUD}
-			}
-			else if(x == 'page_for'){
-				if (CTR_WINDOW == WINDOW.UPLOAD && CTR_formatValid){CTR_WINDOW = WINDOW.CLOUD}
-                if (CTR_WINDOW == WINDOW.CLOUD){CTR_WINDOW = WINDOW.LIST}
-			}
 			switchView()
 		});
         /* 
@@ -261,6 +248,22 @@ switchView();
         $(sidebar_id).append(" " + name + "<br>");
     }
     }
+	
+	//Collapse filters - if you're here to clean up, this only exists here atm
+	var showFilters = true;
+	document.getElementById("filters").addEventListener("click",
+	function(e){
+		if (showFilters) {
+			document.getElementById("filter-wrapper").style.display="none";
+			document.getElementById("arrow").className="glyphicon glyphicon-triangle-bottom";
+			showFilters=false;
+		}
+		else{
+			document.getElementById("filter-wrapper").style.display="block";
+			document.getElementById("arrow").className="glyphicon glyphicon-triangle-top";
+			showFilters=true;
+		};
+	});
     </script>
 
     {%endblock%}
