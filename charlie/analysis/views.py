@@ -81,8 +81,13 @@ def analysis(request, datasource_id):
                     'Index': d.index}
         data.append(instance)
 
-    # TODO: softcode this
-    opinions = ['aids', 'malaria', 'unknown', 'irrelevant']
+    # get the existing labels
+    opinions_raw = sms_set.all().values_list('opinion',flat=True).distinct()
+    # cast from ustr to str
+    opinions = [str(o) for o in opinions_raw]
+    print opinions
+    opinions.append('irrelevant')
+    print opinions
     table = render_to_string("table.html", {"data": data, "opinions": opinions})
     # get the word frequency list
     from utils import getFrequencyList
