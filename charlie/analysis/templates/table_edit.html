@@ -20,7 +20,18 @@
             {% endwith %}
           </ul>
         </div>
+        <br>
+        <div style='border: 1px solid #ddd; border-radius: 4px; padding: 10px 20px;'>
+          <ul class="nav nav-pills nav-stacked">
+            {% with request.resolver_match.url_name as url_name %}
+            <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'dashboard' %}">Add new Names</a></li>
+            <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'dashboard' %}">Add new Sin</a></li>
+            <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'dashboard' %}">Add new Stupidity</a></li>
+            {% endwith %}
+          </ul>
+        </div>
       </div>
+
       <button>Save Changes</button>
       <p>TODO: upon click, write back the modified data in the <input>tag to the database</p>
       <div class='col-lg-10 col-md-9'>
@@ -51,7 +62,7 @@
  
         <tbody>
             {% for sms in data %}
-            <tr>
+            <tr id='sms_{{sms.Index}}'>
                 <td>{{sms.Index}}</td>
                 <td>{{sms.Country}}</td>
                 <td>{{sms.RStation}}</td>
@@ -91,6 +102,7 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/plug-ins/9dcbecd42ad/integration/jqueryui/dataTables.jqueryui.css">
 
 <script>
+    var data = {{data | safe}}
     var table = $('#edit_table').DataTable({
         "aoColumns": [
             {"sWidth": "5%"},
@@ -98,7 +110,7 @@
             {"sWidth": "5%"},
             {"sWidth": "40%"},
             {"sWidth": "30%"},
-            {"sWidth": "15%"}
+            {"sWidth": "35%"}
         ]
     });
     
@@ -106,6 +118,8 @@
             id = this.id
             index = id.split('_')[1]
             opinion = this.value
+            tr_id = '#sms_'+id
+            console.log($(tr_id))
             console.log("create post is working!") // sanity check
             $.ajax({
                 url : "update/", // the endpoint

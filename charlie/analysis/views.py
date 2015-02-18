@@ -219,6 +219,6 @@ def dataManipulation(request, datasource_id):
         data.append(instance)
 
     opinions = ['aids', 'malaria', 'unknown', 'irrelevant']
-    table = render_to_string("table_edit.html", {"data": data, "opinions": opinions})
+    table = render_to_string("table_edit.html", {"data": json.dumps(data), "opinions": opinions})
 
     return render(request, 'data_manipulation.html', {"table": table})
