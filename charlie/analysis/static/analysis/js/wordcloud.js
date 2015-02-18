@@ -13,7 +13,11 @@ function setUpCanvas() {
         outlineColour: '#ff00ff',
         reverse: true,
         depth: 0.8,
-        maxSpeed: 0.05,
+        // Initial speed in [x, y] direction.
+        initial: [0.2, 0.2],
+        // Minimum speed when mouse leaves canvas.
+        minSpeed: 0.02,
+        maxSpeed: 0.02,
         weight: true,
         weightFrom: 'data-weight'
     });
