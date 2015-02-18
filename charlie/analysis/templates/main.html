@@ -18,13 +18,13 @@
     <script src ="{% static 'analysis/js/main.js' %}"></script>
     <script src ="{% static 'analysis/js/bootstrap.min.js' %}"></script>
     <script src ="{% static 'analysis/js/tabularSMS.js' %}"></script>
-    <script src ="{% static 'analysis/js/sidebar.js' %}"></script>
     <script src ="{% static 'analysis/js/inputParsing.js' %}"></script>
     <script src ="{% static 'analysis/js/jput.min.js' %}"></script>
     <script src ="{% static 'analysis/js/charlie.js' %}"></script>
     <script src ="{% static 'analysis/js/jquery.cookie.js' %}"></script>
     <script src ="{% static 'analysis/js/jquery.awesomeCloud-0.2.min.js' %}"></script>
     <script src ="{% static 'analysis/js/tagcanvas.min.js' %}"></script>
+    <script src ="{% static 'analysis/js/sidebar.js' %}"></script>
     <script src ="{% static 'analysis/js/wordcloud.js' %}"></script>
 {% endblock %}
 
@@ -59,14 +59,12 @@
                     <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
                 </a>
             </div>
-            <ul id='filters'>
-                <li id='li_filters'>
-                    <a href="#" id="filters">Filters</a>
-                </li>
-                <li>
-                    <a href="#" id="linkers">Advanced Filters</a>
-                </li>
-            </ul>
+            <li id='li_filters'>
+                <a href="#" id="filters">Filters</a>
+            </li>
+            <li>
+                <a href="#" id="linkers">Linkers</a>
+            </li>
         </ul>
     </div>
     {%endblock%}
@@ -186,12 +184,14 @@ switchView();
             //TODO: precise FSM specification
             $(' .view').hide();
             $('#' + CTR_WINDOW.id).show();
+/*
             if(CTR_WINDOW == WINDOW.CHART){
                 $('#filters').hide()
             }
             else{
                 $('#filters').show()
             }
+*/
         }
 
         var csrftoken = $.cookie('csrftoken');
@@ -232,5 +232,35 @@ switchView();
                 }
             });
         };
-	</script>
+
+    function renderSideBars(filters, sidebar_id){
+    console.log("being called")
+    $('li_filters').append("Countries:<br>");
+        for(var i = 0; i < filters.countries.length; i++) {
+            var name = filters.countries[i];
+            var box = $('<input/>').attr({
+                type: "checkbox",
+                onclick: "OnChangeCountry(this)",
+                checked: "checked",
+                value: name
+        });
+        console.log(box);
+        $(sidebar_id).append(box);
+        $(sidebar_id).append(" " + name + "<br>");
+    }
+    $(sidebar_id).append("Stations:<br>");
+    for(var i = 0; i < filters.stations.length; i++) {
+        var name = filters.stations[i];
+        var box = $('<input/>').attr({
+            type: "checkbox",
+            onclick: "OnChangeStation(this)",
+            checked: "checked",
+            value: name
+        });
+        $(sidebar_id).append(box);
+        $(sidebar_id).append(" " + name + "<br>");
+    }
+    }
+    </script>
+
     {%endblock%}

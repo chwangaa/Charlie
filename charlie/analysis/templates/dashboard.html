@@ -20,7 +20,7 @@
 							<div id='delete' class='glyphicon glyphicon-remove'> </div>
 							<div class='uploaded_file_name'>{{ document.docfile.name }}</div>
 							<div class='q_link'> <a href="{{ document.docfile.url}}">Download Original File</a> </div>
-							<div class='q_link'> <a href="#">Data Manipulation</a> </div>
+							<div class='q_link'> <a href="{% url "manipulation" document.id %}">Data Manipulation</a> </div>
 							<div class='q_link'> <a href="{% url "analysis" document.id %}">Data Analysis</a> </div>
 						</div>
 						<br/>
