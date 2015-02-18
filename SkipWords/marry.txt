@@ -1,0 +1,45 @@
+marry.csv
+
+NAMES
+	charles banda chinunda
+	montez
+	ackson  njobvu
+	MIRRIAM PHIRI
+	peter zulu
+	fadales lungu
+	NGOMA  ELIPHAS
+	steven
+	yoram LUNDAZI
+	COMZY
+	monday miyoba mchini
+	Mrs Tioneone Cathreen
+	monday monday
+	ngizano
+	PHIRI RONALD OR DINHO
+	EDWARD
+	ZILBAH
+	Amale Dominic
+	MRS BANDA
+	victoria banda
+	SARAH JAMES
+	Billy rodgers
+	BENARD
+	joseph omondi
+	Dickens
+	Joshua
+	ALOICE CHOMO,JOHN HASSAN,PETER
+	BEATRICE OWAWA, JAKOM MIDEGA
+	mig,erick okiri,arthur,kamara
+
+SLANG
+	4lowing
+	2
+	z for the
+	iz
+	4got
+	b4
+	r
+	shud
+	coz
+	bicoz
+	bcoz
