@@ -38,7 +38,7 @@ def dashboard(request):
         form = DataUploadForm()  # A empty, unbound form
 
     # Load documents for the list page
-    documents = DataSource.objects.all()
+    documents = DataSource.objects.all().filter(owner=request.user)
 
     # Render list page with the documents and the form
     return render_to_response(
@@ -81,6 +81,7 @@ def analysis(request, datasource_id):
                     'Index': d.index}
         data.append(instance)
 
+    # TODO: softcode this
     opinions = ['aids', 'malaria', 'unknown', 'irrelevant']
     table = render_to_string("table.html", {"data": data, "opinions": opinions})
     # get the word frequency list
@@ -121,6 +122,7 @@ def analysis(request, datasource_id):
                       {"countries": countries, "stations": rstations})
 
     context = {
+        "name": request.user.username,
         "data_raw": data_js,
         "pie_chart": pie_chart,
         "column_chart": column_chart,
@@ -198,3 +200,22 @@ def viewWords(request):
     RequestConfig(request, paginate=False).configure(table)
     return render(request, 'dropwords_table_view.html', {
         "table": table, "title": "Word List"})
+
+
+def dataManipulation(request, datasource_id):
+    data_set = DataSource.objects.get(id=datasource_id).sms_set.all()
+    data = []
+    for d in data_set:
+        instance = {'Country': d.country,
+                    'RStation': d.rstation,
+                    'Original': d.text,
+                    'Edited': d.modifield_text, 
+                    'opinion': d.opinion,
+                    'Index': d.index,
+                    }
+        data.append(instance)
+
+    opinions = ['aids', 'malaria', 'unknown', 'irrelevant']
+    table = render_to_string("table_edit.html", {"data": data, "opinions": opinions})
+
+    return render(request, 'data_manipulation.html', {"table": table})

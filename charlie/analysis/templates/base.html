@@ -7,6 +7,7 @@
     {% endblock %}
     </title>
     {% load staticfiles %}
+	<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="{% static 'analysis/css/base.css' %}" />
     {% block staticfiles %}
     {% endblock %}
@@ -15,11 +16,12 @@
 <body>
 	<div id='navbar'>
         {% block navbar %}
-		<a href="{% url 'logout' %}" id='logout'>Logout</a>
-        <a href="{% url 'dashboard' %}" id='home_button'>{{name}}</a>
+		<a id="logoproject" href="{% url 'dashboard' %}">Project</a><a id="logocharlie" href="{% url 'dashboard' %}">Charlie</a>
+		<a id="logout"  href="{% url 'logout' %}">log out</a>
+		<span id="welcomemessage"> welcome, {{name}} </span>
         {% endblock %}
 	</div>
-
+	
     <div id="content">
         <div id="sidebar">
         {% block sidebar %}

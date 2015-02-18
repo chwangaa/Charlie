@@ -1,12 +1,63 @@
 {% load staticfiles %}
+
+<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" type="text/css" href="{% static 'analysis/css/landing-page.css' %}" />
 <link rel="stylesheet" type="text/css" href="{% static 'analysis/css/bootstrap.min.css' %}" />
 
-<div class="view" id="page_landing">
-	<div class="text-vertical-center">		
+{% block content %}
+<div id='landing_navbar'>
+		<span id="logoproject">Project</span><span id="logocharlie">Charlie</span>
+		<div id="login_form">
+		<form method="post" action="{% url 'django.contrib.auth.views.login' %}">
+        {% csrf_token %}
+			<span id="form_user">{{ form.username.label_tag }} {{ form.username }}</span>
+			<span id="form_pw">{{ form.password.label_tag }} {{ form.password }}</span>
+			<input type="submit" value="login" />
+			<input type="hidden" name="next" value="{{ next }}" />
+		</form>
+		{% if form.errors %}
+        <p>Incorrect username or password. Please try again.</p>
+		{% endif %}
+		</div>
+</div>
+
+<div class="view">
+	<div class="text-vertical-center">
 		<h1>Project Charlie</h1>
-		<h3>the best IB group</h3>
-		<br>
-		<a href={%url 'dashboard' %} id="start" class="btn btn-dark btn-lg" switch-view="page_upload">Start</a>
+		<h3>some cool text here about the project</h3>
+		<h3>some more text to fill up space</h3>
 	</div>
 </div>
+
+<div id="about">
+	<div class="text-vertical-top">
+		<p>read more</p>
+		<span class="glyphicon glyphicon-menu-down" id="down_arrow"></span>
+	</div>
+</div>
+<div id="about_text">
+	<h1> about us </h1>
+	<p > Lorem ipsum dolor sit amet, movet eligendi reprimique usu et. Te brute mnesarchum vis. Pericula adolescens mei ne, et usu suas omittantur. Est at accusam sapientem, est no similique persequeris. His iuvaret honestatis an, scripta sapientem elaboraret at mel. Eligendi deserunt philosophia no eos.
+
+Ad diceret antiopam vituperatoribus per, quis wisi quo no, no per eius vituperata. Id usu essent aeterno moderatius. Munere everti erroribus ad nam. Dico intellegebat te mel. In pro eleifend sententiae, eu impetus dolorem fabellas cum, hinc dicunt vel ne. Aliquip integre quo ei, et mei virtute minimum dolores, cum no latine placerat omittantur.
+
+Qui saepe necessitatibus at. Eos idque impedit eu, te postulant maluisset eam. Et eos ornatus blandit, his assum probatus temporibus ea. Ad eos audiam temporibus, his no case fastidii complectitur. Tale quodsi constituam et mei, nam suscipit erroribus at, at sint fastidii comprehensam sit. Eros habemus mel an.
+
+Ad idque errem facilisis mei, esse iudicabit efficiantur pri ea. Cu veri minimum intellegam est, alia ipsum gloriatur id vis. Quo clita detracto ei. Per ex fastidii eleifend adipiscing, vel ei dico mundi moderatius. Qui erroribus adversarium ullamcorper ex. Vel ei quas laoreet, et prima delicatissimi vis. Cu quis vidit urbanitas his.
+
+Melius referrentur pro ad, audiam principes consequat nam ut, per saepe scriptorem ea. Id eam sumo pertinax, mel ad brute denique persequeris. Id dicam legere pro, ei sed animal blandit, ei vix amet timeam rationibus. Ut dolor prompta duo. Ea his sale apeirian dissentiunt.</p>
+</div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+<script>
+	$(document).ready(function (){
+		$("#down_arrow").click(function() {
+			$('html, body').animate({
+				scrollTop: $("#about_text").offset().top
+			}, 2000);
+		});
+	});
+</script>
+
+{% endblock %}
+

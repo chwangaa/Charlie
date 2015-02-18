@@ -9,7 +9,6 @@
     <link rel="stylesheet" type="text/css" href="https://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/plug-ins/9dcbecd42ad/integration/jqueryui/dataTables.jqueryui.css">
 
-
     <script src ="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.4/js/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/plug-ins/9dcbecd42ad/integration/jqueryui/dataTables.jqueryui.js"></script>
@@ -148,9 +147,8 @@ switchView();
 
         document.getElementById("cloud_tags").addEventListener("click",
             function(e){
-                document.getElementById("displayWord").innerHTML = "You clicked on "+e.target.id;
-                data = findSMS(e.target.id, data_raw)
-                updateList(data)
+                word = e.target.id
+                table.search(word).draw()
                 CTR_WINDOW = WINDOW.LIST
                 switchView()
         });

@@ -1,0 +1,62 @@
+
+bag.csv
+NAMES
+ PETER MBALAME 
+ HARRY CHABE.DWANGWA.
+ Mr Sac  Moyo 
+ HAMEES BENDA
+ Frank Atiglinyi From Zatekorpe
+ FRED NYIRENDA SINDA
+ Francis Banda
+ Paul Ngosa
+ ZODWA KATETE
+ Mark Atieno
+ Harry Kidiga,wilfred,Ondiek and Otis
+ George
+ A.Z GONDAR
+ EMMA
+ GEORGE  MSIMUKO  LUNDAZI  NKHANGA
+ JOHN NJOBVU
+ Eric
+ MAUREEN SAKALA
+ NYIRENDA IKWELE
+ D LUNGU
+ eliphas  nyangu
+ FRACKSON  ZIMBA
+ SHADRECK  CHAGWIRA
+ CHRIS PHIRI
+ Abel. Sinda
+ mrs mara Linet, Kephas Nyaranga, Otis Opondi, Beril Beauty, Dani Peres, Okelo Olasy, Jackob fundi ding'ga, Okando Coly, Arianda Moses, gi Bejemin Odinpo
+ JEP KINYOZI BONDO
+ paul   kwachelanji
+ ndine elias
+ sackson
+ mrs elias  ngulube
+ Mr  Moses Ngoma
+ Ephrem sakala
+ milonga  zulu
+ nkhata kanyanga ludanzi
+ GRACE ZULU MAWANDA
+ JAIROS
+ HUMPHREYZO
+ ANGEL MASA 
+ PATRICIA KAPALAMULA
+ Kalanje
+ mrs tembo
+
+typos(reduce word count):
+bugs
+back
+
+slang
+ 2
+ 2b
+ 4rm
+ 4m
+ da
+ tyme
+ ur
+ bcoz
+ bicoz
+ coz
+

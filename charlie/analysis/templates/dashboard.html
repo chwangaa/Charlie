@@ -3,26 +3,25 @@
 {% block staticfiles %}
 {% load staticfiles %}
 <link rel="stylesheet" type="text/css" href="{% static 'analysis/css/bootstrap.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'analysis/css/dashboard.css' %}" />
 {% endblock %}
 
 {% block content %}
 <!-- List of uploaded documents -->
 		<div id='page_wrapper'>
 			<h1> Dashboard </h1>
-			<span class="glyphicon glyphicon-plus" id="add"></span>
+			<span class="glyphicon glyphicon-plus" id="addbutton"></span>
 			<!-- List of uploaded documents -->
-			
 			<div id='document_container'>
 				{% if documents %}
 					{% for document in documents %}
 						<div class='uploaded_file'>
-							<p class='uploaded_file_question'>{{document.name}}</p>
-							<p class='uploaded_file_name'>{{ document.docfile.name }}</p>
-							<a href="{{ document.docfile.url }}">Download Original File</a>
-							<br>
-							<a href="#">Data Manipulation</a>
-							<br>
-							<a href="{% url "analysis" document.id %}">Data Analysis</a>
+							<div class='uploaded_file_question'>{{document.name}}</div>
+							<div id='delete' class='glyphicon glyphicon-remove'> </div>
+							<div class='uploaded_file_name'>{{ document.docfile.name }}</div>
+							<div class='q_link'> <a href="{{ document.docfile.url}}">Download Original File</a> </div>
+							<div class='q_link'> <a href="#">Data Manipulation</a> </div>
+							<div class='q_link'> <a href="{% url "analysis" document.id %}">Data Analysis</a> </div>
 						</div>
 						<br/>
 					{% endfor %}
@@ -32,7 +31,6 @@
 			</div>
 
 			<!-- Upload form. Note enctype attribute! -->
-			<br/>
 			<div id='upload_data'>
 				<form action="{% url "dashboard" %}" method="post" enctype="multipart/form-data">
 					{% csrf_token %}
@@ -53,6 +51,9 @@
 					<p><input type="submit" value="Upload" /></p>
 				</form>
 			</div>
+			
+			<div id="overlay"> </div> <!-- makes rest of screen grey -->
 		</div>
-
+	
+	<script src ="{% static 'analysis/js/dashboard.js' %}"></script>
 {% endblock %}

@@ -34,6 +34,8 @@ def initializeDatabaseForDataSource(source, answer):
         text = re.sub(r'[^\w]', ' ', original_msg)
         # remove extra spaces
         text = re.sub(r'\s+', ' ', text)
+        # remove any space at the front
+        text = text.lstrip()
         opinion_found = False
         for kw in interested_kwards:
             if kw in text:
@@ -43,12 +45,12 @@ def initializeDatabaseForDataSource(source, answer):
         if not opinion_found:
             opinion = 'unknown'
 
-        text = sms['SMS'].lower()
         rstation = sms['RStation'].lower()
         country = sms['Country'].lower()
         index = sms['Index']
-        s = SMS(text=text, rstation=rstation, country=country,
-                source=source, opinion=opinion, index=index)
+        s = SMS(text=original_msg, rstation=rstation, country=country,
+                source=source, opinion=opinion, index=index,
+                modifield_text=text)
         s.save()
 
 

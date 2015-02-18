@@ -19,7 +19,7 @@
 }
 
 #sidebar-wrapper {
-    z-index: 1000;
+	top:50px;
     position: fixed;
     left: 250px;
     width: 0;
@@ -38,6 +38,7 @@
 }
 
 #page-content-wrapper {
+	top:50px;
     width: 100%;
     position: absolute;
 }

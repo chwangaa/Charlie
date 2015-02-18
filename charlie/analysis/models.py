@@ -16,6 +16,9 @@ class SMS(models.Model):
     source = models.ForeignKey('DataSource')
     opinion = models.CharField(max_length=20)
     index = models.IntegerField()
+    # derived fields
+    modifield_text = models.CharField(max_length=160)
+    language = models.CharField(max_length=20)
 
 
 class Word(models.Model):
