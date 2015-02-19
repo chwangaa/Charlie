@@ -59,6 +59,8 @@ def get_object(self, queryset=None):
     obj = SMS.objects.get(id=1)
     return obj
 
+
+@login_required
 def delete_datasource(request): 
     if request.method == 'POST':
         document_id = request.POST.get('document_id')
@@ -74,7 +76,7 @@ def logout_view(request):
     return HttpResponseRedirect(reverse('landing'))
     # Redirect to a success page.
 
-
+@login_required
 def analysis(request, datasource_id):
     print "analysis"
     source = DataSource.objects.get(id=datasource_id)
@@ -217,6 +219,7 @@ def viewWords(request):
         "table": table, "title": "Word List"})
 
 
+@login_required
 def dataManipulation(request, datasource_id):
     data_set = DataSource.objects.get(id=datasource_id).sms_set.all()
     data = []
@@ -303,6 +306,7 @@ def addDictView(request):
     )
 
 
+@login_required
 def addName(request):
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -317,6 +321,7 @@ def addName(request):
         return HttpResponse("Creating Name Failed")
 
 
+@login_required
 def addDict(request):
     if request.method == 'POST':
         word = request.POST.get('word')
