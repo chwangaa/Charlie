@@ -228,3 +228,7 @@ def dataManipulation(request, datasource_id):
     table = render_to_string("table_edit.html", {"data": data, "opinions": opinions})
 
     return render(request, 'data_manipulation.html', {"table": table})
+
+
+def addName(request):
+    pass
