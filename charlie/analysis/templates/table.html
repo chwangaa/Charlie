@@ -56,8 +56,9 @@
         rstations = rstations.map(function(e) {
             return '('+e+')';
         })
-        var country_filter = countries.join('|');
-        var rstation_filter = rstations.join('|');
+        // TODO(Daria): This is a bit hacky, clear table instead if one of the lists is empty.
+        var country_filter = (countries.length > 0) ? countries.join('|') : "nonexistentcountry";
+        var rstation_filter = (rstations.length > 0) ? rstations.join('|') : "nonexistentcountry";
         table.fnFilter(country_filter, 1 /* column */, true /* as_regex */);
         table.fnFilter(rstation_filter, 2 /* column */, true /* as_regex */);
     }
