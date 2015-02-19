@@ -4,9 +4,9 @@ from django import forms
 
 class DataUploadForm(forms.Form):
     docfile = forms.FileField(
-        label='Upload new Dataset for Analysis!'
+        label='Upload a new dataset for analysis!'
     )
     question = forms.CharField(
-        label='What is your Question')
+        label='What is your question?')
     answer = forms.CharField(
-        label='What are the options')
+        label='What are your options?')
