@@ -29,13 +29,12 @@ var deleteButtons = document.querySelectorAll('.delete');
 
 for (var i = 0; i < deleteButtons.length; i++) {
     deleteButtons[i].addEventListener('click', function(e) {
-		createDeleteRequest('#'+e.target.id);
+		createDeleteRequest(e.target.id);
     });
 }
 
 function createDeleteRequest(container) {
-	// Id in HTML is of form #datasource192, and we only need "192".
-	document_id = container.replace("#datasource", "");
+	document_id = container.replace("datasource", "");
     $.ajax({
         url : "delete-datasource/", // the endpoint
         type : "POST", // http method
@@ -43,7 +42,7 @@ function createDeleteRequest(container) {
 
         // handle a successful response
         success : function(json) {
-            $(container).parent().remove(); // remove the value from the input
+            $('#'+container).parent().remove(); // remove the value from the input
         },
 
         // handle a non-successful response

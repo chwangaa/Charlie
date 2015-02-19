@@ -19,7 +19,7 @@
 					{% for document in documents %}
 						<div class='uploaded_file'>
 							<div class='uploaded_file_question'>{{document.name}}</div>
-							<a class='delete' id='datasource{{document.pk}}' href="#" >
+							<a id='datasource{{document.pk}}' class='delete' href="#" >
 								<span class='glyphicon glyphicon-remove'></span>
 							</a>
 							<div class='uploaded_file_name'>{{ document.docfile.name }}</div>
