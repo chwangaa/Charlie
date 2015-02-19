@@ -96,7 +96,7 @@ h1{
 	color:white;
 }
 
-#delete{
+.delete{
 	top:0;
 	padding-top:10px;
 	display:inline-block;
