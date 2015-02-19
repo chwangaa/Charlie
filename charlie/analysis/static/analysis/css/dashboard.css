@@ -62,6 +62,9 @@ h1{
 	background-color:black;
 	color:white;
 }
+.delete:hover{
+	cursor:pointer;
+}
 
 .uploaded_file_name{
 	padding:10px;
