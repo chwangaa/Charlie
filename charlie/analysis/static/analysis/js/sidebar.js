@@ -46,10 +46,20 @@ function OnChangeStation(checkbox) {
     updateData()
 }
 
+function capitalise(string)
+{
+    words = string.split(" ");
+    for (var i = 0; i < words.length; i++) {
+        words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
+    }
+    string = words.join(" ");
+    return string;
+}
+
 function renderSideBars(filters, sidebar_id){
     $(sidebar_id).append("Countries:<br>");
         for(var i = 0; i < filters.countries.length; i++) {
-            var name = filters.countries[i];
+            var name = capitalise(filters.countries[i]);
             var box = $('<input/>').attr({
                 type: "checkbox",
                 onclick: "OnChangeCountry(this)",
@@ -61,7 +71,7 @@ function renderSideBars(filters, sidebar_id){
     }
     $(sidebar_id).append("Stations:<br>");
     for(var i = 0; i < filters.stations.length; i++) {
-        var name = filters.stations[i];
+        var name = capitalise(filters.stations[i]);
         var box = $('<input/>').attr({
             type: "checkbox",
             onclick: "OnChangeStation(this)",
