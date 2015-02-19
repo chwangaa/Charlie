@@ -34,6 +34,8 @@ def dashboard(request):
             source_id = newdoc.id
             # Redirect to the document list after POST
             return HttpResponseRedirect(reverse('analysis', args=[source_id]))
+        else:
+            return HttpResponse("You Are mad, Wrong Format")
     else:
         form = DataUploadForm()  # A empty, unbound form
 
