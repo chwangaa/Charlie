@@ -53,9 +53,18 @@ class SMSUpdate(UpdateView):
     fields = ['country', 'text']
     template_name = 'sms_update_form.html'
 
-    def get_object(self, queryset=None):
-        obj = SMS.objects.get(id=1)
-        return obj
+def get_object(self, queryset=None):
+    obj = SMS.objects.get(id=1)
+    return obj
+
+def delete_datasource(request): 
+    if request.method == 'POST':
+        document_id = request.POST.get('document_id')
+        # TODO(Daria): Check this is performed successfully, and send appropriate response.
+        DataSource.objects.get(pk=document_id).delete()
+        return HttpResponse("Deletion successful")
+    else:
+        return HttpResponseBadRequest("Request should be of POST type.")
 
 
 def logout_view(request):

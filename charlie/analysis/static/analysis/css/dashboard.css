@@ -52,7 +52,7 @@ h1{
 	color:white;
 }
 
-#delete{
+.delete{
 	top:0;
 	padding-top:10px;
 	display:inline-block;
@@ -61,6 +61,9 @@ h1{
 	float:right;
 	background-color:black;
 	color:white;
+}
+.delete:hover{
+	cursor:pointer;
 }
 
 .uploaded_file_name{
