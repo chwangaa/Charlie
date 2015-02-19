@@ -10,3 +10,17 @@ class DataUploadForm(forms.Form):
         label='What is your question?')
     answer = forms.CharField(
         label='What are your options?')
+
+
+class CreateWordForm(forms.Form):
+    name = forms.CharField(
+        label='Please enter the name')
+
+
+class CreateDictForm(forms.Form):
+    word = forms.CharField(
+        label = 'Please enter the word')
+    trans = forms.CharField(
+        label = 'Please enter the translation')
+    language = forms.CharField(
+        label = 'Please enter the language')

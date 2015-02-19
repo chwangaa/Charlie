@@ -11,7 +11,9 @@ The project uses Django as the server framework
 [Download Link: ](https://www.djangoproject.com/download/)
 [Official Tutorials: ](https://docs.djangoproject.com/en/1.7/intro/tutorial01/)
 
-Also install `django_tables2`
+#### 1. Dependencies:
+
+`django_tables2`
 
 ### 2. Setup the Database
 
@@ -20,6 +22,13 @@ database run:
 
 ```
 python manage.py syncdb
+```
+
+To initialize database, do:
+
+```
+python2 manage.py shell
+import initialize_database
 ```
 
 To start a local test server:
