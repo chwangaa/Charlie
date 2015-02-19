@@ -8,6 +8,7 @@ function updateData(){
   filtered_country = filterByCountry(data_raw, countries)
   data_filtered = filterByStation(filtered_country, rstations)
   data_wordcloud = getWordFrequencyList(data_filtered)
+  applyFiltersToTables(countries, rstations);
   drawCloudMap(data_wordcloud, '#cloud_tags')
   updateList(data_filtered)
 }
