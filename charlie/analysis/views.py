@@ -7,11 +7,11 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.template.loader import render_to_string
-from table import WordTable
+from table import NameTable, DictTable
 from models import DataSource, SMS, Word
-from forms import DataUploadForm
+from forms import DataUploadForm, CreateWordForm, CreateDictForm
 from utils import initializeDatabaseForDataSource, getCount
-from django.views.generic.edit import UpdateView
+from django.views.generic.edit import UpdateView,CreateView
 from django_tables2 import RequestConfig
 import json
 
@@ -200,7 +200,7 @@ def update(request, datasource_id):
 
 def viewWords(request):
     words = Word.objects.all().filter(word_type='NAME')
-    table = WordTable(words)
+    table = NameTable(words)
     RequestConfig(request, paginate=False).configure(table)
     return render(request, 'dropwords_table_view.html', {
         "table": table, "title": "Word List"})
@@ -209,7 +209,6 @@ def viewWords(request):
 def dataManipulation(request, datasource_id):
     data_set = DataSource.objects.get(id=datasource_id).sms_set.all()
     data = []
-    print "being called"
     for d in data_set:
         instance = {'Country': d.country,
                     'RStation': d.rstation,
@@ -221,14 +220,105 @@ def dataManipulation(request, datasource_id):
         data.append(instance)
 
     opinions = ['aids', 'malaria', 'unknown', 'irrelevant']
-    
-    #data_raw = json.dumps(data)
-    # print "and ", data
-    # print "shit happens"
-    table = render_to_string("table_edit.html", {"data": data, "opinions": opinions})
 
-    return render(request, 'data_manipulation.html', {"table": table})
+    table = render_to_string("data_edit/table_edit.html",
+                             {"data": data, "opinions": opinions})
+
+    name_form = CreateWordForm()
+    dict_form = CreateDictForm()
+    return render(request, 'data_edit/data_manipulation.html',
+                  {"name_form": name_form, "dict_form": dict_form, "table": table})
+
+
+def addNameView(request):
+    if request.method == 'POST':
+        form = CreateWordForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            name = data['name']
+            print name
+            new_name = Word(word=name, word_type="NAME")
+            new_name.save()
+
+            # Redirect to the document list after POST
+            return HttpResponseRedirect(reverse('dashboard'))
+        else:
+            print "not valid form"
+    else:
+        form = CreateWordForm()  # A empty, unbound form
+
+    # Load documents for the list page
+    names = Word.objects.all().filter(word_type="NAME")
+    table = NameTable(names)
+    RequestConfig(request, paginate=False).configure(table)
+
+    # Render list page with the documents and the form
+    return render_to_response(
+        'data_edit/create_single.html',
+        {"table": table, 'form': form, 'name': request.user.username},
+        context_instance=RequestContext(request)
+    )
+
+
+def addDictView(request):
+    if request.method == 'POST':
+        form = CreateDictForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            word = data['word']
+            trans = data['trans']
+            language = data['language']
+            new_dict = Word(word=word, translation=trans,
+                            language=language, word_type="DICT")
+            new_dict.save()
+
+            # Redirect to the document list after POST
+            return HttpResponseRedirect(reverse('dashboard'))
+        else:
+            print "not valid form"
+    else:
+        form = CreateDictForm()  # A empty, unbound form
+
+    # Load documents for the list page
+    trans = Word.objects.all().filter(word_type="DICT")
+    table = DictTable(trans)
+    RequestConfig(request, paginate=False).configure(table)
+
+    # Render list page with the documents and the form
+    return render_to_response(
+        'data_edit/create_single.html',
+        {"table": table, 'form': form, 'name': request.user.username},
+        context_instance=RequestContext(request)
+    )
 
 
 def addName(request):
-    pass
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        new_name = Word(word=name, word_type="NAME")
+        new_name.save()
+        print "new name created", name
+        return HttpResponse(
+                            json.dumps({'text': "new name entry made"}),
+                            content_type = 'application/json'
+                            )
+    else:
+        return HttpResponse("Creating Name Failed")
+
+
+def addDict(request):
+    if request.method == 'POST':
+        word = request.POST.get('word')
+        trans = request.POST.get('trans')
+        lang = request.POST.get('lang')
+        new_dict = Word(word=word, language=lang, translation=trans,
+                        word_type="DICT")
+        new_dict.save()
+        print "new name created", new_dict
+
+        return HttpResponse(
+                            json.dumps({'text': "new dict entry made"}),
+                            content_type = 'application/json'
+                            )
+    else:
+        return HttpResponse("Creating dictionary entry failed")
