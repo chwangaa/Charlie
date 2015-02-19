@@ -22,10 +22,10 @@ function getSelectedRStations(){
 
 function OnChangeCountry(checkbox) {
     if (checkbox.checked) {
-        data_countries.push(checkbox.value)
+        data_countries.push(checkbox.value.toLowerCase())
     }
     else {
-        var toRemove = checkbox.value;
+        var toRemove = checkbox.value.toLowerCase();
         data_countries = data_countries.filter(function(element) {
           return element != toRemove
         });
@@ -35,10 +35,10 @@ function OnChangeCountry(checkbox) {
 
 function OnChangeStation(checkbox) {
     if (checkbox.checked) {
-        data_rstations.push(checkbox.value);
+        data_rstations.push(checkbox.value.toLowerCase());
     }
     else {
-        var toRemove = checkbox.value;
+        var toRemove = checkbox.value.toLowerCase();
         data_rstations = data_rstations.filter(function(element) {
           return element != toRemove
         });

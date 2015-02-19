@@ -11,12 +11,20 @@ function getWordFrequencyList(data){
 	var words = []
 	for(var i in data){
 		var entry = data[i]
-		if('SMS' in entry){
-			words = words.concat(entry['SMS'].toLowerCase().split(' '))
+		if('SMS' in entry) {
+			var sms = entry['SMS'].toLowerCase()
+			// Remove non alphanumerical characters.
+			sms = sms.replace(/\W+/g, ' ');
+			sms = sms.split(' ');
+			// Filter empty strings.
+			sms = sms.filter(function(element) {
+		        return element.replace(/\s+/g, ' ') != "";
+		    });
+		    words = words.concat(sms);
 		}
 	}
 	
-  var counter = Counter(words)
+ 	var counter = Counter(words)
 	var word_list = []
 	for(var key in counter){
 		var c = {text: key, weight: counter[key]}
