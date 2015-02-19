@@ -65,7 +65,9 @@ def delete_datasource(request):
     if request.method == 'POST':
         document_id = request.POST.get('document_id')
         # TODO(Daria): Check this is performed successfully, and send appropriate response.
-        DataSource.objects.get(pk=document_id).delete()
+        data_source = DataSource.objects.get(pk=document_id)
+        SMS.objects.filter(source=data_source).delete()
+        data_source.delete()
         return HttpResponse("Deletion successful")
     else:
         return HttpResponseBadRequest("Request should be of POST type.")
