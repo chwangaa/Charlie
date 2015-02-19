@@ -8,8 +8,8 @@
 	top:0;
 	width:100%;
 	background-color:black;
-	padding-left:100px;
-	padding-right:100px;
+	padding-left:70px;
+	padding-right:70px;
 	z-index:2;
 	text-align:center;
 }
@@ -17,7 +17,7 @@
 #logoproject{
 	display:inline;
 	color:white;
-	padding-top:10px;
+	padding:10px 0 10px 20px;
 	padding-bottom:10px;
 	float:left;
 	font-size:1.5em;

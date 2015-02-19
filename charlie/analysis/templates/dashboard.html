@@ -12,14 +12,16 @@
 <!-- List of uploaded documents -->
 		<div id='page_wrapper'>
 			<h1> Dashboard </h1>
-			<span class="glyphicon glyphicon-plus" id="addbutton"></span>
+			<a  id="addbutton" href="#"> <span class="glyphicon glyphicon-plus"></span></a>
 			<!-- List of uploaded documents -->
 			<div id='document_container'>
 				{% if documents %}
 					{% for document in documents %}
 						<div class='uploaded_file'>
 							<div class='uploaded_file_question'>{{document.name}}</div>
-							<div id='datasource{{document.pk}}' class='delete glyphicon glyphicon-remove'> </div>
+							<a class='delete' id='datasource{{document.pk}}' href="#" >
+								<span class='glyphicon glyphicon-remove'></span>
+							</a>
 							<div class='uploaded_file_name'>{{ document.docfile.name }}</div>
 							<div class='q_link'> <a href="{{ document.docfile.url}}">Download Original File</a> </div>
 							<div class='q_link'> <a href="{% url "manipulation" document.id %}">Data Manipulation</a> </div>
@@ -36,7 +38,7 @@
 			<!-- Upload form. Note enctype attribute! -->
 			<div id='upload_data'>
 				<form action="{% url "dashboard" %}" method="post" enctype="multipart/form-data">
-				<div id='cancel' class='glyphicon glyphicon-remove'> </div>
+				<a id='cancel' href="#" ><span class='glyphicon glyphicon-remove'></span></a>
 				{% csrf_token %}
 				<p>{{ form.non_field_errors }}</p>
 				<p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
