@@ -46,12 +46,6 @@ function reWeigh(words) {
 function drawCloudMap(words, container) {
     var colour;
     words = words.slice(0,30);
-
-    // TODO: Remove this, but only once strings only containing whitespace are filtered elsewhere!
-    words = words.filter(function(element) {
-        return element.text.replace(/\s+/g, ' ') != "";
-    });
-
     words = reWeigh(words);
     list = "<ul>";
     for(var i = 0; i < words.length; i++) {
