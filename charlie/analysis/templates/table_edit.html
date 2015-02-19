@@ -1,0 +1,131 @@
+
+{% block content %}
+{% load staticfiles %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'analysis/css/bootstrap.min.css' %}" />
+<div>
+  <div class='container'>
+  <h2>{{ title }}</h2>
+  <br />
+    <div class='row'>
+    <p>fjdlkfjasldkfjlakfj;asfl</p>
+      <div class='col-lg-2 col-md-3'>
+        <div style='border: 1px solid #ddd; border-radius: 4px; padding: 10px 20px;'>
+          <ul class="nav nav-pills nav-stacked">
+            {% with request.resolver_match.url_name as url_name %}
+            <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'dashboard' %}">Original Message</a></li>
+            <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'dashboard' %}">Remove Names</a></li>
+            <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'dashboard' %}">Remove Sin</a></li>
+            <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'dashboard' %}">Remove Stupidity</a></li>
+            {% endwith %}
+          </ul>
+        </div>
+      </div>
+      <button>Save Changes</button>
+      <p>TODO: upon click, write back the modified data in the <input>tag to the database</p>
+      <div class='col-lg-10 col-md-9'>
+        <div id='data_pane' style='border: 1px solid #ddd; border-radius: 4px; padding: 20px 30px;'>
+          {% block table %}
+          <table id="edit_table" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Index</th>
+                <th>Country</th>
+                <th>RStation</th>
+                <th>Modified SMS</th>
+                <th>Original</th>
+                <th>Opinion</th>
+            </tr>
+        </thead>
+ 
+        <tfoot>
+            <tr>
+                <th>Index</th>
+                <th>Country</th>
+                <th>RStation</th>
+                <th>Modified SMS</th>
+                <th>Original</th>
+                <th>Opinion</th>
+            </tr>
+        </tfoot>
+ 
+        <tbody>
+            {% for sms in data %}
+            <tr>
+                <td>{{sms.Index}}</td>
+                <td>{{sms.Country}}</td>
+                <td>{{sms.RStation}}</td>
+                <td><input type='text' id="edit_{{sms.Index}}" value="{{sms.Edited}}" size="80" ></td>
+                <td>{{sms.Original}}</td>
+                <td><select size="1" id="op_{{sms.Index}}" class='option_selection'>
+                    
+                    {% for opinion in opinions %}
+                        {% if opinion == sms.opinion %}
+                            <option value="{{opinion}}" selected>
+                                {{opinion}}
+                            </option>
+                        {% else %}
+                            <option value="{{opinion}}">
+                                {{opinion}}
+                            </option>
+                        {% endif %}                            
+                    {% endfor %}
+                </select>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+</table>
+          {% endblock %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src ="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.4/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/plug-ins/9dcbecd42ad/integration/jqueryui/dataTables.jqueryui.js"></script>
+<link rel="stylesheet" type="text/css" href="https://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/plug-ins/9dcbecd42ad/integration/jqueryui/dataTables.jqueryui.css">
+
+<script>
+    var table = $('#edit_table').DataTable({
+        "aoColumns": [
+            {"sWidth": "5%"},
+            {"sWidth": "5%"},
+            {"sWidth": "5%"},
+            {"sWidth": "40%"},
+            {"sWidth": "30%"},
+            {"sWidth": "15%"}
+        ]
+    });
+    
+    $('select').on('change', function() {
+            id = this.id
+            index = id.split('_')[1]
+            opinion = this.value
+            console.log("create post is working!") // sanity check
+            $.ajax({
+                url : "update/", // the endpoint
+                type : "POST", // http method
+                data : { "index" : index,
+                         "opinion": opinion 
+                        }, // data sent with the post request
+                // handle a successful response
+                success : function(json) {
+                    $('#post-text').val(''); // remove the value from the input
+                    console.log(json); // log the returned json to the console
+                    console.log("success"); // another sanity check
+                },
+                // handle a non-successful response
+                error : function(xhr,errmsg,err) {
+                    $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+                        " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+                    console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+                }
+            });
+        });
+</script>
+{%endblock%}
