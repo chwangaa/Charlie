@@ -8,58 +8,12 @@ h1{
 	display:inline;
 }
 
-#navbar{
-	position:fixed;
-	top:0;
-	width:100%;
-	background-color:black;
-	padding-left:100px;
-	padding-right:100px;
-	z-index:2;
-	text-align:center;
-}
-
-#logoproject{
-	display:inline;
-	color:white;
-	padding-top:10px;
-	padding-bottom:10px;
-	float:left;
-	font-size:1.5em;
-}
-
-#logocharlie{
-	display:inline;
-	color:#72D5FC;
-	padding-top:10px;
-	padding-bottom:10px;
-	float:left;
-	font-size:1.5em;
-}
-
-#welcomemessage{
-	color:white;
-	padding:15px;
-	float:right;
-}
-
-#logout{
-	display:inline;
-	background-color:#72D5FC;
-	margin:10px;
-	padding:5px;
-	padding-left:10px;
-	padding-right:10px;
-	font-size:1em;
-	float:right;
-	border-radius:5px;
-}
-
 #addbutton{
 	font-size:1.5em;
 	padding-top:10px;
 	padding-right:20px;
 	float:right;
+	color:black;
 }
 
 #page_wrapper{
@@ -76,6 +30,7 @@ h1{
 	border-top:1px solid;
 	margin-top:10px;
 	padding:10px;
+	
 }
 
 .uploaded_file{
@@ -85,6 +40,7 @@ h1{
 	margin-bottom:0px;
 	border-radius:10px;
 	border-style:solid;
+	border-color:black;
 }
 .uploaded_file_question{
 	padding:10px;
@@ -144,4 +100,5 @@ h1{
 
 #cancel{
 	float:right;
+	color:black;
 }

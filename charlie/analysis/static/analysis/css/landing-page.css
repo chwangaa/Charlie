@@ -7,17 +7,18 @@
 	position:fixed;
 	top:0;
 	width:100%;
-	padding-left:100px;
-	padding-right:100px;
+	background-color:white;
+	padding-left:70px;
+	padding-right:70px;
 	z-index:2;
 	text-align:center;
+	box-shadow: 1px 1px 1px #888888;
 }
 
 #logoproject{
 	display:inline;
 	color:black;
-	padding-top:10px;
-	padding-bottom:10px;
+	padding:10px 0 10px 20px;
 	float:left;
 	font-size:2em;
 }
@@ -60,6 +61,11 @@
 
 #form_user{
 	padding:10px;
+}
+
+#form_login{
+	margin-right:-10px;
+
 }
 
 .text-vertical-center {

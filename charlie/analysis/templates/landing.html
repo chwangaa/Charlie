@@ -12,7 +12,7 @@
         {% csrf_token %}
 			<span id="form_user">{{ form.username.label_tag }} {{ form.username }}</span>
 			<span id="form_pw">{{ form.password.label_tag }} {{ form.password }}</span>
-			<input type="submit" value="login" />
+			<input type="submit" value="login" id="form_login"/>
 			<input type="hidden" name="next" value="{{ next }}" />
 		</form>
 		{% if form.errors %}
