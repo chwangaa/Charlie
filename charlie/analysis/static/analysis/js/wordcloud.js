@@ -28,6 +28,10 @@ function setUpCanvas() {
     Values are chosen after trying different weight ranges, so they are hardcoded.
 */
 function reWeigh(words) {
+    // It can be the case that list is empty (no countries checked).
+    if (words.length == 0) {
+        return words;
+    }
     var highest_freq = words[0].weight;
     var lowest_freq = words[words.length - 1].weight;
     var interval = highest_freq - lowest_freq;
