@@ -87,7 +87,7 @@ def analysis(request, datasource_id):
     # use texts to concat all the messages
     texts = ""
     for d in sms_set:
-        texts = texts + d.text
+        texts = texts + d.modifield_text + " "
         instance = {'Country': d.country,
                     'RStation': d.rstation,
                     'SMS': d.text,

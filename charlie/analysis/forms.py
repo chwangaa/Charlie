@@ -11,10 +11,6 @@ class DataUploadForm(forms.Form):
     answer = forms.CharField(
         label='What are your options?')
 
-    def is_valid(self):
-        # TODO: check if all the necessary headings are there
-        return True
-
 
 class CreateWordForm(forms.Form):
     name = forms.CharField(

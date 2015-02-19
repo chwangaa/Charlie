@@ -1,6 +1,6 @@
 import csv
 from models import SMS
-
+from modification_rules import applyCustomizedRules
 
 def parseAnswer(answer):
     # remove extra spaces
@@ -36,6 +36,8 @@ def initializeDatabaseForDataSource(source, answer):
         text = re.sub(r'\s+', ' ', text)
         # remove any space at the front
         text = text.lstrip()
+        # apply rules
+        text = applyCustomizedRules(text)
         opinion_found = False
         for kw in interested_kwards:
             if kw in text:
