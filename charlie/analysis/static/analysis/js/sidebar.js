@@ -61,8 +61,7 @@ function capitalise(string)
     return string;
 }
 
-function renderSideBars(filters, sidebar_id){
-    $(sidebar_id).append("<h5>Countries:</h5>");
+function renderSideBars(filters){
     var ul = $('<ul/>').addClass('list-unstyled');
     for(var i = 0; i < filters.countries.length; i++) {
         var li = $('<li/>')
@@ -78,9 +77,7 @@ function renderSideBars(filters, sidebar_id){
         var label = $('<label>').html(name)
             .appendTo(li);
     }
-
-    $(sidebar_id).append(ul);
-    $(sidebar_id).append("<h5>Stations:</h5>");
+    $('#countryfilter').append(ul);
     ul = $('<ul/>').addClass('list-unstyled');
     for(var i = 0; i < filters.stations.length; i++) {
         var li = $('<li/>')
@@ -96,7 +93,7 @@ function renderSideBars(filters, sidebar_id){
         var label = $('<label>').html(name)
             .appendTo(li);
     }
-    $(sidebar_id).append(ul);
+    $('#stationfilter').append(ul);
 }
 
 

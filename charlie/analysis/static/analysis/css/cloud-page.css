@@ -1,17 +1,78 @@
 .view {
-    position: relative;
-    width: 100%;
-    height: 100%;
+    position:relative;
 }
 
+.full_icon{
+	position:absolute;
+	left:0;
+	margin:10px;
+	padding:10px;
+	background-color:#787878;
+	z-index:10;
+	color:white;
+	border-radius:2px;
+	transition: all 0.5s ease;
+	cursor:pointer;
+}
+#toggle{
+	z-index:20;
+}	
+#refresh{
+	left:50px;
+}
+
+#wrapper.toggled .view_icon{
+	left:0;
+}
+
+#cloud{
+	left:100px;
+}
+#charts{
+	left:150px;
+}
+#sms{
+	left:200px;
+}
 #cloud_question{
 	text-align:center;
-	font-size:2em;
+	font-size:1em;
 	padding:20px;
-	height:10%;
+	height:50px;
 }
 
-#canvas_container{
-	padding:20px;
-	height:90%;
+#page-content-wrapper{
+	display:inline;
+	text-align:center;
+	transition: all 0.5s ease;
+}
+
+#cloud_canvas{
+	margin:auto;
+}
+
+#page_charts{
+	margin-top: 20px;
+}
+#page_text{
+	margin-top:60px;
+}
+
+.graph{
+	text-align:center;
+	height:500px;
+	width:800px;
+	margin:auto;
+}
+
+.carousel-control{
+	color:#000;
+}
+.carousel-indicators li {
+  background-color: #999;
+  background-color: rgba(70,70,70,.25);
+}
+
+.carousel-indicators .active {
+  background-color: #444;
 }

@@ -53,11 +53,10 @@
                 <span class="sidebar-text"> SMS</span>
             </div>
             
-            <div class="sidebar-link-container" id="filters">
-                <span class="glyphicon glyphicon-triangle-top" id="arrow" aria-hidden="true"></span><span>Filters</span> 
+            <div class="sidebar-link-container filter" id="filterbyopinion">
+                <span class="glyphicon glyphicon-triangle-bottom arrow" id="arrow1" aria-hidden="true"></span><span>Filter By Opinion</span>
             </div>
-            <div id="filter-wrapper">   
-                <h5>Opinions:</h5>
+			<div class="filter-wrapper" id="opinionfilter">
                 <ul class="list-unstyled">
                 {% for opinion in opinions %}
                     <li>
@@ -68,38 +67,70 @@
                 </ul>
                 <!-- Other filter lists will be appended here by sidebar.js. -->
             </div>
+			<div class="sidebar-link-container filter" id="filterbycountry">
+                <span class="glyphicon glyphicon-triangle-bottom arrow" id="arrow2" aria-hidden="true"></span><span>Filter By Country</span>
+            </div>
+			<div class="filter-wrapper" id="countryfilter"></div>
+			<div class="sidebar-link-container filter" id="filterbystation">
+                <span class="glyphicon glyphicon-triangle-bottom arrow" id="arrow3" aria-hidden="true"></span><span>Filter By Station</span> 
+            </div>
+			<div class="filter-wrapper" id="stationfilter"></div>
     </div>
     {%endblock%}
     <!-- /#sidebar-wrapper -->
 
     <!-- Page Content -->
     <div id="page-content-wrapper">
-        <div class="container-fluid">
-            <div id="views">
-                <div class="view" id="page_cloudmap">
-                    <div id="cloud_question">{{title}}</div>
-                    <div id="canvas_container">
-                        <canvas id="cloud_canvas" width="600px" height="600px"/>
-                        </canvas>
-                    </div>
-                    <div id="cloud_tags"/>
-                    </div>
-                </div>
-                <div class="view" id="page_text">
-                    {{table}}
-                    <br/>
-                </div>
+		<div id="toggle" class="glyphicon glyphicon-fullscreen full_icon"></div>
+		<div id="refresh" class="glyphicon glyphicon-refresh full_icon"></div>
+		<div id="cloud" class="glyphicon glyphicon-cloud full_icon view_icon" switch-view="page_cloudmap"></div>
+		<div id="charts" class="glyphicon glyphicon-stats full_icon view_icon" switch-view="page_charts"></div>
+		<div id="sms" class="glyphicon glyphicon-list-alt full_icon view_icon" switch-view="page_text"></div>
+		
+		<div id="views">
+			<div class="view" id="page_cloudmap">
+				<!--<div id="cloud_question">{{title}}</div>-->
+				<canvas id="cloud_canvas" width="1000px" height="600px"/>
+				<div id="cloud_tags"/>
+				</div>
+			</div>
+			<div class="view" id="page_text">
+				{{table}}
+			</div>
+			<div class="view" id="page_charts">
+				<div id="myCarousel" class="carousel slide" data-ride="carousel">
+				  <!-- Indicators -->
+				  <ol class="carousel-indicators">
+					<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+					<li data-target="#myCarousel" data-slide-to="1"></li>
+				  </ol>
 
-                <div class="view" id="page_charts">
-                    <div class="text-vertical-center" id="pie_chart">
-                    {{pie_chart}}
-                    </div>
-                    <div class="text-vertical-center" id="column_chart">
-                    {{column_chart}}
-                    </div>
-                </div>
-            </div>
-        </div>
+				  <!-- Wrapper for slides -->
+				  <div class="carousel-inner" role="listbox">
+					<div class="item active">
+						<div class="graph" id="pie_chart">
+						{{pie_chart}}
+						</div>
+					</div>
+					<div class="item">
+						<div class="graph" id="column_chart">
+						{{column_chart}}
+						</div>
+					</div>
+				  </div>
+
+				  <!-- Left and right controls -->
+				  <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+					<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+					<span class="sr-only">Previous</span>
+				  </a>
+				  <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+					<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+					<span class="sr-only">Next</span>
+				  </a>
+				</div>
+			</div>
+		</div>
     </div>
     {%endblock%}
     <!-- /#page-content-wrapper -->
@@ -139,7 +170,7 @@ data_countries = {{data_countries | safe}}
 data_rstations = {{data_rstations | safe}}
 
 drawCloudMap(data_wordfreq, '#cloud_tags')
-renderSideBars({{sidebar_filters | safe}}, '#filter-wrapper')
+renderSideBars({{sidebar_filters | safe}})
 CTR_WINDOW = WINDOW.CHART;
 $("#wrapper").toggleClass("toggled");
 switchView();
@@ -205,20 +236,59 @@ $.ajaxSetup({
 });
     
 //Collapse filters - if you're here to clean up, this only exists here atm
-var showFilters = true;
-document.getElementById("filters").addEventListener("click",
-function(e){
-    if (showFilters) {
-        document.getElementById("filter-wrapper").style.display="none";
-        document.getElementById("arrow").className="glyphicon glyphicon-triangle-bottom";
-        showFilters=false;
-    }
-    else{
-        document.getElementById("filter-wrapper").style.display="block";
-        document.getElementById("arrow").className="glyphicon glyphicon-triangle-top";
-        showFilters=true;
+var showOpinionFilter = false;
+var showCountryFilter = false;
+var showStationFilter = false;
+document.getElementById("filterbyopinion").addEventListener("click",
+	function(e){
+		if(showCountryFilter){
+			document.getElementById("opinionfilter").style.display="none";
+			document.getElementById("arrow1").className="glyphicon glyphicon-triangle-bottom arrow";
+			showCountryFilter = false;
+		}
+		else{
+			document.getElementById("opinionfilter").style.display="block";
+			document.getElementById("arrow1").className="glyphicon glyphicon-triangle-top arrow";
+			showCountryFilter = true;
     };
 });
+document.getElementById("filterbycountry").addEventListener("click",
+	function(e){
+		if(showCountryFilter){
+			document.getElementById("countryfilter").style.display="none";
+			document.getElementById("arrow2").className="glyphicon glyphicon-triangle-bottom arrow";
+			showCountryFilter = false;
+		}
+		else{
+			document.getElementById("countryfilter").style.display="block";
+			document.getElementById("arrow2").className="glyphicon glyphicon-triangle-top arrow";
+			showCountryFilter = true;
+    };
+});
+document.getElementById("filterbystation").addEventListener("click",
+	function(e){
+		if(showStationFilter){
+			document.getElementById("stationfilter").style.display="none";
+			document.getElementById("arrow3").className="glyphicon glyphicon-triangle-bottom arrow";
+			showCountryFilter = false;
+		}
+		else{
+			document.getElementById("stationfilter").style.display="block";
+			document.getElementById("arrow3").className="glyphicon glyphicon-triangle-top arrow";
+			showCountryFilter = true;
+    };
+});
+
+var cw = document.getElementById('page-content-wrapper');
+document.getElementById('cloud_canvas').width = cw.offsetWidth;
+document.getElementById('cloud_canvas').height = cw.offsetHeight;
+document.getElementById('page_text').style.height = cw.offsetHeight;
+
+$('.carousel').carousel({
+    pause: true,
+    interval: false
+});
 </script>
+<script src ="{% static 'analysis/js/menutoggle.js' %}"></script>
 
 {%endblock%}
