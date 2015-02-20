@@ -47,7 +47,7 @@ function OnChangeStation(checkbox) {
     updateData()
 }
 
-function OnChangeStation(checkbox) {
+function OnChangeOpinion(checkbox) {
     console.log("Changed opinion!");
 }
 
