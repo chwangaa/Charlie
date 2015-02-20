@@ -11,8 +11,8 @@ function getWordFrequencyList(data){
 	var words = []
 	for(var i in data){
 		var entry = data[i]
-		if('SMS' in entry) {
-			var sms = entry['SMS'].toLowerCase()
+		if('modified_text' in entry) {
+			var sms = entry['modified_text'].toLowerCase()
 			// Remove non alphanumerical characters.
 			sms = sms.replace(/\W+/g, ' ');
 			sms = sms.split(' ');

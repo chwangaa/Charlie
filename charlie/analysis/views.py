@@ -55,6 +55,7 @@ class SMSUpdate(UpdateView):
     fields = ['country', 'text']
     template_name = 'sms_update_form.html'
 
+
 def get_object(self, queryset=None):
     obj = SMS.objects.get(id=1)
     return obj
@@ -94,6 +95,7 @@ def analysis(request, datasource_id):
                     'RStation': d.rstation,
                     'SMS': d.text,
                     'opinion': d.opinion,
+                    'modified_text': d.modifield_text,
                     'Index': d.index}
         data.append(instance)
 
