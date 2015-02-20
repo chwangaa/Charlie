@@ -121,7 +121,7 @@ def analysis(request, datasource_id):
     # get column_chart
     opinions = sms_set.values_list('opinion', flat=True).distinct()
     country_list = sms_set.values_list('country', flat=True).distinct()
-    title = "Country Break Down"
+    title = "Country Break Down Regarding: " + source.name
     countries = [str(e) for e in country_list]
     data_list = []
     for o in opinions:
