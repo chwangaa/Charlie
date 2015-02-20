@@ -196,6 +196,23 @@ def landing(request):
     return render(request, 'landing.html')
 
 
+def update_manipulated(request, datasource_id):
+    if request.method == 'POST':
+        change_list = request.POST.getlist('changes[]');
+        for change_item in change_list:
+            elem = json.loads(change_item)
+            index = elem['index']
+            opinion = elem['opinion']
+            sms = elem['sms']
+            edited_sms = DataSource.objects.get(id=datasource_id).sms_set.get(index=index)
+            edited_sms.opinion=opinion
+            edited_sms.modifield_text=sms
+            edited_sms.save()
+        return HttpResponse("Update successful")
+    else:
+        return HttpResponseBadRequest("Request should be of POST type.")
+
+
 def update(request, datasource_id):
     if request.method == 'POST':
         index = request.POST.get('index')

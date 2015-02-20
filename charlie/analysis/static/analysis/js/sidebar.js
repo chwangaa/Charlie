@@ -161,7 +161,7 @@ $.ajaxSetup({
     }
 });
 
-
+// TODO(Daria): Delete this? Seems to be just for testing. Talk to others.
 function create_post() {
     console.log("create post is working!") // sanity check
     $.ajax({
