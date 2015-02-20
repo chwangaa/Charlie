@@ -5,10 +5,13 @@ def applyCustomizedRules(text):
     text = replaceName(text, "NE")
     text = deleteSkipWords(text)
     text = deleteSingleWord(text)
+    # TO_DISCUSS
+    # translate(text)
     return text
 
 
 def replaceName(text, replaceSymbol):
+    # TODO
     return text
 
 
@@ -40,4 +43,5 @@ def deleteSingleWord(text):
 
 # this should enable 'sida' and 'aids' to be show together
 def translate(text):
+    # TODO
     return text
