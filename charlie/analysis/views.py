@@ -101,7 +101,8 @@ def analysis(request, datasource_id):
     opinions_raw = sms_set.all().values_list('opinion',flat=True).distinct()
     # cast from ustr to str
     opinions = [str(o) for o in opinions_raw]
-    opinions.append('irrelevant')
+    if 'irrelevant' not in opinions:
+        opinions.append('irrelevant')
     table = render_to_string("table.html", {"data": data, "opinions": opinions})
     # get the word frequency list
     from utils import getFrequencyList
@@ -252,7 +253,13 @@ def dataManipulation(request, datasource_id):
                     }
         data.append(instance)
 
-    opinions = ['aids', 'malaria', 'unknown', 'irrelevant']
+    # get the existing labels
+    opinions_raw = data_set.values_list('opinion',flat=True).distinct()
+
+    # cast from ustr to str
+    opinions = [str(o) for o in opinions_raw]
+    if 'irrelevant' not in opinions:
+        opinions.append('irrelevant')
 
     table = render_to_string("data_edit/table_edit.html",
                              {"data": data, "opinions": opinions})
