@@ -65,7 +65,9 @@ def delete_datasource(request):
     if request.method == 'POST':
         document_id = request.POST.get('document_id')
         # TODO(Daria): Check this is performed successfully, and send appropriate response.
-        DataSource.objects.get(pk=document_id).delete()
+        data_source = DataSource.objects.get(pk=document_id)
+        SMS.objects.filter(source=data_source).delete()
+        data_source.delete()
         return HttpResponse("Deletion successful")
     else:
         return HttpResponseBadRequest("Request should be of POST type.")
@@ -192,6 +194,23 @@ def table_view(request, datasource_id):
 
 def landing(request):
     return render(request, 'landing.html')
+
+
+def update_manipulated(request, datasource_id):
+    if request.method == 'POST':
+        change_list = request.POST.getlist('changes[]');
+        for change_item in change_list:
+            elem = json.loads(change_item)
+            index = elem['index']
+            opinion = elem['opinion']
+            sms = elem['sms']
+            edited_sms = DataSource.objects.get(id=datasource_id).sms_set.get(index=index)
+            edited_sms.opinion=opinion
+            edited_sms.modifield_text=sms
+            edited_sms.save()
+        return HttpResponse("Update successful")
+    else:
+        return HttpResponseBadRequest("Request should be of POST type.")
 
 
 def update(request, datasource_id):

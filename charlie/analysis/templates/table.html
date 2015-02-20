@@ -46,9 +46,23 @@
 </table>
 
 <script>
-    var table = $('#opinion_table').DataTable({
-    });
+    var table = $('#opinion_table').dataTable();
     
+    function applyFiltersToTables(countries, rstations) {   
+        // Create an "OR" regex from the concatenated lists of countries/stations.
+        countries = countries.map(function(e) {
+            return '('+e+')';
+        })
+        rstations = rstations.map(function(e) {
+            return '('+e+')';
+        })
+        // TODO(Daria): This is a bit hacky, clear table instead if one of the lists is empty.
+        var country_filter = (countries.length > 0) ? countries.join('|') : "nonexistentcountry";
+        var rstation_filter = (rstations.length > 0) ? rstations.join('|') : "nonexistentcountry";
+        table.fnFilter(country_filter, 1 /* column */, true /* as_regex */);
+        table.fnFilter(rstation_filter, 2 /* column */, true /* as_regex */);
+    }
+
     $('select').on('change', function() {
             id = this.id
             index = id.split('_')[1]
