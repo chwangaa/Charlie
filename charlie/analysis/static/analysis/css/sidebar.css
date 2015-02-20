@@ -28,17 +28,17 @@
 	padding:0 20px 20px 20px;
 }
 
-#filters:hover{
+.filter:hover{
 	background-color:#72D5FC;
 }
 
-#filter-wrapper{
-	display:block;
-	padding-left:20px;
+.filter-wrapper{
+	padding-left:40px;
 	color:white;
+	display:none;
 }
 
-#arrow{
+.arrow{
 	font-size:12px;
 	padding-right:10px;
 }
