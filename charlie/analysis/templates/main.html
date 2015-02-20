@@ -56,9 +56,7 @@
             <div class="sidebar-link-container" id="filters">
                 <span class="glyphicon glyphicon-triangle-top" id="arrow" aria-hidden="true"></span><span>Filters</span> 
             </div>
-            <div id="filter-wrapper">
-                <li id='li_filters'>
-                </li>   
+            <div id="filter-wrapper">   
             </div>
     </div>
     {%endblock%}
@@ -131,7 +129,7 @@ data_countries = {{data_countries | safe}}
 data_rstations = {{data_rstations | safe}}
 
 drawCloudMap(data_wordfreq, '#cloud_tags')
-renderSideBars({{sidebar_filters | safe}}, '#li_filters')
+renderSideBars({{sidebar_filters | safe}}, '#filter-wrapper')
 CTR_WINDOW = WINDOW.CHART;
 $("#wrapper").toggleClass("toggled");
 switchView();

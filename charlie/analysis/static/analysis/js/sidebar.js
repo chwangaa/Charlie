@@ -58,21 +58,26 @@ function capitalise(string)
 }
 
 function renderSideBars(filters, sidebar_id){
-    $(sidebar_id).append("Countries:<br>");
-        for(var i = 0; i < filters.countries.length; i++) {
-            var name = capitalise(filters.countries[i]);
-            var box = $('<input/>').attr({
-                type: "checkbox",
-                onclick: "OnChangeCountry(this)",
-                checked: "checked",
-                value: name
+    $(sidebar_id).append("<h5>Countries:</h5>");
+    $(sidebar_id).append("<ul>");
+    for(var i = 0; i < filters.countries.length; i++) {
+        var name = capitalise(filters.countries[i]);
+        $(sidebar_id).append('<li>');
+        var box = $('<input/>').attr({
+            type: "checkbox",
+            onclick: "OnChangeCountry(this)",
+            checked: "checked",
+            value: name
         });
         $(sidebar_id).append(box);
-        $(sidebar_id).append(" " + name + "<br>");
+        $(sidebar_id).append(" " + name + "</li>");
     }
-    $(sidebar_id).append("Stations:<br>");
+    $(sidebar_id).append("</ul>");
+    $(sidebar_id).append("<h5>Stations:</h5>");
+    $(sidebar_id).append("<ul>");
     for(var i = 0; i < filters.stations.length; i++) {
         var name = capitalise(filters.stations[i]);
+        $(sidebar_id).append('<li>');
         var box = $('<input/>').attr({
             type: "checkbox",
             onclick: "OnChangeStation(this)",
@@ -80,8 +85,9 @@ function renderSideBars(filters, sidebar_id){
             value: name
         });
         $(sidebar_id).append(box);
-        $(sidebar_id).append(" " + name + "<br>");
+        $(sidebar_id).append(" " + name + "</li>");
     }
+    $(sidebar_id).append("</ul>");
 }
 
 
