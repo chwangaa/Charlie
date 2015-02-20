@@ -148,6 +148,7 @@ def analysis(request, datasource_id):
         "column_chart": column_chart,
         "data_countries": countries,
         "data_rstations": rstations,
+        "opinions": opinions,
         "word_freq": word_freq,
         "sidebar_filters": sidebar_filters,
         "title": source.name,

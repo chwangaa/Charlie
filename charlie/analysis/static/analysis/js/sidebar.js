@@ -47,6 +47,10 @@ function OnChangeStation(checkbox) {
     updateData()
 }
 
+function OnChangeStation(checkbox) {
+    console.log("Changed opinion!");
+}
+
 function capitalise(string)
 {
     words = string.split(" ");
@@ -59,35 +63,40 @@ function capitalise(string)
 
 function renderSideBars(filters, sidebar_id){
     $(sidebar_id).append("<h5>Countries:</h5>");
-    $(sidebar_id).append("<ul>");
+    var ul = $('<ul/>').addClass('list-unstyled');
     for(var i = 0; i < filters.countries.length; i++) {
+        var li = $('<li/>')
+            .appendTo(ul);
         var name = capitalise(filters.countries[i]);
-        $(sidebar_id).append('<li>');
         var box = $('<input/>').attr({
-            type: "checkbox",
-            onclick: "OnChangeCountry(this)",
-            checked: "checked",
-            value: name
-        });
-        $(sidebar_id).append(box);
-        $(sidebar_id).append(" " + name + "</li>");
+                type: "checkbox",
+                onclick: "OnChangeCountry(this)",
+                checked: "checked",
+                value: name
+            })
+            .appendTo(li);
+        var label = $('<label>').html(name)
+            .appendTo(li);
     }
-    $(sidebar_id).append("</ul>");
+
+    $(sidebar_id).append(ul);
     $(sidebar_id).append("<h5>Stations:</h5>");
-    $(sidebar_id).append("<ul>");
+    ul = $('<ul/>').addClass('list-unstyled');
     for(var i = 0; i < filters.stations.length; i++) {
+        var li = $('<li/>')
+            .appendTo(ul);
         var name = capitalise(filters.stations[i]);
-        $(sidebar_id).append('<li>');
         var box = $('<input/>').attr({
-            type: "checkbox",
-            onclick: "OnChangeStation(this)",
-            checked: "checked",
-            value: name
-        });
-        $(sidebar_id).append(box);
-        $(sidebar_id).append(" " + name + "</li>");
+                type: "checkbox",
+                onclick: "OnChangeStation(this)",
+                checked: "checked",
+                value: name
+            })
+            .appendTo(li);
+        var label = $('<label>').html(name)
+            .appendTo(li);
     }
-    $(sidebar_id).append("</ul>");
+    $(sidebar_id).append(ul);
 }
 
 
