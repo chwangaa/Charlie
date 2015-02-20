@@ -138,8 +138,9 @@ def analysis(request, datasource_id):
     rstations = sms_set.values_list('rstation', flat=True).distinct()
     countries = [str(e) for e in countries]
     rstations = [str(e) for e in rstations]
+    opinions = [str(o) for o in opinions_raw]
     sidebar_filters = json.dumps(
-                      {"countries": countries, "stations": rstations})
+                      {"countries": countries, "stations": rstations, "opinions": opinions})
 
     context = {
         "name": request.user.username,
@@ -148,7 +149,7 @@ def analysis(request, datasource_id):
         "column_chart": column_chart,
         "data_countries": countries,
         "data_rstations": rstations,
-        "opinions": opinions,
+        "data_opinions": opinions,
         "word_freq": word_freq,
         "sidebar_filters": sidebar_filters,
         "title": source.name,

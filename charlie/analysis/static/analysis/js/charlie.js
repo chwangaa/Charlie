@@ -55,6 +55,7 @@ function getAttributeList(data, attribute){
 }
 
 function filterByCountry(data, country_names){
+	console.log("buy cntry");
 	function f(e){
 		var country_name = e.Country;
 		return (country_names.indexOf(e.Country)>=0);
@@ -63,11 +64,20 @@ function filterByCountry(data, country_names){
 }
 
 function filterByStation(data, station_names){
+	console.log("buy station");
 	function f(e){
 		var station_name = e.Country;
 		return (station_names.indexOf(e.RStation)>=0);
 	}
 	return data.filter(f);	
+}
+
+function filterByOpinion(data, opinion_names){
+	function f(e){
+		var opinion = e.opinion;
+		return (opinion_names.indexOf(e.opinion)>=0);
+	}
+	return data.filter(f);
 }
 
 function filterBy(data, attribute, value){

@@ -9,7 +9,7 @@ def parseAnswer(answer):
     # answer holds the return value
     answers = {}
     for group in groups:
-        name = group.split(':')[0]
+        name = group.split(':')[0].lower()
         options = group.split(':')[1].split(',')
         for option in options:
             option = option.lower()
