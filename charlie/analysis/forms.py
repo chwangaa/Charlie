@@ -4,7 +4,7 @@ from django import forms
 
 class DataUploadForm(forms.Form):
     docfile = forms.FileField(
-        label='Upload a new dataset for analysis!'
+        label='Upload your dataset for analysis'
     )
     question = forms.CharField(
         label='What is your question?')
@@ -41,6 +41,10 @@ class DataUploadForm(forms.Form):
             raise forms.ValidationError(
                         "ERROR: \
                         the file does not have a SMS column")
+        if 'Country' not in labels:
+            raise forms.ValidationError(
+                        "ERROR: \
+                        the file does not have a Country column")
         return docfile
 
 
