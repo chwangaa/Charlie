@@ -13,6 +13,7 @@ from forms import DataUploadForm, CreateWordForm, CreateDictForm
 from utils import initializeDatabaseForDataSource, getCount
 from django.views.generic.edit import UpdateView,CreateView
 from django_tables2 import RequestConfig
+from django.db.models import Q
 import json
 
 
@@ -216,6 +217,39 @@ def dataManipulation(request, datasource_id):
     data_set = DataSource.objects.get(id=datasource_id).sms_set.all()
     data = []
     for d in data_set:
+        instance = {'Country': d.country,
+                    'RStation': d.rstation,
+                    'Original': d.text,
+                    'Edited': d.modifield_text, 
+                    'opinion': d.opinion,
+                    'Index': d.index,
+                    }
+        data.append(instance)
+
+    # get the existing labels
+    opinions_raw = data_set.values_list('opinion',flat=True).distinct()
+
+    # cast from ustr to str
+    opinions = [str(o) for o in opinions_raw]
+    if 'irrelevant' not in opinions:
+        opinions.append('irrelevant')
+
+    table = render_to_string("data_edit/table_edit.html",
+                             {"data": data, "opinions": opinions})
+
+    name_form = CreateWordForm()
+    dict_form = CreateDictForm()
+    return render(request, 'data_edit/data_manipulation.html',
+                  {"name_form": name_form, "dict_form": dict_form, "table": table})
+
+def delD(request, datasource_id):
+    data_set = DataSource.objects.get(id=datasource_id).sms_set.all()
+    remove_dupes = data_set
+    data = []
+    for d in data_set:
+        remove_dupes = remove_dupes.exclude(Q(country__contains=d.country)& Q(rstation__contains = d.rstation)
+            &Q(text__contains=d.text)& ~Q(index__contains=d.index))
+    for d in remove_dupes:
         instance = {'Country': d.country,
                     'RStation': d.rstation,
                     'Original': d.text,

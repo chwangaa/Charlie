@@ -17,4 +17,5 @@ urlpatterns = patterns('',
     url(r'^(?P<datasource_id>\d+)/manip/update/$', views.update_manipulated, name='manip_update'),
     url(r'^(?P<datasource_id>\d+)/manip/$', views.dataManipulation, name='manipulation'),
     url(r'^(?P<datasource_id>\d+)/update/$', views.update, name='update'),
+    url(r'^(?P<datasource_id>\d+)/dele/$', views.delD, name='deleD'),
 )
