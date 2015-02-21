@@ -2,28 +2,13 @@ import csv
 from models import SMS
 from modification_rules import applyCustomizedRules
 
-def parseAnswer(answer):
-    # remove extra spaces
-    answer = answer.replace(' ', '')
-    groups = answer.split(';')
-    # answer holds the return value
-    answers = {}
-    for group in groups:
-        name = group.split(':')[0]
-        options = group.split(':')[1].split(',')
-        for option in options:
-            option = option.lower()
-            answers[option] = name
-
-    return answers
-
 
 def initializeDatabaseForDataSource(source, answer):
     csv_file_name = source.docfile.path
     csv_file = open(csv_file_name, 'r')
     csv_dict = csv.DictReader(csv_file)
 
-    dictionary = parseAnswer(answer)
+    dictionary = answer
     interested_kwards = dictionary.keys()
 
     for sms in csv_dict:
@@ -81,3 +66,16 @@ def getFrequencyList(str):
     for key in freq:
         freq_list.append({"text": key, "weight": freq[key]})
     return sorted(freq_list, key=lambda e: -e['weight'])
+
+
+def getOpinionsFrom(question):
+    # remove extra spaces
+    question = question.replace(' ', '')
+    groups = question.split(';')
+    # answer holds the return value
+    opinions = ""
+    for group in groups:
+        name = group.split(':')[0]
+        opinions = opinions + name
+
+    return opinions

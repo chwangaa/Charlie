@@ -24,7 +24,7 @@ def dashboard(request):
         if form.is_valid():
             data = form.cleaned_data
             question = data['question']
-            answers_raw = data['answer']
+            answers_raw = data['opinions']
             newdoc = DataSource(
                 docfile=request.FILES['docfile'], name=question,
                 owner=request.user)
@@ -35,7 +35,8 @@ def dashboard(request):
             # Redirect to the document list after POST
             return HttpResponseRedirect(reverse('analysis', args=[source_id]))
         else:
-            return HttpResponse("You Are mad, Wrong Format")
+            return render_to_response('dashboard.html', {'form': form, 'name': request.user.username},
+                context_instance=RequestContext(request))
     else:
         form = DataUploadForm()  # A empty, unbound form
 
@@ -79,9 +80,9 @@ def logout_view(request):
     return HttpResponseRedirect(reverse('landing'))
     # Redirect to a success page.
 
+
 @login_required
 def analysis(request, datasource_id):
-    print "analysis"
     source = DataSource.objects.get(id=datasource_id)
     sms_set = source.sms_set.all()
 
@@ -105,6 +106,7 @@ def analysis(request, datasource_id):
     opinions = [str(o) for o in opinions_raw]
     if 'irrelevant' not in opinions:
         opinions.append('irrelevant')
+
     table = render_to_string("table.html", {"data": data, "opinions": opinions})
     # get the word frequency list
     from utils import getFrequencyList

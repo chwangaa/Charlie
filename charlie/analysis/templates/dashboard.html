@@ -49,8 +49,9 @@
 					{{ form.question}}
 				</p>
 				<p>
-					{{form.answer.label_tag}}
-					{{ form.answer}}
+					{{form.opinions.label_tag}}
+					{{ form.opinions.errors }}
+					{{ form.opinions}}
 				</p>
 				<p><input type="submit" value="Upload" /></p>
 				</form>
