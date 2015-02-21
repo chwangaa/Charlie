@@ -100,47 +100,36 @@ def analysis(request, datasource_id):
                     'Index': d.index}
         data.append(instance)
 
-    # get the existing labels
-    opinions_raw = sms_set.all().values_list('opinion',flat=True).distinct()
-    # cast from ustr to str
-    opinions = [str(o) for o in opinions_raw]
-    if 'irrelevant' not in opinions:
-        opinions.append('irrelevant')
-
+    # get data for text_display_view
+    from utils import getDataSourceOpinions
+    opinions = getDataSourceOpinions(datasource_id)
     table = render_to_string("table.html", {"data": data, "opinions": opinions})
-    # get the word frequency list
+    
+    # get data for word_cloud_view
     from utils import getFrequencyList
     word_freq = json.dumps(getFrequencyList(texts))
-    # get the raw data
+
+    # get pie_chart
     data_js = json.dumps(data)
-    # get the general opinions
     opinions = sms_set.values_list('opinion', flat=True)
     data = getCount(opinions)
     title = "Overview of Opinions Regarding: " + source.name
-
-    # get pie_chart
     pie_chart_data = {"data": data, "title": title}
     pie_chart = render_to_string("pie_chart.html", pie_chart_data)
 
     # get column_chart
-    opinions = sms_set.values_list('opinion', flat=True).distinct()
-    country_list = sms_set.values_list('country', flat=True).distinct()
+    from utils import getOpinionCountryBreakDown
+    breakdown = getOpinionCountryBreakDown(datasource_id)
     title = "Country Break Down Regarding: " + source.name
-    countries = [str(e) for e in country_list]
-    data_list = []
-    for o in opinions:
-        o_data = sms_set.filter(opinion=o)
-        c_data = o_data.values_list('country', flat=True)
-        data = getCount(c_data)
-        data = [e[1] for e in data]
-        data_list.append({"name": str(o), "data": data})
-
+    countries = breakdown[0]
+    data_list = breakdown[1:]
     column_chart_data = {"data": data_list, "title": title, "countries": countries}
     column_chart = render_to_string("column_chart.html", column_chart_data)
-    # get the country list and rstation list
+    
+    # get the country list and rstation list for sidebar
     countries = sms_set.values_list('country', flat=True).distinct()
-    rstations = sms_set.values_list('rstation', flat=True).distinct()
     countries = [str(e) for e in countries]
+    rstations = sms_set.values_list('rstation', flat=True).distinct()
     rstations = [str(e) for e in rstations]
     sidebar_filters = json.dumps(
                       {"countries": countries, "stations": rstations})
@@ -160,28 +149,6 @@ def analysis(request, datasource_id):
     }
 
     return render(request, 'main.html', context)
-
-
-def charts(request, datasource_id):
-    source = DataSource.objects.get(id=datasource_id)
-    sms_set = source.sms_set.all()
-    opinions = sms_set.values_list('opinion', flat=True)
-    from utils import getCount
-    opinions = sms_set.values_list('opinion', flat=True).distinct()
-    country_list = sms_set.values_list('country', flat=True).distinct()
-    data_list = []
-    for o in opinions:
-        o_data = sms_set.filter(opinion=o)
-        c_data = sms_set.values_list('country', flat=True)
-        data = getCount(c_data)
-        data = [e[1] for e in data]
-        data_list.append({"name": str(o), "data": data})
-
-    countries = [str(e) for e in country_list]
-    print countries, "hfkdfjlkajlfkadf"
-    column_chart = {"data": data_list, "title": title, "countries": countries}
-
-    return render(request, 'chart.html', {'column_chart': column_chart})
 
 
 def table_view(request, datasource_id):

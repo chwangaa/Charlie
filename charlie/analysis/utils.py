@@ -1,5 +1,5 @@
 import csv
-from models import SMS
+from models import SMS, DataSource
 from modification_rules import applyCustomizedRules
 
 
@@ -79,3 +79,36 @@ def getOpinionsFrom(question):
         opinions = opinions + name
 
     return opinions
+
+
+def getDataSourceOpinions(datasource_id):
+    source = DataSource.objects.get(id=datasource_id)
+    sms_set = source.sms_set.all()
+    # get the existing labels
+    opinions_raw = sms_set.all().values_list('opinion',flat=True).distinct()
+    # cast from ustr to str
+    opinions = [str(o) for o in opinions_raw]
+    if 'irrelevant' not in opinions:
+        opinions.append('irrelevant')
+
+    return opinions
+
+
+def getOpinionCountryBreakDown(datasource_id):
+    source = DataSource.objects.get(id=datasource_id)
+    sms_set = source.sms_set.all()
+    
+    country_list = sms_set.values_list('country', flat=True).distinct()
+    countries = [str(e) for e in country_list]
+    opinions = sms_set.values_list('opinion', flat=True).distinct()
+    data_list = []
+    data_list.append(countries)
+    for opinion in opinions:
+        # get all messages from this country
+        opinion_sms = sms_set.filter(opinion=opinion)
+        counts = []
+        for country in countries:
+            x = opinion_sms.filter(country=country).count()
+            counts.append(x)
+        data_list.append({"name": str(opinion), "data": counts})
+    return data_list
