@@ -194,14 +194,6 @@ def update(request, datasource_id):
         return HttpResponse("haha")
 
 
-def viewWords(request):
-    words = Word.objects.all().filter(word_type='NAME')
-    table = NameTable(words)
-    RequestConfig(request, paginate=False).configure(table)
-    return render(request, 'dropwords_table_view.html', {
-        "table": table, "title": "Word List"})
-
-
 @login_required
 def dataManipulation(request, datasource_id):
     data_set = DataSource.objects.get(id=datasource_id).sms_set.all()
