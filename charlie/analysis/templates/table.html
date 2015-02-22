@@ -40,15 +40,25 @@
                         {% endif %}                            
                     {% endfor %}
                 </select></td>
+                <!-- Column is hidden in DataTable, added for filtering by opinion -->
+                <td>{{sms.opinion}}</td>
             </tr>
             {% endfor %}
         </tbody>
 </table>
 
 <script>
-    var table = $('#opinion_table').dataTable();
+    var table = $('#opinion_table').dataTable({
+        "columnDefs": [
+            {
+                "targets": [5],
+                "visible": false,
+                "searchable": true
+            }
+        ]}
+    );
     
-    function applyFiltersToTables(countries, rstations) {   
+    function applyFiltersToTables(countries, rstations, opinions) {   
         // Create an "OR" regex from the concatenated lists of countries/stations.
         countries = countries.map(function(e) {
             return '('+e+')';
@@ -56,11 +66,18 @@
         rstations = rstations.map(function(e) {
             return '('+e+')';
         })
+        opinions = opinions.map(function(e) {
+            return '('+e+')';
+        })
         // TODO(Daria): This is a bit hacky, clear table instead if one of the lists is empty.
         var country_filter = (countries.length > 0) ? countries.join('|') : "nonexistentcountry";
         var rstation_filter = (rstations.length > 0) ? rstations.join('|') : "nonexistentcountry";
+        var opinion_filter = (opinions.length > 0) ? opinions.join('|') : "nonexistentcountry";
+        console.log(opinion_filter);
+        
         table.fnFilter(country_filter, 1 /* column */, true /* as_regex */);
         table.fnFilter(rstation_filter, 2 /* column */, true /* as_regex */);
+        table.fnFilter(opinion_filter, 5 /* column */, true /* as_regex */);
     }
 
     $('select').on('change', function() {

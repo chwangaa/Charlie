@@ -4,13 +4,19 @@
 function updateData(){
   countries = getSelectedCountries();
   rstations = getSelectedRStations();
-  // progressively filter the texts by country and then by station
+  opinions = getSelectedOpinions();
+  // progressively filter the texts by country, then by station, then by opinion
   filtered_country = filterByCountry(data_raw, countries)
-  data_filtered = filterByStation(filtered_country, rstations)
+  filtered_station = filterByStation(filtered_country, rstations)
+  data_filtered = filterByOpinion(filtered_station, opinions)
   data_wordcloud = getWordFrequencyList(data_filtered)
-  applyFiltersToTables(countries, rstations);
+  applyFiltersToTables(countries, rstations, opinions);
   drawCloudMap(data_wordcloud, '#cloud_tags')
   updateList(data_filtered)
+}
+
+function getSelectedOpinions(){
+  return data_opinions;
 }
 
 function getSelectedCountries(){
@@ -28,7 +34,7 @@ function OnChangeCountry(checkbox) {
     else {
         var toRemove = checkbox.value.toLowerCase();
         data_countries = data_countries.filter(function(element) {
-          return element != toRemove
+          return element.toLowerCase() != toRemove
         });
     }
     updateData()
@@ -41,14 +47,23 @@ function OnChangeStation(checkbox) {
     else {
         var toRemove = checkbox.value.toLowerCase();
         data_rstations = data_rstations.filter(function(element) {
-          return element != toRemove
+          return element.toLowerCase() != toRemove
         });
     }
     updateData()
 }
 
 function OnChangeOpinion(checkbox) {
-    console.log("Changed opinion!");
+    if (checkbox.checked) {
+        data_opinions.push(checkbox.value.toLowerCase());
+    }
+    else {
+        var toRemove = checkbox.value.toLowerCase();
+        data_opinions = data_opinions.filter(function(element) {
+          return element.toLowerCase() != toRemove
+        });
+    }
+    updateData()
 }
 
 function capitalise(string)
@@ -77,7 +92,9 @@ function renderSideBars(filters){
         var label = $('<label>').html(name)
             .appendTo(li);
     }
-    $('#countryfilter').append(ul);
+    $(sidebar_id).append(ul);
+
+    $(sidebar_id).append("<h5>Stations:</h5>");
     ul = $('<ul/>').addClass('list-unstyled');
     for(var i = 0; i < filters.stations.length; i++) {
         var li = $('<li/>')
@@ -93,7 +110,25 @@ function renderSideBars(filters){
         var label = $('<label>').html(name)
             .appendTo(li);
     }
-    $('#stationfilter').append(ul);
+    $(sidebar_id).append(ul);
+
+    $(sidebar_id).append("<h5>Opinions:</h5>");
+    ul = $('<ul/>').addClass('list-unstyled');
+    for(var i = 0; i < filters.opinions.length; i++) {
+        var li = $('<li/>')
+            .appendTo(ul);
+        var name = capitalise(filters.opinions[i]);
+        var box = $('<input/>').attr({
+                type: "checkbox",
+                onclick: "OnChangeOpinion(this)",
+                checked: "checked",
+                value: name
+            })
+            .appendTo(li);
+        var label = $('<label>').html(name)
+            .appendTo(li);
+    }
+    $(sidebar_id).append(ul);
 }
 
 
@@ -102,6 +137,7 @@ var data_wordfreq;
 var data_filtered;
 var data_countries;
 var data_rstations;
+var data_opinions;
 var data_answers;
 var data_question;
 var data_options;
