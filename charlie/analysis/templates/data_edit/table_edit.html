@@ -3,96 +3,91 @@
 {% load staticfiles %}
 
     <link rel="stylesheet" type="text/css" href="{% static 'analysis/css/bootstrap.min.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'analysis/css/table_edit.css' %}" />
     <script src ="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src ="{% static 'analysis/js/jquery.cookie.js' %}"></script>
     <script src ="{% static 'analysis/js/bootstrap.min.js' %}"></script>
 
-<div>
-  <div class='container'>
-  <h2>{{ title }}</h2>
-  <br />
-    <div class='row'>
-    <p>Go ahead and do exactly what you what! Whether its cleaning the dataset or adding to it, we've got it all set out for you.</p>
-      <div class='col-lg-2 col-md-3'>
-        <div style='border: 1px solid #ddd; border-radius: 4px; padding: 10px 20px;'>
-          <ul class="nav nav-pills nav-stacked">
+  <div class='page_wrapper'>
+    <div class='menu'>
+		<ul class="menulist">
+			<!--I dunno where to put this message
+			<p>Go ahead and do exactly what you what! Whether its cleaning the dataset or adding to it, we've got it all set out for you.</p>-->
             {% with request.resolver_match.url_name as url_name %}
-            <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'dashboard' %}">Original Message</a></li>
-            <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Names<b class="caret"></b></a>
+			<li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'deleD' datasource_id=2 %}">Delete Duplicates</a></li>
+            <!-- Maybe not using this			
+			<li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Neutralise Names<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                        <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'dashboard' %}">Remove Name</a></li>
                        <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'add_name' %}">Add New Name</a></li>
                        <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'dashboard' %}">Review All Names</a></li>
                     </ul>
-            </li>
-            <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'deleD' datasource_id=2 %}">Delete Duplicates</a></li>
+            </li> -->
+			<li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'dashboard' %}">Neutralise Names</a></li>
             <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'dashboard' %}">None of that slang</a></li>
             <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'dashboard' %}">No unnecessary numbers</a></li>
+			<li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'dashboard' %}">Single letter, why bother?</a></li>
+			<li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'dashboard' %}">Remove skip words</a></li>
+			<li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'dashboard' %}">Shiny and new</a></li>
+			<li class='{% if url_name = "dashboard" %}active{%endif%}'id="save"><a href="#" id="savelink">Save Changes</a></li>
             {% endwith %}
           </ul>
-        </div>
-      </div>
-      <button id="save">Save Changes</button>
-      <div class='col-lg-10 col-md-9'>
-        <div id='data_pane' style='border: 1px solid #ddd; border-radius: 4px; padding: 20px 30px;'>
+	</div>
+        <div id='data_pane'>
           {% block table %}
-          <table id="edit_table" cellspacing="0" width="100%">
-        <thead>
-            <tr>
-                <th>Index</th>
-                <th>Country</th>
-                <th>RStation</th>
-                <th>Modified SMS</th>
-                <th>Original</th>
-                <th>Opinion</th>
-            </tr>
-        </thead>
- 
-        <tfoot>
-            <tr>
-                <th>Index</th>
-                <th>Country</th>
-                <th>RStation</th>
-                <th>Modified SMS</th>
-                <th>Original</th>
-                <th>Opinion</th>
-            </tr>
-        </tfoot>
- 
-        <tbody>
-            {% for sms in data %}
-            <tr>
-                <td>{{sms.Index}}</td>
-                <td>{{sms.Country}}</td>
-                <td>{{sms.RStation}}</td>
-                <td><input type='text' id="edit_{{sms.Index}}" value="{{sms.Edited}}" size="80" ></td>
-                <td>{{sms.Original}}</td>
-                <td><select size="1" id="op_{{sms.Index}}" class='option_selection'>
-                    
-                    {% for opinion in opinions %}
-                        {% if opinion == sms.opinion %}
-                            <option value="{{opinion}}" selected>
-                                {{opinion}}
-                            </option>
-                        {% else %}
-                            <option value="{{opinion}}">
-                                {{opinion}}
-                            </option>
-                        {% endif %}                            
-                    {% endfor %}
-                </select>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-</table>
+				<table id="edit_table" cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th>Index</th>
+						<th>Country</th>
+						<th>RStation</th>
+						<th>Modified SMS</th>
+						<th>Original</th>
+						<th>Opinion</th>
+					</tr>
+				</thead>
+		 
+				<tfoot>
+					<tr>
+						<th>Index</th>
+						<th>Country</th>
+						<th>RStation</th>
+						<th>Modified SMS</th>
+						<th>Original</th>
+						<th>Opinion</th>
+					</tr>
+				</tfoot>
+		 
+				<tbody>
+					{% for sms in data %}
+					<tr>
+						<td>{{sms.Index}}</td>
+						<td>{{sms.Country}}</td>
+						<td>{{sms.RStation}}</td>
+						<td><input type='text' id="edit_{{sms.Index}}" value="{{sms.Edited}}" size="80" ></td>
+						<td>{{sms.Original}}</td>
+						<td><select size="1" id="op_{{sms.Index}}" class='option_selection'>
+							{% for opinion in opinions %}
+								{% if opinion == sms.opinion %}
+									<option value="{{opinion}}" selected>
+										{{opinion}}
+									</option>
+								{% else %}
+									<option value="{{opinion}}">
+										{{opinion}}
+									</option>
+								{% endif %}                            
+							{% endfor %}
+						</select>
+						</td>
+					</tr>
+					{% endfor %}
+					</tbody>
+				</table>
           {% endblock %}
         </div>
-      </div>
-    </div>
-  </div>
-</div>
+     </div>
 
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.4/js/jquery.dataTables.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/plug-ins/9dcbecd42ad/integration/jqueryui/dataTables.jqueryui.js"></script>
