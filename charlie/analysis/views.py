@@ -52,17 +52,6 @@ def dashboard(request):
     )
 
 
-class SMSUpdate(UpdateView):
-    model = SMS
-    fields = ['country', 'text']
-    template_name = 'sms_update_form.html'
-
-
-def get_object(self, queryset=None):
-    obj = SMS.objects.get(id=1)
-    return obj
-
-
 @login_required
 def delete_datasource(request): 
     if request.method == 'POST':
