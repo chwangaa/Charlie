@@ -40,45 +40,24 @@
                         {% endif %}                            
                     {% endfor %}
                 </select></td>
+                <!-- Column is hidden in DataTable, added for filtering by opinion -->
+                <td id="op_{{sms.Index}}">{{sms.opinion}}</td>
             </tr>
             {% endfor %}
         </tbody>
 </table>
 
 <script>
-    //var table = $('#opinion_table').dataTable();
-    var table = $('#opinion_table').dataTable();
-
-    function applyFiltersToTables(countries, rstations, opinions) {   
-        // Create an "OR" regex from the concatenated lists of countries/stations.
-        countries = countries.map(function(e) {
-            return '('+e+')';
-        })
-        rstations = rstations.map(function(e) {
-            return '('+e+')';
-        })
-        opinions = opinions.map(function(e) {
-            return '('+e+')';
-        })
-        // TODO(Daria): This is a bit hacky, clear table instead if one of the lists is empty.
-        var country_filter = (countries.length > 0) ? countries.join('|') : "nonexistentcountry";
-        var rstation_filter = (rstations.length > 0) ? rstations.join('|') : "nonexistentcountry";
-        var opinion_filter = (opinions.length > 0) ? opinions.join('|') : "nonexistentcountry";
-        console.log(opinion_filter); 
-        yadcf.init(myTable, [
-        {column_number : 1},
-        {column_number : 1, filter_type: "range_number_slider", filter_container_id: "external_filter_container"},
-        {column_number : 2, data: ["Yes", "No"], filter_default_label: "Select Yes/No"},
-        {column_number : 3, filter_type: "auto_complete", text_data_delimiter: ","},
-        {column_number : 4, column_data_type: "html", html_data_type: "text", filter_default_label: "Select tag"}]);
-       // table.fnFilter(country_filter, 1 /* column */, true /* as_regex */);
-        //table.fnFilter(rstation_filter, 2 /* column */, true /* as_regex */);
-        //table.yadcf([{column_number:0}])
-        //table.fnFilter(opinion_filter, 4 /* column */, true /* as_regex */);
-    }
-
+    var table = $('#opinion_table').dataTable({
+        "columnDefs": [
+            {
+                "targets": [5],
+                "visible": false,
+                "searchable": true
+            }
+        ]}
+    );
     
-    /*
     function applyFiltersToTables(countries, rstations, opinions) {   
         // Create an "OR" regex from the concatenated lists of countries/stations.
         countries = countries.map(function(e) {
@@ -94,12 +73,12 @@
         var country_filter = (countries.length > 0) ? countries.join('|') : "nonexistentcountry";
         var rstation_filter = (rstations.length > 0) ? rstations.join('|') : "nonexistentcountry";
         var opinion_filter = (opinions.length > 0) ? opinions.join('|') : "nonexistentcountry";
-        console.log(opinion_filter); */
-       // table.fnFilter(country_filter, 1 /* column */, true /* as_regex */);
-        //table.fnFilter(rstation_filter, 2 /* column */, true /* as_regex */);
-        //table.yadcf([{column_number:0}])
-        //table.fnFilter(opinion_filter, 4 /* column */, true /* as_regex */);
-    //}
+        console.log(opinion_filter);
+        
+        table.fnFilter(country_filter, 1 /* column */, true /* as_regex */);
+        table.fnFilter(rstation_filter, 2 /* column */, true /* as_regex */);
+        table.fnFilter(opinion_filter, 5 /* column */, true /* as_regex */);
+    }
 
     $('select').on('change', function() {
             id = this.id
