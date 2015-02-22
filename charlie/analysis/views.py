@@ -11,7 +11,7 @@ from table import NameTable, DictTable
 from models import DataSource, SMS, Word
 from forms import DataUploadForm, CreateWordForm, CreateDictForm
 from utils import initializeDatabaseForDataSource, getCount
-from django.views.generic.edit import UpdateView,CreateView
+from django.views.generic.edit import UpdateView, CreateView
 from django_tables2 import RequestConfig
 from django.db.models import Q
 import json
@@ -94,7 +94,7 @@ def analysis(request, datasource_id):
     from utils import getDataSourceOpinions
     opinions = getDataSourceOpinions(datasource_id)
     table = render_to_string("table.html", {"data": data, "opinions": opinions})
-    
+
     # get data for word_cloud_view
     from utils import getFrequencyList
     word_freq = json.dumps(getFrequencyList(texts))
@@ -113,9 +113,11 @@ def analysis(request, datasource_id):
     title = "Country Break Down Regarding: " + source.name
     countries = breakdown[0]
     data_list = breakdown[1:]
-    column_chart_data = {"data": data_list, "title": title, "countries": countries}
+    column_chart_data = {"data": data_list,
+                         "title": title,
+                         "countries": countries}
     column_chart = render_to_string("column_chart.html", column_chart_data)
-    
+
     # get the country list and rstation list for sidebar
     countries = sms_set.values_list('country', flat=True).distinct()
     countries = [str(e) for e in countries]
@@ -123,7 +125,9 @@ def analysis(request, datasource_id):
     rstations = [str(e) for e in rstations]
     opinions = getDataSourceOpinions(datasource_id)
     sidebar_filters = json.dumps(
-                      {"countries": countries, "stations": rstations, "opinions": opinions})
+                      {"countries": countries,
+                       "stations": rstations,
+                       "opinions": opinions})
 
     context = {
         "name": request.user.username,
@@ -142,56 +146,8 @@ def analysis(request, datasource_id):
     return render(request, 'main.html', context)
 
 
-def table_view(request, datasource_id):
-    data_set = DataSource.objects.get(id=datasource_id).sms_set.all()
-    data = []
-    for d in data_set:
-        instance = {'Country': d.country,
-                    'RStation': d.rstation,
-                    'SMS': d.text,
-                    'opinion': d.opinion}
-        data.append(instance)
-    data_js = json.dumps(data)
-
-    return render(request, 'table.html', {"data": data_js})
-
-
 def landing(request):
     return render(request, 'landing.html')
-
-
-def update_manipulated(request, datasource_id):
-    if request.method == 'POST':
-        change_list = request.POST.getlist('changes[]');
-        for change_item in change_list:
-            elem = json.loads(change_item)
-            index = elem['index']
-            opinion = elem['opinion']
-            sms = elem['sms']
-            edited_sms = DataSource.objects.get(id=datasource_id).sms_set.get(index=index)
-            edited_sms.opinion=opinion
-            edited_sms.modifield_text=sms
-            edited_sms.save()
-        return HttpResponse("Update successful")
-    else:
-        return HttpResponseBadRequest("Request should be of POST type.")
-
-
-def update(request, datasource_id):
-    if request.method == 'POST':
-        index = request.POST.get('index')
-        opinion = request.POST.get('opinion')
-        print index
-        sms = DataSource.objects.get(id=datasource_id).sms_set.get(index=index)
-        sms.opinion = opinion
-        sms.save()
-
-        return HttpResponse(
-                            json.dumps({'text': sms.opinion}),
-                            content_type = 'application/json'
-                            )
-    else:
-        return HttpResponse("haha")
 
 
 @login_required
@@ -202,14 +158,14 @@ def dataManipulation(request, datasource_id):
         instance = {'Country': d.country,
                     'RStation': d.rstation,
                     'Original': d.text,
-                    'Edited': d.modifield_text, 
+                    'Edited': d.modifield_text,
                     'opinion': d.opinion,
                     'Index': d.index,
                     }
         data.append(instance)
 
     # get the existing labels
-    opinions_raw = data_set.values_list('opinion',flat=True).distinct()
+    opinions_raw = data_set.values_list('opinion', flat=True).distinct()
 
     # cast from ustr to str
     opinions = [str(o) for o in opinions_raw]
@@ -223,6 +179,7 @@ def dataManipulation(request, datasource_id):
     dict_form = CreateDictForm()
     return render(request, 'data_edit/data_manipulation.html',
                   {"name": request.user.username, "name_form": name_form, "dict_form": dict_form, "table": table})
+
 
 def delD(request, datasource_id):
     data_set = DataSource.objects.get(id=datasource_id).sms_set.all()
@@ -318,37 +275,3 @@ def addDictView(request):
         {"table": table, 'form': form, 'name': request.user.username},
         context_instance=RequestContext(request)
     )
-
-
-@login_required
-def addName(request):
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        new_name = Word(word=name, word_type="NAME")
-        new_name.save()
-        print "new name created", name
-        return HttpResponse(
-                            json.dumps({'text': "new name entry made"}),
-                            content_type = 'application/json'
-                            )
-    else:
-        return HttpResponse("Creating Name Failed")
-
-
-@login_required
-def addDict(request):
-    if request.method == 'POST':
-        word = request.POST.get('word')
-        trans = request.POST.get('trans')
-        lang = request.POST.get('lang')
-        new_dict = Word(word=word, language=lang, translation=trans,
-                        word_type="DICT")
-        new_dict.save()
-        print "new name created", new_dict
-
-        return HttpResponse(
-                            json.dumps({'text': "new dict entry made"}),
-                            content_type = 'application/json'
-                            )
-    else:
-        return HttpResponse("Creating dictionary entry failed")
