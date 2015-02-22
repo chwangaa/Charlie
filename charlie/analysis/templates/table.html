@@ -49,6 +49,7 @@
 
 <script>
     var table = $('#opinion_table').dataTable({
+        "iDisplayLength": 100,
         "columnDefs": [
             {
                 "targets": [5],
@@ -73,7 +74,6 @@
         var country_filter = (countries.length > 0) ? countries.join('|') : "nonexistentcountry";
         var rstation_filter = (rstations.length > 0) ? rstations.join('|') : "nonexistentcountry";
         var opinion_filter = (opinions.length > 0) ? opinions.join('|') : "nonexistentcountry";
-        console.log(opinion_filter);
         
         table.fnFilter(country_filter, 1 /* column */, true /* as_regex */);
         table.fnFilter(rstation_filter, 2 /* column */, true /* as_regex */);

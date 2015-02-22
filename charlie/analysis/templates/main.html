@@ -204,14 +204,6 @@ function switchView(){
     //TODO: precise FSM specification
     $(' .view').hide();
     $('#' + CTR_WINDOW.id).show();
-/*
-    if(CTR_WINDOW == WINDOW.CHART){
-        $('#filters').hide()
-    }
-    else{
-        $('#filters').show()
-    }
-*/
 }
 
 var csrftoken = $.cookie('csrftoken');
@@ -282,6 +274,7 @@ $('.carousel').carousel({
     pause: true,
     interval: false
 });
+
 </script>
 <script src ="{% static 'analysis/js/menutoggle.js' %}"></script>
 
