@@ -56,21 +56,13 @@
             <div class="sidebar-link-container filter" id="filterbyopinion">
                 <span class="glyphicon glyphicon-triangle-bottom arrow" id="arrow1" aria-hidden="true"></span><span>Filter By Opinion</span>
             </div>
-			<div class="filter-wrapper" id="opinionfilter">
-                <ul class="list-unstyled">
-                {% for opinion in opinions %}
-                    <li>
-                        <input type="checkbox" onclick="OnChangeOpinion(this)" checked="checked" value={{opinion}}/>
-                        <label>{{opinion}}</label>
-                    </li>
-                {% endfor %}
-                </ul>
-                <!-- Other filter lists will be appended here by sidebar.js. -->
-            </div>
+            <div class="filter-wrapper" id="opinionfilter"></div>
+
 			<div class="sidebar-link-container filter" id="filterbycountry">
                 <span class="glyphicon glyphicon-triangle-bottom arrow" id="arrow2" aria-hidden="true"></span><span>Filter By Country</span>
             </div>
 			<div class="filter-wrapper" id="countryfilter"></div>
+
 			<div class="sidebar-link-container filter" id="filterbystation">
                 <span class="glyphicon glyphicon-triangle-bottom arrow" id="arrow3" aria-hidden="true"></span><span>Filter By Station</span> 
             </div>
@@ -145,6 +137,7 @@ var data_wordfreq;
 var data_filtered;
 var data_countries;
 var data_rstations;
+var data_opinions;
 var data_answers;
 var data_question;
 var data_options;
@@ -168,6 +161,7 @@ data_filtered = data_raw
 data_wordfreq = {{word_freq | safe }}
 data_countries = {{data_countries | safe}}
 data_rstations = {{data_rstations | safe}}
+data_opinions = {{data_opinions | safe}}
 
 drawCloudMap(data_wordfreq, '#cloud_tags')
 renderSideBars({{sidebar_filters | safe}})

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"><![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js" lang="en"><!--<![endif]-->
+	<head>
+		<meta charset="utf-8">
+		<title>jquery.awesomeCloud Demo</title>
+		<meta name="description" content="A Word Cloud plugin for jQuery.">
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+		<script src="js/tagcanvas.min.js"></script>
+    	<link href="css/bootstrap.min.css" rel="stylesheet">
+		<style type="text/css">
+			.wordcloud {
+				border: 1px solid #036;
+				height: 7in;
+				margin: 0.5in auto;
+				padding: 0;
+				page-break-after: always;
+				page-break-inside: avoid;
+				width: 7in;
+			}
+			canvas:hover {
+				border: 1px solid #036;
+				visibility: visible;
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<h1>IndyArmy Network, Inc.</h1>
+			<h2>jquery.awesomeCloud</h2>
+			<span class= "word">quisqu</span>
+		</header>
+		<div role="main">
+			<p>Square, automatic scaling, print-ready, randomized word order</p>
+			<div id="wordcloud1" class="wordcloud">
+				<span class= "word" data-weight="40">quisqu</span><span class= "word" data-weight="27">egesta</span><span class= "word" data-weight="38">puru</span>
+			</div>
+		</div>
+		<footer>
+			<p>Licensed under the <a href="http://www.gnu.org/licenses/gpl.html">GPL v3</a></p>
+		</footer>
+		<script>
+			$(document).ready(function(){
+				$("#wordcloud1").awesomeCloud({
+					"size" : {
+						"grid" : 16,
+						"normalize" : false
+					},
+					"options" : {
+						"color" : "random-dark",
+						"rotationRatio" : 0.35,
+						"printMultiplier" : 3,
+						"sort" : "random"
+					},
+					"font" : "'Times New Roman', Times, serif",
+					"shape" : "square"
+				});
+				$("#wordcloud2").awesomeCloud({
+					"size" : {
+						"grid" : 9,
+						"factor" : 1
+					},
+					"options" : {
+						"color" : "random-dark",
+						"rotationRatio" : 0.35
+					},
+					"font" : "'Times New Roman', Times, serif",
+					"shape" : "circle"
+				});
+				$("#wordcloud3").awesomeCloud({
+					"size" : {
+						"grid" : 1,
+						"factor" : 3
+					},
+					"color" : {
+						"background" : "#036"
+					},
+					"options" : {
+						"color" : "random-light",
+						"rotationRatio" : 0.5,
+						"printMultiplier" : 3
+					},
+					"font" : "'Times New Roman', Times, serif",
+					"shape" : "star"
+				});
+			});
+		</script>
+		<!--[if lt IE 7 ]>
+		<script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+		<script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+		<![endif]-->
+	</body>
+</html>
