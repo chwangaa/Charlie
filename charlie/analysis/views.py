@@ -241,7 +241,7 @@ def dataManipulation(request, datasource_id):
     name_form = CreateWordForm()
     dict_form = CreateDictForm()
     return render(request, 'data_edit/data_manipulation.html',
-                  {"name_form": name_form, "dict_form": dict_form, "table": table})
+                  {"name": request.user.username, "name_form": name_form, "dict_form": dict_form, "table": table})
 
 def delD(request, datasource_id):
     data_set = DataSource.objects.get(id=datasource_id).sms_set.all()
