@@ -2,7 +2,6 @@ import csv
 from models import SMS, DataSource
 from modification_rules import applyCustomizedRules
 
-
 def initializeDatabaseForDataSource(source, answer):
     csv_file_name = source.docfile.path
     csv_file = open(csv_file_name, 'r')

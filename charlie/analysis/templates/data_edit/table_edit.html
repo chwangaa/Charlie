@@ -12,7 +12,7 @@
   <h2>{{ title }}</h2>
   <br />
     <div class='row'>
-    <p>fjdlkfjasldkfjlakfj;asfl</p>
+    <p>Go ahead and do exactly what you what! Whether its cleaning the dataset or adding to it, we've got it all set out for you.</p>
       <div class='col-lg-2 col-md-3'>
         <div style='border: 1px solid #ddd; border-radius: 4px; padding: 10px 20px;'>
           <ul class="nav nav-pills nav-stacked">
@@ -26,8 +26,9 @@
                        <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'dashboard' %}">Review All Names</a></li>
                     </ul>
             </li>
-            <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'dashboard' %}">Remove Sin</a></li>
-            <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'dashboard' %}">Remove Stupidity</a></li>
+            <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'deleD' datasource_id=2 %}">Delete Duplicates</a></li>
+            <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'dashboard' %}">None of that slang</a></li>
+            <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'dashboard' %}">No unnecessary numbers</a></li>
             {% endwith %}
           </ul>
         </div>
