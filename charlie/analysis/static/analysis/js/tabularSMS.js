@@ -55,3 +55,11 @@ function displayTable(opinion){
     CTR_WINDOW = WINDOW.LIST
     switchView()
 }
+
+function displayTable(opinion, country){
+    d1 = filterBy(data_filtered, 'opinion', opinion)
+    d2 = filterBy(d1, 'Country', country)
+    updateList(d2)
+    CTR_WINDOW = WINDOW.LIST
+    switchView()
+}
