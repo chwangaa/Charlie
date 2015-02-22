@@ -49,17 +49,14 @@ function updateList(data){
         } );
 }
 
-function displayTable(opinion){
-    d = filterBy(data_filtered, 'opinion', opinion)
-    updateList(d)
-    CTR_WINDOW = WINDOW.LIST
-    switchView()
-}
-
 function displayTable(opinion, country){
-    d1 = filterBy(data_filtered, 'opinion', opinion)
-    d2 = filterBy(d1, 'Country', country)
-    updateList(d2)
+    if(country != undefined){
+        countries = [country]
+    }
+    else{
+        countries = data_countries
+    }
+    applyFiltersToTables(countries, data_rstations, [opinion])
     CTR_WINDOW = WINDOW.LIST
     switchView()
 }
