@@ -6,7 +6,7 @@
 <script src ="{% static 'analysis/js/jquery.cookie.js' %}"></script>
 
 <div>
-	<form method="post" id='add_name_form' call='/analaysis/addName'>
+	<form method="post" id='add_name_form' call='/analaysis/addName' style='display:none'>
 	{% csrf_token %}
 	{{name_form.as_p}}
 	<p><input type="submit" value="Upload"/></p>
@@ -14,7 +14,7 @@
 </div>
 
 <div>
-	<form method="post" id='add_dict_form' call='/analysis/addDict'>
+	<form method="post" id='add_dict_form' call='/analysis/addDict' style='display:none'>
 	{% csrf_token %}
 	{{dict_form.as_p}}
 	<p><input type="submit" value="Upload" /></p>
