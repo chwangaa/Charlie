@@ -312,12 +312,14 @@ def replaceSlang(request, datasource_id):
     opinions = getDataSourceOpinions(datasource_id)
     
     table = render_to_string("data_edit/table_edit.html",
-                             {"data": data, "opinions": opinions})
+                             {"datasource_id": datasource_id,
+                              "data": data, "opinions": opinions})
 
     name_form = CreateNameForm()
     dict_form = CreateDictForm()
     return render(request, 'data_edit/data_manipulation.html',
                   {"name_form": name_form, "dict_form": dict_form, "table": table})
+
 
 def doAll(request, datasource_id):
     data_set = DataSource.objects.get(id=datasource_id).sms_set.all()
@@ -336,12 +338,14 @@ def doAll(request, datasource_id):
     opinions = getDataSourceOpinions(datasource_id)
 
     table = render_to_string("data_edit/table_edit.html",
-                             {"data": data, "opinions": opinions})
+                             {"datasource_id": datasource_id,
+                              "data": data, "opinions": opinions})
 
     name_form = CreateNameForm()
     dict_form = CreateDictForm()
     return render(request, 'data_edit/data_manipulation.html',
                   {"name_form": name_form, "dict_form": dict_form, "table": table})
+
 
 def addNameView(request):
     if request.method == 'POST':
@@ -372,6 +376,7 @@ def addNameView(request):
          'name': request.user.username},
         context_instance=RequestContext(request)
     )
+
 
 def addDictView(request):
     if request.method == 'POST':
