@@ -30,6 +30,7 @@ def replaceName(text, replaceSymbol):
                 'word', flat=True)
     words = text.split()
     words_modified = []
+    names = [name.lower() for name in names]
     for w in words:
         if w in names:
             continue
