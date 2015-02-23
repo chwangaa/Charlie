@@ -1,5 +1,5 @@
 import json
-from models import DataSource, Word
+from models import DataSource, Word, SMS
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
 
@@ -12,11 +12,13 @@ def update_manipulated(request, datasource_id):
             index = elem['index']
             opinion = elem['opinion']
             sms = elem['sms']
-            edited_sms = DataSource.objects.get(
-                id=datasource_id).sms_set.get(index=index)
+            datasource = DataSource.objects.get(id=datasource_id)
+            edited_sms = datasource.sms_set.get(index=index)
             edited_sms.opinion = opinion
             edited_sms.modifield_text = sms
             edited_sms.save()
+            datasource.modified = True
+            datasource.save()
         return HttpResponse("Update successful")
     else:
         return HttpResponseBadRequest("Request should be of POST type.")
@@ -26,9 +28,12 @@ def update(request, datasource_id):
     if request.method == 'POST':
         index = request.POST.get('index')
         opinion = request.POST.get('opinion')
-        sms = DataSource.objects.get(id=datasource_id).sms_set.get(index=index)
+        datasource = DataSource.objects.get(id=datasource_id)
+        sms = datasource.sms_set.get(index=index)
         sms.opinion = opinion
         sms.save()
+        datasource.modified = True
+        datasource.save()
 
         return HttpResponse(
                             json.dumps({'text': sms.opinion}),
@@ -70,3 +75,32 @@ def addDict(request):
                             )
     else:
         return HttpResponse("Creating dictionary entry failed")
+
+
+@login_required
+def delete_datasource(request):
+    if request.method == 'POST':
+        document_id = request.POST.get('document_id')
+        # TODO(Daria): Check this is performed successfully, and send appropriate response.
+        data_source = DataSource.objects.get(pk=document_id)
+        SMS.objects.filter(source=data_source).delete()
+        data_source.delete()
+        return HttpResponse("Deletion successful")
+    else:
+        return HttpResponseBadRequest("Request should be of POST type.")
+
+
+@login_required
+def downloadFile(request, datasource_id):
+    datasource = DataSource.objects.get(id=datasource_id)
+    if datasource.modified is True:
+        from utils import updateFile
+        if updateFile(datasource) == True:
+            datasource.modified = False
+        else:
+            raise Exception("update file not successful")
+
+    file = DataSource.objects.get(id=datasource_id).docfile
+    response = HttpResponse(file, content_type="application/csv")
+    response['Content-Disposition'] = 'attachment; filename = "bla.csv"'
+    return response

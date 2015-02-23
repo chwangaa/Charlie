@@ -52,19 +52,6 @@ def dashboard(request):
     )
 
 
-@login_required
-def delete_datasource(request): 
-    if request.method == 'POST':
-        document_id = request.POST.get('document_id')
-        # TODO(Daria): Check this is performed successfully, and send appropriate response.
-        data_source = DataSource.objects.get(pk=document_id)
-        SMS.objects.filter(source=data_source).delete()
-        data_source.delete()
-        return HttpResponse("Deletion successful")
-    else:
-        return HttpResponseBadRequest("Request should be of POST type.")
-
-
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse('landing'))
@@ -173,12 +160,16 @@ def dataManipulation(request, datasource_id):
         opinions.append('irrelevant')
 
     table = render_to_string("data_edit/table_edit.html",
-                             {"data": data, "opinions": opinions})
+                             {"data": data, "opinions": opinions,
+                              "datasource_id": datasource_id})
 
     name_form = CreateWordForm()
     dict_form = CreateDictForm()
+    print datasource_id
     return render(request, 'data_edit/data_manipulation.html',
-                  {"name": request.user.username, "name_form": name_form, "dict_form": dict_form, "table": table})
+                  {"name": request.user.username, "name_form": name_form,
+                   "dict_form": dict_form, "table": table,
+                   "datasource_id": datasource_id})
 
 
 def delD(request, datasource_id):

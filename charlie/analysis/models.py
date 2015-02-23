@@ -5,7 +5,9 @@ from django.contrib.auth.models import User
 class DataSource(models.Model):
     docfile = models.FileField(upload_to='data/%Y/%m/%d')
     name = models.CharField(max_length=100)
+    opinions = models.CharField(max_length=50)
     owner = models.ForeignKey(User, related_name='owned_data')
+    modified = models.BooleanField(default=False)
 
 
 class SMS(models.Model):
