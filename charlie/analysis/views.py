@@ -194,6 +194,150 @@ def delD(request, datasource_id):
     return render(request, 'data_edit/data_manipulation.html',
                   {"name_form": name_form, "dict_form": dict_form, "table": table})
 
+def replaceNames(request, datasource_id):
+    data_set = DataSource.objects.get(id=datasource_id).sms_set.all()
+    data = []
+    for d in data_set:
+        d.text = mo.replaceName(d.text,"NE")
+        instance = {'Country': d.country,
+                    'RStation': d.rstation,
+                    'Original': d.text,
+                    'Edited': d.modifield_text, 
+                    'opinion': d.opinion,
+                    'Index': d.index,
+                    }
+        data.append(instance)
+
+    opinions = getDataSourceOpinions(datasource_id)
+
+    table = render_to_string("data_edit/table_edit.html",
+                             {"data": data, "opinions": opinions})
+
+    name_form = CreateWordForm()
+    dict_form = CreateDictForm()
+    return render(request, 'data_edit/data_manipulation.html',
+                  {"name_form": name_form, "dict_form": dict_form, "table": table})
+
+def removeSkipWords(request, datasource_id):
+    data_set = DataSource.objects.get(id=datasource_id).sms_set.all()
+    data = []
+    for d in data_set:
+        d.text = mo.deleteSkipWords(d.text)
+        instance = {'Country': d.country,
+                    'RStation': d.rstation,
+                    'Original': d.text,
+                    'Edited': d.modifield_text, 
+                    'opinion': d.opinion,
+                    'Index': d.index,
+                    }
+        data.append(instance)
+
+    opinions = getDataSourceOpinions(datasource_id)
+
+    table = render_to_string("data_edit/table_edit.html",
+                             {"data": data, "opinions": opinions})
+
+    name_form = CreateWordForm()
+    dict_form = CreateDictForm()
+    return render(request, 'data_edit/data_manipulation.html',
+                  {"name_form": name_form, "dict_form": dict_form, "table": table})
+
+def removeSingleLetterMsgs(request, datasource_id):
+    data_set = DataSource.objects.get(id=datasource_id).sms_set.all()
+    data = []
+    for d in data_set:
+        d.text = mo.deleteSingleWord(d.text)
+        instance = {'Country': d.country,
+                    'RStation': d.rstation,
+                    'Original': d.text,
+                    'Edited': d.modifield_text, 
+                    'opinion': d.opinion,
+                    'Index': d.index,
+                    }
+        data.append(instance)
+
+    opinions = getDataSourceOpinions(datasource_id)
+
+    table = render_to_string("data_edit/table_edit.html",
+                             {"data": data, "opinions": opinions})
+
+    name_form = CreateWordForm()
+    dict_form = CreateDictForm()
+    return render(request, 'data_edit/data_manipulation.html',
+                  {"name_form": name_form, "dict_form": dict_form, "table": table})
+
+def removeNumbers(request, datasource_id):
+    #call after slang function
+    data_set = DataSource.objects.get(id=datasource_id).sms_set.all()
+    data = []
+    for d in data_set:
+        d.text = mo.deleteNumbers(d.text)
+        instance = {'Country': d.country,
+                    'RStation': d.rstation,
+                    'Original': d.text,
+                    'Edited': d.modifield_text, 
+                    'opinion': d.opinion,
+                    'Index': d.index,
+                    }
+        data.append(instance)
+
+    opinions = getDataSourceOpinions(datasource_id)
+
+    table = render_to_string("data_edit/table_edit.html",
+                             {"data": data, "opinions": opinions})
+
+    name_form = CreateWordForm()
+    dict_form = CreateDictForm()
+    return render(request, 'data_edit/data_manipulation.html',
+                  {"name_form": name_form, "dict_form": dict_form, "table": table})
+
+def replaceSlang(request, datasource_id):
+    data_set = DataSource.objects.get(id=datasource_id).sms_set.all()
+    data = []
+    for d in data_set: 
+        d.text = mo.replaceSlangWords(d.text)
+        instance = {'Country': d.country,
+                    'RStation': d.rstation,
+                    'Original': d.text,
+                    'Edited': d.modifield_text, 
+                    'opinion': d.opinion,
+                    'Index': d.index,
+                    }
+        data.append(instance)
+
+    opinions = getDataSourceOpinions(datasource_id)
+    
+    table = render_to_string("data_edit/table_edit.html",
+                             {"data": data, "opinions": opinions})
+
+    name_form = CreateWordForm()
+    dict_form = CreateDictForm()
+    return render(request, 'data_edit/data_manipulation.html',
+                  {"name_form": name_form, "dict_form": dict_form, "table": table})
+
+def doAll(request, datasource_id):
+    data_set = DataSource.objects.get(id=datasource_id).sms_set.all()
+    data = []
+    for d in data_set:
+        d.text = mo.applyCustomizedRules(d.text)
+        instance = {'Country': d.country,
+                    'RStation': d.rstation,
+                    'Original': d.text,
+                    'Edited': d.modifield_text, 
+                    'opinion': d.opinion,
+                    'Index': d.index,
+                    }
+        data.append(instance)
+
+    opinions = getDataSourceOpinions(datasource_id)
+
+    table = render_to_string("data_edit/table_edit.html",
+                             {"data": data, "opinions": opinions})
+
+    name_form = CreateWordForm()
+    dict_form = CreateDictForm()
+    return render(request, 'data_edit/data_manipulation.html',
+                  {"name_form": name_form, "dict_form": dict_form, "table": table})
 
 def addNameView(request):
     if request.method == 'POST':
@@ -224,7 +368,6 @@ def addNameView(request):
          'name': request.user.username},
         context_instance=RequestContext(request)
     )
-
 
 def addDictView(request):
     if request.method == 'POST':

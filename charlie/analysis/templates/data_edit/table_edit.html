@@ -16,12 +16,13 @@
             {% with request.resolver_match.url_name as url_name %}
 			<li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'deleD' datasource_id %}">Delete Duplicates</a></li>
             
-			<li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'dashboard' %}">Neutralise Names</a></li>
-            <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'dashboard' %}">None of that slang</a></li>
-            <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'dashboard' %}">No unnecessary numbers</a></li>
-			<li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'dashboard' %}">Single letter, why bother?</a></li>
-			<li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'dashboard' %}">Remove skip words</a></li>
-			<li class='{% if url_name = "download" %}active{%endif%}'><a href="{% url "download" datasource_id %}" id="download_button">Download File</a></li>
+			<li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'replaceNames' datasource_id=1 %}">Neutralise Names</a></li>
+            <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'repSlang' datasource_id=1 %}">None of that slang</a></li>
+            <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'remNums' datasource_id=1 %}">No unnecessary numbers</a></li>
+            <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'remSins' datasource_id=1 %}">Single letter, why bother?</a></li>
+            <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'remSkips' datasource_id=1 %}">Remove skip words</a></li>
+            <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'doAll' datasource_id=1 %}">Apply all cleaners</a></li>
+            <li class='{% if url_name = "download" %}active{%endif%}'><a href="{% url "download" datasource_id=1 %}" id="download_button">Download File</a></li>
 			<li class='{% if url_name = "dashboard" %}active{%endif%}'id="save"><a href="#" id="savelink">Save Changes</a></li>
             {% endwith %}
           </ul>
