@@ -12,16 +12,27 @@ def applyCustomizedRules(text):
     return text
 
 
+def removeNonAlphabets(text):
+    # to lower case
+    import re
+    text = text.lower()
+    # remove non alphanumberical characters
+    text = re.sub(r'[^\w]', ' ', text)
+    # remove extra spaces
+    text = re.sub(r'\s+', ' ', text)
+    # remove any space at the front
+    text = text.lstrip()
+    return deleteNumbers(text)
+
+
 def replaceName(text, replaceSymbol):
     names = Word.objects.all().filter(word_type="NAME").values_list(
                 'word', flat=True)
-    #names = ['PETER', 'HARRY', 'Gabriel', 'Esmael', 'Getrud', 'sinda','fredrick']
     words = text.split()
-    words_modified=[]
+    words_modified = []
     for w in words:
         if w in names:
-            w=w.replace(w,replaceSymbol)
-            words_modified.append(w)
+            continue
         else:
             words_modified.append(w)
     new_text = ' '.join(words_modified)
@@ -53,6 +64,7 @@ def deleteSingleWord(text):
     new_text = ' '.join(words_modified)
     return new_text
 
+
 def deleteNumbers(text):
     words = text.split()
     words_modified = []
@@ -63,6 +75,7 @@ def deleteNumbers(text):
             words_modified.append(w)
     new_text = ' '.join(words_modified)
     return new_text
+
 
 def replaceSlangWords(text):
     slang_dict = {' bcz ':' because ',' bcoz ':' because ',' 4m ':'from',' 4rm ':'from',

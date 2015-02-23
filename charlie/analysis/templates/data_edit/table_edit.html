@@ -18,10 +18,8 @@
             
 			<li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'replaceNames' datasource_id %}">Neutralise Names</a></li>
             <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'repSlang' datasource_id %}">Replace slang</a></li>
-            <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'remNums' datasource_id %}">Remove numbers</a></li>
-            <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'remSins' datasource_id %}">Remove single letters</a></li>
+            <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'remNonAlpha' datasource_id %}">Remove NonAlphaBeticals</a></li>
             <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'remSkips' datasource_id %}">Remove skip words</a></li>
-            <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'doAll' datasource_id %}">Apply all cleaners</a></li>
             <li class='{% if url_name = "download" %}active{%endif%}'><a href="{% url "download" datasource_id %}" id="download_button">Download File</a></li>
 			<li class='{% if url_name = "dashboard" %}active{%endif%}'id="save"><a href="#" id="savelink">Save Changes</a></li>
             {% endwith %}
@@ -189,6 +187,7 @@
                 console.log("success"); // another sanity check
                 changed_indexes = {}
                 change_list = []
+                location.reload()
             },
             // handle a non-successful response
             error : function(xhr,errmsg,err) {
