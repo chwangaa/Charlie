@@ -1,7 +1,6 @@
 <table id="opinion_table" class="display" cellspacing="0" width="100%">
         <thead>
             <tr>
-                <th>Index</th>
                 <th>Country</th>
                 <th>RStation</th>
                 <th>SMS</th>
@@ -11,7 +10,6 @@
  
         <tfoot>
             <tr>
-                <th>Index</th>
                 <th>Country</th>
                 <th>RStation</th>
                 <th>SMS</th>
@@ -22,25 +20,9 @@
         <tbody>
             {% for sms in data %}
             <tr>
-                <td>{{sms.Index}}</td>
                 <td>{{sms.Country}}</td>
                 <td>{{sms.RStation}}</td>
                 <td>{{sms.SMS}}</td>
-                <td><select size="1" id="op_{{sms.Index}}" class='option_selection'>
-                    
-                    {% for opinion in opinions %}
-                        {% if opinion == sms.opinion %}
-                            <option value="{{opinion}}" selected>
-                                {{opinion}}
-                            </option>
-                        {% else %}
-                            <option value="{{opinion}}">
-                                {{opinion}}
-                            </option>
-                        {% endif %}                            
-                    {% endfor %}
-                </select></td>
-                <!-- Column is hidden in DataTable, added for filtering by opinion -->
                 <td>{{sms.opinion}}</td>
             </tr>
             {% endfor %}
@@ -52,7 +34,6 @@
         "iDisplayLength": 100,
         "columnDefs": [
             {
-                "targets": [5],
                 "visible": false,
                 "searchable": true
             }
@@ -78,9 +59,9 @@
         // Make sure we don't match "unknown" when filtering for "no".
         opinion_filter = '^' + opinion_filter + '$';
         
-        table.fnFilter(country_filter, 1 /* column */, true /* as_regex */);
-        table.fnFilter(rstation_filter, 2 /* column */, true /* as_regex */);
-        table.fnFilter(opinion_filter, 5 /* column */, true /* as_regex */);
+        table.fnFilter(country_filter, 0 /* column */, true /* as_regex */);
+        table.fnFilter(rstation_filter, 1 /* column */, true /* as_regex */);
+        table.fnFilter(opinion_filter, 3 /* column */, true /* as_regex */);
     }
 
     function applyWordFilterToTable() {       
@@ -88,35 +69,7 @@
             return '('+e+')';
         });
         filter_regex = filter_regex.join('|')
-        table.fnFilter(filter_regex, 3 /* column */, true /* regex */)
+        table.fnFilter(filter_regex, 2 /* column */, true /* regex */)
     }
-
-    $('select').on('change', function() {
-            id = this.id
-            index = id.split('_')[1]
-            opinion = this.value
-            console.log("post is working!") // sanity check
-            $.ajax({
-                url : "update/", // the endpoint
-                type : "POST", // http method
-                data : { "index" : index,
-                         "opinion": opinion 
-                        }, // data sent with the post request
-
-                // handle a successful response
-                success : function(json) {
-                    $('#post-text').val(''); // remove the value from the input
-                    console.log(json); // log the returned json to the console
-                    console.log("success"); // another sanity check
-                },
-
-                // handle a non-successful response
-                error : function(xhr,errmsg,err) {
-                    $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
-                        " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
-                    console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
-                }
-            });
-        });
 
 </script>
