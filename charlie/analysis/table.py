@@ -2,6 +2,7 @@ import django_tables2 as tables
 
 
 class NameTable(tables.Table):
+    delete = tables.LinkColumn('addingName', verbose_name='delete', attrs='<input type="checkbox"/>')
     word = tables.Column(accessor='word', verbose_name='Name')
 
     class Meta:

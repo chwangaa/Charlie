@@ -161,7 +161,6 @@ def dataManipulation(request, datasource_id):
 
     name_form = CreateNameForm()
     dict_form = CreateDictForm()
-    print "datasource", datasource_id
     return render(request, 'data_edit/data_manipulation.html',
                   {"name": request.user.username, "name_form": name_form,
                    "dict_form": dict_form, "table": table,
@@ -215,13 +214,15 @@ def addNameView(request):
 
     # Load documents for the list page
     names = Word.objects.all().filter(word_type="NAME")
-    table = NameTable(names)
-    RequestConfig(request, paginate=False).configure(table)
+    name_list = []
+    for name in names:
+        name_list.append({"id": name.id, "values": [name.word]})
 
+    headers = ['Name']
     # Render list page with the documents and the form
     return render_to_response(
         'data_edit/create_single.html',
-        {"title": "Name List", "table": table, 'form': form,
+        {"title": "Name List", "headers": headers, "list": name_list, 'form': form,
          'name': request.user.username},
         context_instance=RequestContext(request)
     )
@@ -247,14 +248,17 @@ def addDictView(request):
         form = CreateDictForm()  # A empty, unbound form
 
     # Load documents for the list page
-    trans = Word.objects.all().filter(word_type="DICT")
-    table = WordTable(trans)
-    RequestConfig(request, paginate=False).configure(table)
+    dicts = Word.objects.all().filter(word_type="DICT")
+    dict_list = []
+    for d in dicts:
+        dict_list.append({"id": d.id, "values": [d.word, d.language, d.translation]})
+
+    headers = ['Word', 'Language', 'Translation']
 
     # Render list page with the documents and the form
     return render_to_response(
         'data_edit/create_single.html',
-        {"title": "Dictionary", "table": table, 'form': form,
+        {"title": "Dict List", "headers": headers, "list": dict_list, 'form': form,
          'name': request.user.username},
         context_instance=RequestContext(request)
     )
@@ -279,14 +283,17 @@ def addSkipView(request):
     else:
         form = CreateSkipForm()  # A empty, unbound form
     # Load documents for the list page
-    names = Word.objects.all().filter(word_type="SKIP")
-    table = WordTable(names)
-    RequestConfig(request, paginate=False).configure(table)
+    skips = Word.objects.all().filter(word_type="SKIP")
+    skip_list = []
+    for d in skips:
+        skip_list.append({"id": d.id, "values": [d.word, d.language, d.translation]})
+
+    headers = ['Word', 'Language', 'Translation']
 
     # Render list page with the documents and the form
     return render_to_response(
         'data_edit/create_single.html',
-        {"title": "Skip Word List", "table": table, 'form': form,
+        {"title": "Skip List", "headers": headers, "list": skip_list, 'form': form,
          'name': request.user.username},
         context_instance=RequestContext(request)
     )

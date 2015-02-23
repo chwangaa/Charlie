@@ -33,6 +33,19 @@ def update_manipulated(request, datasource_id):
 
 
 @login_required
+def deleteWord(request):
+    if request.method == 'POST':
+        word_id = int(request.POST.get('word_id'))
+        Word.objects.get(id=word_id).delete()
+        return HttpResponse(
+                            json.dumps({'text': "deleted"}),
+                            content_type='application/json'
+                            )
+    else:
+        return HttpResponse("Deletion Failed")
+
+
+@login_required
 def addName(request):
     if request.method == 'POST':
         name = request.POST.get('name')

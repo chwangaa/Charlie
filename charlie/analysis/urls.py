@@ -12,6 +12,7 @@ urlpatterns = patterns('',
     url(r'^add_name/$', views.addNameView, name='add_name'),
     url(r'^add_dict/$', views.addDictView, name='add_dict'),
     url(r'^add_skip/$', views.addSkipView, name='add_skip'),   
+    url(r'^delete_word/$', ajax.deleteWord, name='deleteWord'),
     url(r'^(?P<datasource_id>\d+)/$', views.analysis, name='analysis'),
     url(r'^(?P<datasource_id>\d+)/manip/$', views.dataManipulation, name='manipulation'),
     url(r'^(?P<datasource_id>\d+)/dele/$', views.delD, name='deleD'),
@@ -24,4 +25,5 @@ urlpatterns = patterns('',
     url(r'^(?P<datasource_id>\d+)/remSkip/$', events.removeSkipWords, name='remSkips'),
     url(r'^(?P<datasource_id>\d+)/remNonAlpha/$', events.removeNonAlphaBetical, name='remNonAlpha'),
     url(r'^(?P<datasource_id>\d+)/repSlang/$', events.replaceSlang, name='repSlang'),
+
 )
