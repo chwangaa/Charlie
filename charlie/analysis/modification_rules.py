@@ -3,10 +3,10 @@ from models import Word
 
 def applyCustomizedRules(text):
     text = replaceName(text, "NE")
-    text = deleteSkipWords(text)
     text = deleteSingleWord(text)
     text = replaceSlangWords(text)
     text = deleteNumbers(text)
+    text = deleteSkipWords(text)
     # TO_DISCUSS
     # translate(text)
     return text
