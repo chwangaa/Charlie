@@ -61,7 +61,8 @@ var chart = new Highcharts.Chart({
                             //var opinion = this.name
                             country = this.category
                             opinion = this.series.name
-                            updateTable(opinion, country)
+                            applyColumnChartFilter(opinion, country)
+                            updateData()
                         }
                     }
                 }
@@ -71,4 +72,25 @@ var chart = new Highcharts.Chart({
         series: {{ data | safe }}
 
 });
+
+function applyColumnChartFilter(opinion, country) {
+    opinion = opinion.toLowerCase()
+    country = country.toLowerCase()
+    $('#opinionfilter').find('input[type=checkbox]').each(function() {
+        if ($(this).val().toLowerCase() != opinion) {
+            $(this).prop('checked', false);
+        } else {
+            $(this).prop('checked', true);
+        }
+    });
+    $('#countryfilter').find('input[type=checkbox]').each(function() {
+        if ($(this).val().toLowerCase() != country) {
+            $(this).prop('checked', false);
+        } else {
+            $(this).prop('checked', true);
+        }
+    });
+    data_opinions = [opinion]
+    data_countries = [country]
+}
 </script>

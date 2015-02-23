@@ -23,8 +23,8 @@ var chart = new Highcharts.Chart({
                     events: {
                         click: function () {
                             var opinion = this.name
-                            uncheckOtherOpinions(opinion);
-                            updateData();
+                            applyPieChartFilter(opinion)
+                            updateData()
                         }
                     }
                 }
@@ -39,9 +39,9 @@ var chart = new Highcharts.Chart({
 
 });
 
-function uncheckOtherOpinions(opinion) {
+function applyPieChartFilter(opinion) {
     opinion = opinion.toLowerCase()
-    var list = $('#opinionfilter').find('input[type=checkbox]').each(function() {
+    $('#opinionfilter').find('input[type=checkbox]').each(function() {
         if ($(this).val().toLowerCase() != opinion) {
             $(this).prop('checked', false);
         } else {
