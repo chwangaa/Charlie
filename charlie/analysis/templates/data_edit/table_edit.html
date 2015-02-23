@@ -20,6 +20,8 @@
             <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'repSlang' datasource_id %}">Replace slang</a></li>
             <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'remNonAlpha' datasource_id %}">Remove NonAlphaBeticals</a></li>
             <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'remSkips' datasource_id %}">Remove skip words</a></li>
+            <li><a href="#">Delete Selected</a></li>
+            <li class='{% if url_name = "download" %}active{%endif%}'><a href="{% url "analysis" datasource_id %}" id="download_button">Visualize</a></li>
             <li class='{% if url_name = "download" %}active{%endif%}'><a href="{% url "download" datasource_id %}" id="download_button">Download File</a></li>
 			<li class='{% if url_name = "dashboard" %}active{%endif%}'id="save"><a href="#" id="savelink">Save Changes</a></li>
             {% endwith %}
