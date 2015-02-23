@@ -57,7 +57,7 @@ def deleteNumbers(text):
     words = text.split()
     words_modified = []
     for w in words:
-        if w.isdigit():
+        if w.isdigit() and w.isalnum():
             continue
         else:
             words_modified.append(w)
