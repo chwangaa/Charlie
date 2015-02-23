@@ -41,6 +41,13 @@
 	border-radius:4px;
 	padding:10px;
 }
+
+#download_button {
+	background-color: blue;
+	border-radius: 4px;
+	padding: 10px;
+}
+
 #save:hover{
 	background-color:white;
 }

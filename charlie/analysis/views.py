@@ -10,7 +10,7 @@ from django.template.loader import render_to_string
 from table import NameTable, DictTable
 from models import DataSource, SMS, Word
 from forms import DataUploadForm, CreateWordForm, CreateDictForm
-from utils import initializeDatabaseForDataSource, getCount
+from utils import initializeDatabaseForDataSource, getCount, renderOpinion, getDataSourceOpinions
 from django.views.generic.edit import UpdateView, CreateView
 from django_tables2 import RequestConfig
 from django.db.models import Q
@@ -26,9 +26,10 @@ def dashboard(request):
             data = form.cleaned_data
             question = data['question']
             answers_raw = data['opinions']
+            opinions = renderOpinion(answers_raw)
             newdoc = DataSource(
                 docfile=request.FILES['docfile'], name=question,
-                owner=request.user)
+                owner=request.user, opinions=opinions)
             newdoc.save()
 
             initializeDatabaseForDataSource(newdoc, answers_raw)
@@ -78,7 +79,6 @@ def analysis(request, datasource_id):
         data.append(instance)
 
     # get data for text_display_view
-    from utils import getDataSourceOpinions
     opinions = getDataSourceOpinions(datasource_id)
     table = render_to_string("table.html", {"data": data, "opinions": opinions})
 

@@ -84,15 +84,25 @@ def getOpinionsFrom(question):
     return opinions
 
 
+def renderOpinion(opinions_raw):
+    opinions = {}
+    for key, value in opinions_raw.iteritems():
+        opinions[value] = 1
+    print opinions
+    unique_opinions = ""
+    for key in opinions.keys():
+        unique_opinions = unique_opinions+key+","
+    unique_opinions = unique_opinions+'unknown,irrelevant'
+    return unique_opinions
+
+
 def getDataSourceOpinions(datasource_id):
     source = DataSource.objects.get(id=datasource_id)
-    sms_set = source.sms_set.all()
+    opinions_str = source.opinions
     # get the existing labels
-    opinions_raw = sms_set.all().values_list('opinion',flat=True).distinct()
+    opinions = opinions_str.split(',')
     # cast from ustr to str
-    opinions = [str(o) for o in opinions_raw]
-    if 'irrelevant' not in opinions:
-        opinions.append('irrelevant')
+    opinions = [str(o) for o in opinions]
 
     return opinions
 
