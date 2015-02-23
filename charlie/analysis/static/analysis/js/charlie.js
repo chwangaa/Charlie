@@ -56,24 +56,24 @@ function getAttributeList(data, attribute){
 
 function filterByCountry(data, country_names){
 	function f(e){
-		var country_name = e.Country;
-		return (country_names.indexOf(e.Country)>=0);
+		var country_name = e.Country.toLowerCase();
+		return (country_names.indexOf(country_name)>=0);
 	}
 	return data.filter(f);
 }
 
 function filterByStation(data, station_names){
 	function f(e){
-		var station_name = e.Country;
-		return (station_names.indexOf(e.RStation)>=0);
+		var station_name = e.RStation.toLowerCase();
+		return (station_names.indexOf(station_name)>=0);
 	}
 	return data.filter(f);	
 }
 
 function filterByOpinion(data, opinion_names){
 	function f(e){
-		var opinion = e.opinion;
-		return (opinion_names.indexOf(e.opinion)>=0);
+		var opinion = e.opinion.toLowerCase();
+		return (opinion_names.indexOf(opinion)>=0);
 	}
 	return data.filter(f);
 }
@@ -83,16 +83,4 @@ function filterBy(data, attribute, value){
 		return (e[attribute] == value);
 	}
 	return data.filter(f);
-}
-
-function updateTable(opinion, country){
-    if(country != undefined){
-        countries = [country]
-    }
-    else{
-        countries = data_countries
-    }
-    applyFiltersToTables(countries, data_rstations, [opinion])
-    CTR_WINDOW = WINDOW.LIST
-    switchView()
 }

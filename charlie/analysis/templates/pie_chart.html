@@ -23,7 +23,8 @@ var chart = new Highcharts.Chart({
                     events: {
                         click: function () {
                             var opinion = this.name
-                            updateTable(opinion)
+                            uncheckOtherOpinions(opinion);
+                            updateData();
                         }
                     }
                 }
@@ -37,4 +38,16 @@ var chart = new Highcharts.Chart({
 
 
 });
+
+function uncheckOtherOpinions(opinion) {
+    opinion = opinion.toLowerCase()
+    var list = $('#opinionfilter').find('input[type=checkbox]').each(function() {
+        if ($(this).val().toLowerCase() != opinion) {
+            $(this).prop('checked', false);
+        } else {
+            $(this).prop('checked', true);
+        }
+    });
+    data_opinions = [opinion]
+}
 </script>

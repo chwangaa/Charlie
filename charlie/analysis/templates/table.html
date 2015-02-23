@@ -74,6 +74,9 @@
         var country_filter = (countries.length > 0) ? countries.join('|') : "nonexistentcountry";
         var rstation_filter = (rstations.length > 0) ? rstations.join('|') : "nonexistentcountry";
         var opinion_filter = (opinions.length > 0) ? opinions.join('|') : "nonexistentcountry";
+
+        // Make sure we don't match "unknown" when filtering for "no".
+        opinion_filter = '^' + opinion_filter + '$';
         
         table.fnFilter(country_filter, 1 /* column */, true /* as_regex */);
         table.fnFilter(rstation_filter, 2 /* column */, true /* as_regex */);
