@@ -34,5 +34,4 @@ class Word(models.Model):
     word_type = models.CharField(max_length=15, null=True)
 
     def __unicode__(self):
-        # TODO: concat type as well
-        return self.word
+        return self.word_type + ": " + self.word

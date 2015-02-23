@@ -12,7 +12,6 @@ function updateData(){
   data_wordcloud = getWordFrequencyList(data_filtered)
   applyFiltersToTables(countries, rstations, opinions);
   drawCloudMap(data_wordcloud, '#cloud_tags')
-  updateList(data_filtered)
 }
 
 function getSelectedOpinions(){

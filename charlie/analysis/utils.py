@@ -71,19 +71,6 @@ def getFrequencyList(str):
     return sorted(freq_list, key=lambda e: -e['weight'])
 
 
-def getOpinionsFrom(question):
-    # remove extra spaces
-    question = question.replace(' ', '')
-    groups = question.split(';')
-    # answer holds the return value
-    opinions = ""
-    for group in groups:
-        name = group.split(':')[0]
-        opinions = opinions + name
-
-    return opinions
-
-
 def renderOpinion(opinions_raw):
     opinions = {}
     for key, value in opinions_raw.iteritems():

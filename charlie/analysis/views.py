@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render_to_response, render
 from django.template import RequestContext
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.template.loader import render_to_string
 from table import NameTable, DictTable
-from models import DataSource, SMS, Word
+from models import DataSource, Word
 from forms import DataUploadForm, CreateWordForm, CreateDictForm
-from utils import initializeDatabaseForDataSource, getCount, renderOpinion, getDataSourceOpinions
-from django.views.generic.edit import UpdateView, CreateView
+from utils import initializeDatabaseForDataSource, getCount,\
+                  renderOpinion, getDataSourceOpinions, getFrequencyList
 from django_tables2 import RequestConfig
 from django.db.models import Q
 import json
@@ -37,7 +37,9 @@ def dashboard(request):
             # Redirect to the document list after POST
             return HttpResponseRedirect(reverse('analysis', args=[source_id]))
         else:
-            return render_to_response('dashboard.html', {'form': form, 'name': request.user.username},
+            return render_to_response(
+                'dashboard.html',
+                {'form': form, 'name': request.user.username},
                 context_instance=RequestContext(request))
     else:
         form = DataUploadForm()  # A empty, unbound form
@@ -80,10 +82,10 @@ def analysis(request, datasource_id):
 
     # get data for text_display_view
     opinions = getDataSourceOpinions(datasource_id)
-    table = render_to_string("table.html", {"data": data, "opinions": opinions})
+    table = render_to_string("table.html",
+                             {"data": data, "opinions": opinions})
 
     # get data for word_cloud_view
-    from utils import getFrequencyList
     word_freq = json.dumps(getFrequencyList(texts))
 
     # get pie_chart
@@ -151,13 +153,7 @@ def dataManipulation(request, datasource_id):
                     }
         data.append(instance)
 
-    # get the existing labels
-    opinions_raw = data_set.values_list('opinion', flat=True).distinct()
-
-    # cast from ustr to str
-    opinions = [str(o) for o in opinions_raw]
-    if 'irrelevant' not in opinions:
-        opinions.append('irrelevant')
+    opinions = getDataSourceOpinions(datasource_id)
 
     table = render_to_string("data_edit/table_edit.html",
                              {"data": data, "opinions": opinions,
@@ -189,13 +185,7 @@ def delD(request, datasource_id):
                     }
         data.append(instance)
 
-    # get the existing labels
-    opinions_raw = data_set.values_list('opinion',flat=True).distinct()
-
-    # cast from ustr to str
-    opinions = [str(o) for o in opinions_raw]
-    if 'irrelevant' not in opinions:
-        opinions.append('irrelevant')
+    opinions = getDataSourceOpinions(datasource_id)
 
     table = render_to_string("data_edit/table_edit.html",
                              {"data": data, "opinions": opinions})
