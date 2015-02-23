@@ -65,6 +65,21 @@ function OnChangeOpinion(checkbox) {
     updateData()
 }
 
+function OnChangeWord(checkbox) {
+    // When unchecking the box, remove the word from the filter list.
+    if (!checkbox.checked) {
+        var id = '#word_' + checkbox.value;
+        data_clicked_words = data_clicked_words.filter(function(e) {
+            return e != checkbox.value;
+        });
+        $(id).remove();
+        if (data_clicked_words.length == 0) {
+            $('#filterbyword').hide();
+            $('#wordfilter').hide();
+        }
+    }
+}
+
 function capitalise(string)
 {
     words = string.split(" ");
@@ -124,6 +139,28 @@ function renderSideBars(filters){
             .appendTo(li);
     }
     $('#opinionfilter').append(ul);
+
+    ul = $('<ul/>').addClass('list-unstyled');
+    $('#wordfilter').append(ul);
+
+    $('#filterbyword').hide();
+    $('#wordfilter').hide();
+}
+
+function appendWordFilterToSidebar(word) {
+    var ul = document.getElementById('wordfilter').getElementsByTagName('ul')
+    var li = $('<li/>')
+        .attr({id: 'word_'+word})
+        .appendTo(ul);
+    var box = $('<input/>').attr({
+            type: "checkbox",
+            onclick: "OnChangeWord(this)",
+            checked: "checked",
+            value: word
+        })
+        .appendTo(li);
+    var label = $('<label>').html(word)
+        .appendTo(li);
 }
 
 
