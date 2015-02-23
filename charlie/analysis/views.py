@@ -152,8 +152,8 @@ def dataManipulation(request, datasource_id):
                     'Index': d.index,
                     }
         data.append(instance)
-
-    opinions = getDataSourceOpinions(datasource_id)
+    print datasource_id
+    opinions = getDataSourceOpinions(datasource_id=1)
 
     table = render_to_string("data_edit/table_edit.html",
                              {"data": data, "opinions": opinions,
@@ -161,7 +161,7 @@ def dataManipulation(request, datasource_id):
 
     name_form = CreateNameForm()
     dict_form = CreateDictForm()
-    print datasource_id
+    print "datasource", datasource_id
     return render(request, 'data_edit/data_manipulation.html',
                   {"name": request.user.username, "name_form": name_form,
                    "dict_form": dict_form, "table": table,
@@ -285,12 +285,15 @@ def removeNumbers(request, datasource_id):
     opinions = getDataSourceOpinions(datasource_id)
 
     table = render_to_string("data_edit/table_edit.html",
-                             {"data": data, "opinions": opinions})
+                             {"datasource_id": datasource_id,
+                              "data": data, "opinions": opinions})
 
     name_form = CreateNameForm()
     dict_form = CreateDictForm()
     return render(request, 'data_edit/data_manipulation.html',
                   {"name_form": name_form, "dict_form": dict_form, "table": table})
+
+
 
 def replaceSlang(request, datasource_id):
     data_set = DataSource.objects.get(id=datasource_id).sms_set.all()
