@@ -9,6 +9,7 @@ from django.contrib.auth import logout
 from django.template.loader import render_to_string
 from table import NameTable, WordTable
 from models import DataSource, Word
+import modification_rules as mo
 from forms import DataUploadForm, CreateNameForm, CreateDictForm, \
                   CreateSkipForm
 from utils import initializeDatabaseForDataSource, getCount,\
@@ -213,7 +214,7 @@ def replaceNames(request, datasource_id):
     table = render_to_string("data_edit/table_edit.html",
                              {"data": data, "opinions": opinions})
 
-    name_form = CreateWordForm()
+    name_form = CreateNameForm()
     dict_form = CreateDictForm()
     return render(request, 'data_edit/data_manipulation.html',
                   {"name_form": name_form, "dict_form": dict_form, "table": table})
@@ -237,7 +238,7 @@ def removeSkipWords(request, datasource_id):
     table = render_to_string("data_edit/table_edit.html",
                              {"data": data, "opinions": opinions})
 
-    name_form = CreateWordForm()
+    name_form = CreateNameForm()
     dict_form = CreateDictForm()
     return render(request, 'data_edit/data_manipulation.html',
                   {"name_form": name_form, "dict_form": dict_form, "table": table})
@@ -261,7 +262,7 @@ def removeSingleLetterMsgs(request, datasource_id):
     table = render_to_string("data_edit/table_edit.html",
                              {"data": data, "opinions": opinions})
 
-    name_form = CreateWordForm()
+    name_form = CreateNameForm()
     dict_form = CreateDictForm()
     return render(request, 'data_edit/data_manipulation.html',
                   {"name_form": name_form, "dict_form": dict_form, "table": table})
@@ -286,7 +287,7 @@ def removeNumbers(request, datasource_id):
     table = render_to_string("data_edit/table_edit.html",
                              {"data": data, "opinions": opinions})
 
-    name_form = CreateWordForm()
+    name_form = CreateNameForm()
     dict_form = CreateDictForm()
     return render(request, 'data_edit/data_manipulation.html',
                   {"name_form": name_form, "dict_form": dict_form, "table": table})
@@ -310,7 +311,7 @@ def replaceSlang(request, datasource_id):
     table = render_to_string("data_edit/table_edit.html",
                              {"data": data, "opinions": opinions})
 
-    name_form = CreateWordForm()
+    name_form = CreateNameForm()
     dict_form = CreateDictForm()
     return render(request, 'data_edit/data_manipulation.html',
                   {"name_form": name_form, "dict_form": dict_form, "table": table})
@@ -334,7 +335,7 @@ def doAll(request, datasource_id):
     table = render_to_string("data_edit/table_edit.html",
                              {"data": data, "opinions": opinions})
 
-    name_form = CreateWordForm()
+    name_form = CreateNameForm()
     dict_form = CreateDictForm()
     return render(request, 'data_edit/data_manipulation.html',
                   {"name_form": name_form, "dict_form": dict_form, "table": table})
