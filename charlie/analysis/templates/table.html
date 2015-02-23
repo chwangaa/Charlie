@@ -80,6 +80,14 @@
         table.fnFilter(opinion_filter, 5 /* column */, true /* as_regex */);
     }
 
+    function applyWordFilterToTable() {       
+        filter_regex = data_clicked_words.map(function(e) {
+            return '('+e+')';
+        });
+        filter_regex = filter_regex.join('|')
+        table.fnFilter(filter_regex, 3 /* column */, true /* regex */)
+    }
+
     $('select').on('change', function() {
             id = this.id
             index = id.split('_')[1]

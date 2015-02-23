@@ -61,6 +61,11 @@
                 <span class="glyphicon glyphicon-triangle-bottom arrow" id="arrow3" aria-hidden="true"></span><span>Filter By Station</span> 
             </div>
 			<div class="filter-wrapper" id="stationfilter"></div>
+
+            <div class="sidebar-link-container filter" id="filterbyword">
+                <span class="glyphicon glyphicon-triangle-bottom arrow" id="arrow4" aria-hidden="true"></span><span>Filter By Words</span> 
+            </div>
+            <div class="filter-wrapper" id="wordfilter"></div>
     </div>
     {%endblock%}
     <!-- /#sidebar-wrapper -->
@@ -135,6 +140,7 @@ var data_opinions;
 var data_answers;
 var data_question;
 var data_options;
+var data_clicked_words;
 var table;
 
 // global state variables
@@ -156,6 +162,7 @@ data_wordfreq = {{word_freq | safe }}
 data_countries = {{data_countries | safe}}
 data_rstations = {{data_rstations | safe}}
 data_opinions = {{data_opinions | safe}}
+data_clicked_words = [];
 
 drawCloudMap(data_wordfreq, '#cloud_tags')
 renderSideBars({{sidebar_filters | safe}})
@@ -167,7 +174,12 @@ switchView();
 document.getElementById("cloud_tags").addEventListener("click",
     function(e){
         word = e.target.id
-        table.search(word).draw()
+        // If word doesn't exist in list, add it and show the filters in the sidebar.
+        if (data_clicked_words.indexOf(word) < 0) {
+            data_clicked_words.push(word)
+            appendWordFilterToSidebar(word)
+            applyWordFilterToTable()
+        }
         CTR_WINDOW = WINDOW.LIST
         switchView()
 });
@@ -219,6 +231,8 @@ $.ajaxSetup({
 var showOpinionFilter = false;
 var showCountryFilter = false;
 var showStationFilter = false;
+var showWordFilter = false;
+
 document.getElementById("filterbyopinion").addEventListener("click",
 	function(e){
 		if(showCountryFilter){
@@ -256,6 +270,19 @@ document.getElementById("filterbystation").addEventListener("click",
 			document.getElementById("stationfilter").style.display="block";
 			document.getElementById("arrow3").className="glyphicon glyphicon-triangle-top arrow";
 			showStationFilter = true;
+    };
+});
+document.getElementById("filterbyword").addEventListener("click",
+    function(e){
+        if(showWordFilter){
+            document.getElementById("wordfilter").style.display="none";
+            document.getElementById("arrow4").className="glyphicon glyphicon-triangle-bottom arrow";
+            showWordFilter = false;
+        }
+        else{
+            document.getElementById("wordfilter").style.display="block";
+            document.getElementById("arrow4").className="glyphicon glyphicon-triangle-top arrow";
+            showWordFilter = true;
     };
 });
 
