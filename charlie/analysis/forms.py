@@ -48,7 +48,7 @@ class DataUploadForm(forms.Form):
         return docfile
 
 
-class CreateWordForm(forms.Form):
+class CreateNameForm(forms.Form):
     name = forms.CharField(
         label='Please enter the name')
 
@@ -60,3 +60,12 @@ class CreateDictForm(forms.Form):
         label='Please enter the translation')
     language = forms.CharField(
         label='Please enter the language')
+
+
+class CreateSkipForm(forms.Form):
+    word = forms.CharField(
+        label='Please enter the word')
+    trans = forms.CharField(
+        label='Optional: Please enter the translation', required=False)
+    language = forms.CharField(
+        label='Optional: Please enter the language', required=False)

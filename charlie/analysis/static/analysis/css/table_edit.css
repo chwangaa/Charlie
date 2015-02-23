@@ -1,0 +1,61 @@
+.page_wrapper{
+	
+}
+.menu{
+	padding-top:50px;
+	position:fixed;
+	width:100%;
+	background-color:white;
+}
+
+.dropdown-menu{
+	z-index:100;
+	background-color:white;
+}
+
+.menulist{
+	display:table;
+	height:60px;
+	padding:0px;
+}
+
+.menulist li{
+	display:table-cell;
+	width:12%;
+	text-align:center;
+	vertical-align:middle;
+	padding:10px;
+}
+
+.menulist a{
+	color:black;
+	text-decoration:none;
+}
+
+.menulist li:hover{
+	background-color:#ddd;
+}
+
+#savelink {
+	background-color:#72D5FC;
+	border-radius:4px;
+	padding:10px;
+}
+
+#download_button {
+	background-color: blue;
+	border-radius: 4px;
+	padding: 10px;
+}
+
+#save:hover{
+	background-color:white;
+}
+#data_pane{
+	top:110px;
+	position:fixed;
+	height:80%;
+	overflow-y:scroll;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+}

@@ -13,16 +13,10 @@
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.4/js/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/plug-ins/9dcbecd42ad/integration/jqueryui/dataTables.jqueryui.js"></script>
     <script src ="http://code.highcharts.com/highcharts.js"></script>
-    <script src ="{% static 'analysis/js/papaparse.min.js' %}"></script>
     <script src ="{% static 'analysis/js/charlie.js' %}"></script>
-    <script src ="{% static 'analysis/js/main.js' %}"></script>
     <script src ="{% static 'analysis/js/bootstrap.min.js' %}"></script>
-    <script src ="{% static 'analysis/js/tabularSMS.js' %}"></script>
-    <script src ="{% static 'analysis/js/inputParsing.js' %}"></script>
-    <script src ="{% static 'analysis/js/jput.min.js' %}"></script>
     <script src ="{% static 'analysis/js/charlie.js' %}"></script>
     <script src ="{% static 'analysis/js/jquery.cookie.js' %}"></script>
-    <script src ="{% static 'analysis/js/jquery.awesomeCloud-0.2.min.js' %}"></script>
     <script src ="{% static 'analysis/js/tagcanvas.min.js' %}"></script>
     <script src ="{% static 'analysis/js/sidebar.js' %}"></script>
     <script src ="{% static 'analysis/js/wordcloud.js' %}"></script>
@@ -204,14 +198,6 @@ function switchView(){
     //TODO: precise FSM specification
     $(' .view').hide();
     $('#' + CTR_WINDOW.id).show();
-/*
-    if(CTR_WINDOW == WINDOW.CHART){
-        $('#filters').hide()
-    }
-    else{
-        $('#filters').show()
-    }
-*/
 }
 
 var csrftoken = $.cookie('csrftoken');
@@ -264,12 +250,12 @@ document.getElementById("filterbystation").addEventListener("click",
 		if(showStationFilter){
 			document.getElementById("stationfilter").style.display="none";
 			document.getElementById("arrow3").className="glyphicon glyphicon-triangle-bottom arrow";
-			showCountryFilter = false;
+			showStationFilter = false;
 		}
 		else{
 			document.getElementById("stationfilter").style.display="block";
 			document.getElementById("arrow3").className="glyphicon glyphicon-triangle-top arrow";
-			showCountryFilter = true;
+			showStationFilter = true;
     };
 });
 
@@ -282,6 +268,7 @@ $('.carousel').carousel({
     pause: true,
     interval: false
 });
+
 </script>
 <script src ="{% static 'analysis/js/menutoggle.js' %}"></script>
 

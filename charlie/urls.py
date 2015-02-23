@@ -11,7 +11,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
 	url(r'^analysis/', include('charlie.analysis.urls')),
 	url(r'^$', RedirectView.as_view(url='/analysis/')), # Just for ease of use.
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', include(admin.site.urls), name='admin'),
     url(r'^login/', RedirectView.as_view(url='/analysis/login')),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

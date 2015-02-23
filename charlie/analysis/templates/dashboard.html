@@ -21,9 +21,11 @@
 							<div class='uploaded_file_question'>{{document.name}}</div>
 							<div id='datasource{{document.pk}}' class='delete glyphicon glyphicon-remove'> </div>
 							<div class='uploaded_file_name'>{{ document.docfile.name }}</div>
-							<div class='q_link'> <a href="{{ document.docfile.url}}">Download Original File</a> </div>
+							<br>
+							<br>
+							<br>
 							<div class='q_link'> <a href="{% url "manipulation" document.id %}">Data Manipulation</a> </div>
-							<div class='q_link'> <a href="{% url "analysis" document.id %}">Data Analysis</a> </div>
+							<div class='q_link'> <a href="{% url "analysis" document.id %}">Visualized Analysis</a> </div>
 						</div>
 						<br/>
 					{% endfor %}

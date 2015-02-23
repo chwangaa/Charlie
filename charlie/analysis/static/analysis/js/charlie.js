@@ -84,3 +84,15 @@ function filterBy(data, attribute, value){
 	}
 	return data.filter(f);
 }
+
+function updateTable(opinion, country){
+    if(country != undefined){
+        countries = [country]
+    }
+    else{
+        countries = data_countries
+    }
+    applyFiltersToTables(countries, data_rstations, [opinion])
+    CTR_WINDOW = WINDOW.LIST
+    switchView()
+}

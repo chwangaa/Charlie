@@ -22,3 +22,5 @@ document.getElementById('refresh').addEventListener("click",
 			function(e){
 				location.reload();
 			});
+
+$("#toggle").trigger("click");
