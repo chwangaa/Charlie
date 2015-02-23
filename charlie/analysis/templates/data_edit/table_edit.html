@@ -34,7 +34,7 @@
 				<table id="edit_table" cellspacing="0" width="100%">
 				<thead>
 					<tr>
-						<th>Index</th>
+						<th></th>
 						<th>Country</th>
 						<th>RStation</th>
 						<th>Modified SMS</th>
@@ -45,7 +45,7 @@
 		 
 				<tfoot>
 					<tr>
-						<th>Index</th>
+						<th></th>
 						<th>Country</th>
 						<th>RStation</th>
 						<th>Modified SMS</th>
@@ -57,7 +57,7 @@
 				<tbody>
 					{% for sms in data %}
 					<tr>
-						<td>{{sms.Index}}</td>
+						<td><input type='checkbox' value={{sms.Index}}></td>
 						<td>{{sms.Country}}</td>
 						<td>{{sms.RStation}}</td>
 						<td><input type='text' id="edit_{{sms.Index}}" value="{{sms.Edited}}" size="80" ></td>
