@@ -3,10 +3,10 @@ from models import Word
 
 def applyCustomizedRules(text):
     text = replaceName(text, "NE")
-    text = deleteSkipWords(text)
     text = deleteSingleWord(text)
     text = replaceSlangWords(text)
     text = deleteNumbers(text)
+    text = deleteSkipWords(text)
     # TO_DISCUSS
     # translate(text)
     return text
@@ -57,7 +57,7 @@ def deleteNumbers(text):
     words = text.split()
     words_modified = []
     for w in words:
-        if w.isdigit():
+        if w.isdigit() and w.isalnum():
             continue
         else:
             words_modified.append(w)

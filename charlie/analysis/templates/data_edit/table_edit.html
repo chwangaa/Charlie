@@ -9,8 +9,6 @@
     <script src ="{% static 'analysis/js/bootstrap.min.js' %}"></script>
 
   <div class='page_wrapper'>
-  <br>
-  <br>
     <div class='menu'>
 		<ul class="menulist">
 			<!--I dunno where to put this message
@@ -19,9 +17,9 @@
 			<li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'deleD' datasource_id=1 %}">Delete Duplicates</a></li>
             
 			<li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'replaceNames' datasource_id %}">Neutralise Names</a></li>
-            <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'repSlang' datasource_id %}">None of that slang</a></li>
-            <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'remNums' datasource_id %}">No unnecessary numbers</a></li>
-            <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'remSins' datasource_id %}">Single letter, why bother?</a></li>
+            <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'repSlang' datasource_id %}">Replace slang</a></li>
+            <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'remNums' datasource_id %}">Remove numbers</a></li>
+            <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'remSins' datasource_id %}">Remove single letters</a></li>
             <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'remSkips' datasource_id %}">Remove skip words</a></li>
             <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'doAll' datasource_id %}">Apply all cleaners</a></li>
             <li class='{% if url_name = "download" %}active{%endif%}'><a href="{% url "download" datasource_id %}" id="download_button">Download File</a></li>
@@ -36,7 +34,7 @@
 				<table id="edit_table" cellspacing="0" width="100%">
 				<thead>
 					<tr>
-						<th>Index</th>
+						<th></th>
 						<th>Country</th>
 						<th>RStation</th>
 						<th>Modified SMS</th>
@@ -47,7 +45,7 @@
 		 
 				<tfoot>
 					<tr>
-						<th>Index</th>
+						<th></th>
 						<th>Country</th>
 						<th>RStation</th>
 						<th>Modified SMS</th>
@@ -59,7 +57,7 @@
 				<tbody>
 					{% for sms in data %}
 					<tr>
-						<td>{{sms.Index}}</td>
+						<td><input type='checkbox' value={{sms.Index}}></td>
 						<td>{{sms.Country}}</td>
 						<td>{{sms.RStation}}</td>
 						<td><input type='text' id="edit_{{sms.Index}}" value="{{sms.Edited}}" size="80" ></td>
