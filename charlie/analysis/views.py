@@ -7,9 +7,10 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.template.loader import render_to_string
-from table import NameTable, DictTable
+from table import NameTable, WordTable
 from models import DataSource, Word
-from forms import DataUploadForm, CreateWordForm, CreateDictForm
+from forms import DataUploadForm, CreateNameForm, CreateDictForm, \
+                  CreateSkipForm
 from utils import initializeDatabaseForDataSource, getCount,\
                   renderOpinion, getDataSourceOpinions, getFrequencyList
 from django_tables2 import RequestConfig
@@ -69,9 +70,7 @@ def analysis(request, datasource_id):
     # get the sms_set
     data = []
     # use texts to concat all the messages
-    texts = ""
     for d in sms_set:
-        texts = texts + d.modifield_text + " "
         instance = {'Country': d.country,
                     'RStation': d.rstation,
                     'SMS': d.text,
@@ -86,7 +85,7 @@ def analysis(request, datasource_id):
                              {"data": data, "opinions": opinions})
 
     # get data for word_cloud_view
-    word_freq = json.dumps(getFrequencyList(texts))
+    word_freq = json.dumps(getFrequencyList(datasource_id))
 
     # get pie_chart
     data_js = json.dumps(data)
@@ -159,7 +158,7 @@ def dataManipulation(request, datasource_id):
                              {"data": data, "opinions": opinions,
                               "datasource_id": datasource_id})
 
-    name_form = CreateWordForm()
+    name_form = CreateNameForm()
     dict_form = CreateDictForm()
     print datasource_id
     return render(request, 'data_edit/data_manipulation.html',
@@ -190,7 +189,7 @@ def delD(request, datasource_id):
     table = render_to_string("data_edit/table_edit.html",
                              {"data": data, "opinions": opinions})
 
-    name_form = CreateWordForm()
+    name_form = CreateNameForm()
     dict_form = CreateDictForm()
     return render(request, 'data_edit/data_manipulation.html',
                   {"name_form": name_form, "dict_form": dict_form, "table": table})
@@ -198,7 +197,7 @@ def delD(request, datasource_id):
 
 def addNameView(request):
     if request.method == 'POST':
-        form = CreateWordForm(request.POST)
+        form = CreateNameForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
             name = data['name']
@@ -207,11 +206,11 @@ def addNameView(request):
             new_name.save()
 
             # Redirect to the document list after POST
-            return HttpResponseRedirect(reverse('dashboard'))
+            return HttpResponseRedirect(reverse('add_name'))
         else:
             print "not valid form"
     else:
-        form = CreateWordForm()  # A empty, unbound form
+        form = CreateNameForm()  # A empty, unbound form
 
     # Load documents for the list page
     names = Word.objects.all().filter(word_type="NAME")
@@ -221,7 +220,8 @@ def addNameView(request):
     # Render list page with the documents and the form
     return render_to_response(
         'data_edit/create_single.html',
-        {"table": table, 'form': form, 'name': request.user.username},
+        {"title": "Name List", "table": table, 'form': form,
+         'name': request.user.username},
         context_instance=RequestContext(request)
     )
 
@@ -239,7 +239,7 @@ def addDictView(request):
             new_dict.save()
 
             # Redirect to the document list after POST
-            return HttpResponseRedirect(reverse('dashboard'))
+            return HttpResponseRedirect(reverse('add_dict'))
         else:
             print "not valid form"
     else:
@@ -247,12 +247,45 @@ def addDictView(request):
 
     # Load documents for the list page
     trans = Word.objects.all().filter(word_type="DICT")
-    table = DictTable(trans)
+    table = WordTable(trans)
     RequestConfig(request, paginate=False).configure(table)
 
     # Render list page with the documents and the form
     return render_to_response(
         'data_edit/create_single.html',
-        {"table": table, 'form': form, 'name': request.user.username},
+        {"title": "Dictionary", "table": table, 'form': form,
+         'name': request.user.username},
+        context_instance=RequestContext(request)
+    )
+
+
+def addSkipView(request):
+    if request.method == 'POST':
+        form = CreateSkipForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            word = data['word']
+            trans = data['trans']
+            language = data['language']
+            new_skip = Word(word=word, translation=trans,
+                            language=language, word_type="SKIP")
+            new_skip.save()
+
+            # Redirect to the document list after POST
+            return HttpResponseRedirect(reverse('add_skip'))
+        else:
+            print "not valid form"
+    else:
+        form = CreateSkipForm()  # A empty, unbound form
+    # Load documents for the list page
+    names = Word.objects.all().filter(word_type="SKIP")
+    table = WordTable(names)
+    RequestConfig(request, paginate=False).configure(table)
+
+    # Render list page with the documents and the form
+    return render_to_response(
+        'data_edit/create_single.html',
+        {"title": "Skip Word List", "table": table, 'form': form,
+         'name': request.user.username},
         context_instance=RequestContext(request)
     )

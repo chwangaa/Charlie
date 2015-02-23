@@ -54,15 +54,16 @@ def getCount(list_values):
     return results
 
 
-def getFrequencyList(str):
+def getFrequencyList(datasource_id):
+    source = DataSource.objects.get(id=datasource_id)
+    sms_set = source.sms_set.all()
+
+    text = ""
+    for d in sms_set:
+        text = text + applyCustomizedRules(d.modifield_text) + " "
+
     from collections import Counter
-    import re
-    # to lower case
-    text = str.lower()
-    # remove non alphanumberical characters
-    text = re.sub(r'[^\w]', ' ', text)
-    # remove extra spaces
-    text = re.sub(r'\s+', ' ', text)
+
     words = text.split()
     freq = dict(Counter(words))
     freq_list = []

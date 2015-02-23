@@ -7,6 +7,9 @@
     {% endblock %}
     </title>
     {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'analysis/css/bootstrap.min.css' %}" />
+    <script src ="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src ="{% static 'analysis/js/bootstrap.min.js' %}"></script>
 	<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="{% static 'analysis/css/base.css' %}" />
     {% block staticfiles %}
@@ -16,6 +19,20 @@
 <body>
 	<div id='navbar'>
         {% block navbar %}
+
+    <div class="dropdown">
+      <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+        Settings
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+        <li><a role="menuitem" tabindex="-1" href="{% url 'add_skip' %}">Skip Words</a></li>
+        <li><a role="menuitem" tabindex="-1" href="{% url 'add_name' %}">Names</a></li>
+        <li><a role="menuitem" tabindex="-1" href="{% url 'add_dict' %}">Dictionary</a></li>
+      </ul>
+    </div>
+
+
 		<a id="logoproject" href="{% url 'dashboard' %}">Project</a><a id="logocharlie" href="{% url 'dashboard' %}">Charlie</a>
 		<a id="logout"  href="{% url 'logout' %}">log out</a>
 		<span id="welcomemessage"> welcome, {{name}} </span>

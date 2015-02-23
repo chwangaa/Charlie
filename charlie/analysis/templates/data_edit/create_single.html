@@ -6,6 +6,8 @@
 <br>
 <br>
 <div id='upload_data'>
+	<br>
+	<br>
 	<form action="{{request.path}}" method="post">
 	{% csrf_token %}
 	{{form.as_p}}
@@ -13,7 +15,8 @@
 	</form>
 </div>
 <br>
-        {% render_table table %}
+{{title}}
+{% render_table table %}
 <link rel="stylesheet" type="text/css" href="https://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css">
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/plug-ins/9dcbecd42ad/integration/jqueryui/dataTables.jqueryui.css">
 

@@ -15,15 +15,7 @@
 			<p>Go ahead and do exactly what you what! Whether its cleaning the dataset or adding to it, we've got it all set out for you.</p>-->
             {% with request.resolver_match.url_name as url_name %}
 			<li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'deleD' datasource_id %}">Delete Duplicates</a></li>
-            <!-- Maybe not using this			
-			<li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Neutralise Names<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                       <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'dashboard' %}">Remove Name</a></li>
-                       <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'add_name' %}">Add New Name</a></li>
-                       <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'dashboard' %}">Review All Names</a></li>
-                    </ul>
-            </li> -->
+            
 			<li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'dashboard' %}">Neutralise Names</a></li>
             <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'dashboard' %}">None of that slang</a></li>
             <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'dashboard' %}">No unnecessary numbers</a></li>
