@@ -174,19 +174,12 @@ switchView();
 document.getElementById("cloud_tags").addEventListener("click",
     function(e){
         word = e.target.id
+        // If word doesn't exist in list, add it and show the filters in the sidebar.
         if (data_clicked_words.indexOf(word) < 0) {
             data_clicked_words.push(word)
             appendWordFilterToSidebar(word)
-            if (data_clicked_words.length == 1) {
-                $('#filterbyword').show();
-                $('#wordfilter').show();
-            }
+            applyWordFilterToTable()
         }
-        filter_regex = data_clicked_words.map(function(e) {
-            return '('+e+')';
-        })
-        filter_regex = filter_regex.join('|')
-        table.fnFilter(filter_regex, 3 /* column */, true /* regex */)
         CTR_WINDOW = WINDOW.LIST
         switchView()
 });

@@ -77,6 +77,7 @@ function OnChangeWord(checkbox) {
             $('#filterbyword').hide();
             $('#wordfilter').hide();
         }
+        applyWordFilterToTable();
     }
 }
 
@@ -161,6 +162,11 @@ function appendWordFilterToSidebar(word) {
         .appendTo(li);
     var label = $('<label>').html(word)
         .appendTo(li);
+
+    if (data_clicked_words.length == 1) {
+        $('#filterbyword').show();
+        $('#wordfilter').show();
+    }
 }
 
 
