@@ -14,13 +14,11 @@
 			<!--I dunno where to put this message
 			<p>Go ahead and do exactly what you what! Whether its cleaning the dataset or adding to it, we've got it all set out for you.</p>-->
             {% with request.resolver_match.url_name as url_name %}
-			<li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'deleD' datasource_id=1 %}">Delete Duplicates</a></li>
-            
+            <li><a href="#" id='delete_selected'>Delete Selected</a></li>
 			<li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'replaceNames' datasource_id %}">Neutralise Names</a></li>
             <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'repSlang' datasource_id %}">Replace slang</a></li>
             <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'remNonAlpha' datasource_id %}">Remove NonAlphaBeticals</a></li>
             <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'remSkips' datasource_id %}">Remove skip words</a></li>
-            <li><a href="#">Delete Selected</a></li>
             <li class='{% if url_name = "download" %}active{%endif%}'><a href="{% url "analysis" datasource_id %}" id="download_button">Visualize</a></li>
             <li class='{% if url_name = "download" %}active{%endif%}'><a href="{% url "download" datasource_id %}" id="download_button">Download File</a></li>
 			<li class='{% if url_name = "dashboard" %}active{%endif%}'id="save"><a href="#" id="savelink">Save Changes</a></li>
@@ -57,7 +55,7 @@
 				<tbody>
 					{% for sms in data %}
 					<tr>
-						<td><input type='checkbox' value={{sms.Index}}></td>
+						<td><input type='checkbox' class='checking' value={{sms.Index}}></td>
 						<td>{{sms.Country}}</td>
 						<td>{{sms.RStation}}</td>
 						<td><input type='text' id="edit_{{sms.Index}}" value="{{sms.Edited}}" size="80" ></td>
@@ -133,6 +131,43 @@
             change_list.push(item)
         }
     });
+
+    checked_list = {}
+    $('.checking').on('change', function(){
+        index = this.value
+        if(this.checked == false){
+            console.log("unchecking")
+            delete checked_list[index]
+        }
+        else{
+            console.log("checking")
+            checked_list[index] = 1
+        }
+    });
+
+    $('#delete_selected').on('click', function(){
+        list_to_send = []
+        for(i in checked_list){
+            list_to_send.push(i)
+        }
+        $.ajax({
+            // This will go to /analysis/datasource_id/manip/update/
+            url : "/analysis/{{datasource_id}}/deleteSMS", // the endpoint
+            type : "POST",
+            data : {'checked_list[]': list_to_send}, // data sent with the post request
+            // handle a successful response
+            success : function(json) {
+                console.log("success"); // another sanity check
+                location.reload()
+            },
+            // handle a non-successful response
+            error : function(xhr,errmsg,err) {
+                $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+                    " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            }
+        });        
+    })
     
     $('#edit_table').on('change', 'select', function() {
         id = this.id

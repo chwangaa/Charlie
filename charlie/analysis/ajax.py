@@ -33,6 +33,20 @@ def update_manipulated(request, datasource_id):
 
 
 @login_required
+def deleteSMS(request, datasource_id):
+    if request.method == 'POST':
+        checked_list = request.POST.getlist('checked_list[]')
+        datasource = DataSource.objects.get(id=datasource_id)
+        sms_set = datasource.sms_set
+        for item in checked_list:
+            sms_id = int(item)
+            sms_set.get(index=sms_id).delete()
+        return HttpResponse("deletion successful")
+    else:
+        return HttpResponseBadRequest("Request should be of POST type.")
+
+
+@login_required
 def deleteWord(request):
     if request.method == 'POST':
         word_id = int(request.POST.get('word_id'))
