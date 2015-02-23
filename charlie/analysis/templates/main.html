@@ -167,7 +167,7 @@ switchView();
 document.getElementById("cloud_tags").addEventListener("click",
     function(e){
         word = e.target.id
-        table.search(word).draw()
+        table.fnFilter(word, 3 /* column */);
         CTR_WINDOW = WINDOW.LIST
         switchView()
 });
