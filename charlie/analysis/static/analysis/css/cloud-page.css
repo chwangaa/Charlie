@@ -16,9 +16,6 @@
 }
 #toggle{
 	z-index:20;
-}	
-#refresh{
-	left:50px;
 }
 
 #wrapper.toggled .view_icon{
@@ -26,13 +23,13 @@
 }
 
 #cloud{
-	left:100px;
+	left:50px;
 }
 #charts{
-	left:150px;
+	left:100px;
 }
 #sms{
-	left:200px;
+	left:150px;
 }
 #cloud_question{
 	text-align:center;

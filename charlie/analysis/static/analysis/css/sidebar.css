@@ -12,6 +12,9 @@
 	text-align:center;
 	width:33%;
 }
+.sidebar-text{
+	padding-top:10px;
+}
 
 .sidebar-link:hover{
 	color:#72D5FC;
