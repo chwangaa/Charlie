@@ -10,7 +10,7 @@
 	background-color:black;
 	padding-left:70px;
 	padding-right:70px;
-	z-index:2;
+	z-index:5;
 	text-align:center;
 	transition: all 0.5s ease;
 }
