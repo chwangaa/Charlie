@@ -37,6 +37,14 @@ class DataUploadForm(forms.Form):
         import csv
         reader = csv.reader(docfile)
         labels = reader.next()
+        if 'Index' not in labels:
+            raise forms.ValidationError(
+                        "ERROR: \
+                        the file does not have an Index column")
+        if 'RStation' not in labels:
+            raise forms.ValidationError(
+                        "ERROR: \
+                        the file does not have a Radio Station column")
         if 'SMS' not in labels:
             raise forms.ValidationError(
                         "ERROR: \
