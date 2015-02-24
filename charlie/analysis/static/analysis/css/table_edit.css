@@ -64,26 +64,17 @@
 	color:black;
 }
 
-#savelink {
-	background-color:#72D5FC;
-	border-radius:4px;
-	padding:10px;
-}
 
 #download_button {
 	border-radius: 4px;
 	padding: 10px;
 }
-
-#save:hover{
-	background-color:white;
-}
 #data_pane{
 	padding:10px;
-	top:100px;
+	top:105px;
 	bottom:0;
 	position:fixed;
 	overflow-y:scroll;
 	border-radius: 4px;
-	border-top:1px solid;
+	border-top:1px solid black;
 }

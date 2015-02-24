@@ -3,7 +3,7 @@
 		<ul class="menulist">
             {% with request.resolver_match.url_name as url_name %}
             <li><a href="#" id='delete_selected'>Delete Selected</a></li>
-			<li id='mod'>Modifications
+			<li id='mod'><a>Modifications</a>
 				<ul id='mod_dropdown'>
 					<li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'replaceNames' datasource_id %}">Remove names</a></li>
 					<li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'repSlang' datasource_id %}">Replace slang</a></li>
@@ -11,9 +11,9 @@
 					<li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'remSkips' datasource_id %}">Remove skip words</a></li>
 				</ul>
 			</li>			
-            <li class='{% if url_name = "download" %}active{%endif%}'><a href="{% url "analysis" datasource_id %}" id="download_button">Visualise</a></li>
-            <li class='{% if url_name = "download" %}active{%endif%}'><a href="{% url "download" datasource_id %}" id="download_button">Download File</a></li>
 			<li class='{% if url_name = "dashboard" %}active{%endif%}'id="save"><a href="#" id="savelink">Save Changes</a></li>
+			<li class='{% if url_name = "download" %}active{%endif%}'><a href="{% url "analysis" datasource_id %}" id="download_button">Visualise</a></li>
+            <li class='{% if url_name = "download" %}active{%endif%}'><a href="{% url "download" datasource_id %}" id="download_button">Download File</a></li>
             {% endwith %}
         </ul>
 		
