@@ -136,6 +136,11 @@
         for(i in checked_list){
             list_to_send.push(i)
         }
+        num_deleted = list_to_send.length
+        console.log(num_deleted)
+        if(num_deleted == 0){
+            return;
+        }
         $.ajax({
             // This will go to /analysis/datasource_id/manip/update/
             url : "/analysis/{{datasource_id}}/deleteSMS", // the endpoint
@@ -143,7 +148,7 @@
             data : {'checked_list[]': list_to_send}, // data sent with the post request
             // handle a successful response
             success : function(json) {
-                console.log("success"); // another sanity check
+                alert(num_deleted + " SMS deleted successfully")
                 location.reload()
             },
             // handle a non-successful response
