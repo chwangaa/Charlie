@@ -1,6 +1,7 @@
 import csv
 from models import SMS, DataSource
 from modification_rules import applyCustomizedRules
+import lang
 
 
 def initializeDatabaseForDataSource(source, answer):
@@ -37,7 +38,7 @@ def initializeDatabaseForDataSource(source, answer):
         index = sms['Index']
         s = SMS(text=original_msg, rstation=rstation, country=country,
                 source=source, opinion=opinion, index=index,
-                modifield_text=text)
+                modifield_text=text,language=lang.guess(text))
         s.save()
 
     # write the modified back to the file

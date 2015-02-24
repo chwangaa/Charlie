@@ -74,7 +74,9 @@ def analysis(request, datasource_id):
                     'SMS': d.text,
                     'opinion': d.opinion,
                     'modified_text': d.modifield_text,
-                    'Index': d.index}
+                    'Index': d.index,
+                    'Language':d.language
+                    }
         data.append(instance)
 
     # get data for text_display_view
@@ -147,6 +149,7 @@ def dataManipulation(request, datasource_id):
                     'Edited': d.modifield_text,
                     'opinion': d.opinion,
                     'Index': d.index,
+                    'Language':d.language
                     }
         data.append(instance)
     print datasource_id
@@ -178,6 +181,7 @@ def delD(request, datasource_id):
                     'Edited': d.modifield_text, 
                     'opinion': d.opinion,
                     'Index': d.index,
+                    'Language':d.language
                     }
         data.append(instance)
 

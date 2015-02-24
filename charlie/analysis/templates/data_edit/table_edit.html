@@ -25,6 +25,7 @@
 						<th>RStation</th>
 						<th>Modified SMS</th>
 						<th>Original</th>
+						<th>Language</th>
 						<th>Opinion</th>
 					</tr>
 				</thead>
@@ -36,6 +37,7 @@
 						<th>RStation</th>
 						<th>Modified SMS</th>
 						<th>Original</th>
+						<th>Language</th>
 						<th>Opinion</th>
 					</tr>
 				</tfoot>
@@ -48,6 +50,7 @@
 						<td>{{sms.RStation}}</td>
 						<td><input type='text' id="edit_{{sms.Index}}" value="{{sms.Edited}}" size="80" ></td>
 						<td>{{sms.Original}}</td>
+						<td>{{sms.Language}}</td>
 						<td><select size="1" id="op_{{sms.Index}}" class='option_selection'>
 							{% for opinion in opinions %}
 								{% if opinion == sms.opinion %}
@@ -76,8 +79,9 @@
             {"sWidth": "5%"},
             {"sWidth": "5%"},
             {"sWidth": "5%"},
-            {"sWidth": "40%"},
             {"sWidth": "30%"},
+            {"sWidth": "30%"},
+            {"sWidth": "10%"},
             {"sWidth": "15%"}
         ]
     });
