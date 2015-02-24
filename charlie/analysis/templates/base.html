@@ -22,14 +22,17 @@
 <body>
 	<div id='navbar'>
         {% block navbar %}
-
-
 		<a id="logoproject" href="{% url 'dashboard' %}">Project</a><a id="logocharlie" href="{% url 'dashboard' %}">Charlie</a>
 		<a id="logout"  href="{% url 'logout' %}">Log Out</a>
-		<span id="welcomemessage"> Welcome {{name}} !</span>
-        <a role="menuitem" tabindex="-1" href="{% url 'add_skip' %}">Skip Words</a>
-        <a role="menuitem" tabindex="-1" href="{% url 'add_name' %}">Names</a>
-        <a role="menuitem" tabindex="-1" href="{% url 'add_dict' %}">Dictionary</a>
+		<span id="welcomemessage"> Welcome {{name}}!  
+		<span class="glyphicon glyphicon-triangle-bottom arrow" id="dropdown_arrow" aria-hidden="true"></span>
+		<ul id="navbar_dropdown">
+			<li><a class="menuitem" tabindex="-1" href="{% url 'add_skip' %}">Skip words</a></li>
+			<li><a class="menuitem" tabindex="-1" href="{% url 'add_name' %}">Names</a></li>
+			<li><a class="menuitem" tabindex="-1" href="{% url 'add_dict' %}">Dictionary</a></li>
+		</ul>
+		</span>
+		
         {% endblock %}
 	</div>
 	

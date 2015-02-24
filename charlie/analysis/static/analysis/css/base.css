@@ -41,6 +41,14 @@
 	float:right;
 }
 
+#welcomemessage:hover {
+	background-color:#404040;
+}
+
+#welcomemessage:hover > #navbar_dropdown{
+	visibility:visible;
+}
+
 #logout{
 	display:inline;
 	background-color:#72D5FC;
@@ -51,4 +59,30 @@
 	font-size:1em;
 	float:right;
 	border-radius:5px;
+}
+
+#navbar_dropdown{
+	position:absolute;
+	top:50px;
+	right:160px;
+	background-color:black;
+	visibility:hidden;
+	list-style-type:none;
+	text-align:left;
+	background-color:black;
+	opacity:0.9;
+	padding-left:0;
+	padding-right:30px;
+}
+
+#navbar_dropdown >li{
+	padding: 10px 50px 10px 10px;
+}
+.menuitem{
+	text-decoration:none;
+	color:white;
+}
+#dropdown_arrow{
+	font-size:10px;
+	padding-left:5px;
 }
