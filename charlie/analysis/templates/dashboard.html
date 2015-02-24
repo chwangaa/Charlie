@@ -18,9 +18,6 @@
 							<div class='uploaded_file_question'>{{document.name}}</div>
 							<div id='datasource{{document.pk}}' class='delete glyphicon glyphicon-remove'> </div>
 							<div class='uploaded_file_name'>{{ document.docfile.name }}</div>
-							<br>
-							<br>
-							<br>
 							<div class='q_link'> <a href="{% url "manipulation" document.id %}">Data Manipulation</a> </div>
 							<div class='q_link'> <a href="{% url "analysis" document.id %}">Visualized Analysis</a> </div>
 						</div>
@@ -39,19 +36,16 @@
 				{% csrf_token %}
 				<p>{{ form.non_field_errors }}</p>
 				<p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
-				<p>
-					{{ form.docfile.errors }}
-					{{ form.docfile }}
+				<p class="formfield">
+					{{ form.docfile }}{{ form.docfile.errors }}
 				</p>
-				<p>
-					{{form.question.label_tag}}
-					{{ form.question.errors }}
-					{{ form.question}}
+				<p>{{form.question.label_tag}}</p>
+				<p class="formfield">
+					{{ form.question}}{{ form.question.errors }}
 				</p>
-				<p>
-					{{form.opinions.label_tag}}
-					{{ form.opinions.errors }}
-					{{ form.opinions}}
+				<p>{{form.opinions.label_tag}}</p>
+				<p class="formfield">
+					{{ form.opinions}}{{ form.opinions.errors }}
 				</p>
 				<p><input type="submit" value="Upload" /></p>
 				</form>

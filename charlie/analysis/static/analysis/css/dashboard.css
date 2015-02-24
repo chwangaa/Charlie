@@ -83,25 +83,31 @@ h1{
     left:0;
     right:0;
     background-color:black;
-    opacity:0.7;
+    opacity:0.5;
     z-index:2;
 	display:none;
 }
 
 #upload_data{
 	position:absolute;
-	width:500px;
-	height:250px;
+	width:700px;
+	height:400px;
 	top:50%;
 	left:50%;
-	margin:-125px 0 0 -250px;
+	margin:-200px 0 0 -350px;
 	background-color:white;
 	padding:20px 40px 20px 40px;
 	display:none;
 	z-index:3;
+	border-radius:5px;
 }
 
 #cancel{
 	float:right;
 	color:black;
+}
+
+.errorlist{
+	margin-left:-20px;
+	color:red;
 }

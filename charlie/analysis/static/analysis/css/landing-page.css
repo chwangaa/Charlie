@@ -55,7 +55,7 @@
 }
 
 #login_form{
-	padding:15px;
+	padding:15px 0 0 10px;
 	text-align: right;
 }
 
@@ -105,4 +105,8 @@
 	padding-left:150px;
 	padding-right:150px;
 	height:100%;
+}
+
+.error{
+	color:red;
 }
