@@ -1,8 +1,6 @@
   <div class='page_wrapper'>
     <div class='menu'>
 		<ul class="menulist">
-			<!--I dunno where to put this message
-			<p>Go ahead and do exactly what you what! Whether its cleaning the dataset or adding to it, we've got it all set out for you.</p>-->
             {% with request.resolver_match.url_name as url_name %}
             <li><a href="#" id='delete_selected'>Delete Selected</a></li>
 			<li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'replaceNames' datasource_id %}">Neutralise Names</a></li>
@@ -180,20 +178,6 @@
         sendPostRequestToSave()
     });
 
-    var csrftoken = $.cookie('csrftoken');
-
-    function csrfSafeMethod(method) {
-        // these HTTP methods do not require CSRF protection
-        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-    }
-
-    $.ajaxSetup({
-        beforeSend: function(xhr, settings) {
-            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                xhr.setRequestHeader("X-CSRFToken", csrftoken);
-            }
-        }
-    });
     
     function sendPostRequestToSave() {
         $.ajax({

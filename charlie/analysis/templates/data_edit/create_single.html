@@ -2,9 +2,6 @@
 {% block content %}
 {% load staticfiles %}
 
-<link rel="stylesheet" type="text/css" href="https://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css">
-<script src ="{% static 'analysis/js/jquery.cookie.js' %}"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.4/js/jquery.dataTables.js"></script>
 
 <br>
 <br>
@@ -49,20 +46,7 @@
         "iDisplayLength": 100,
     });
 
-    var csrftoken = $.cookie('csrftoken');
 
-    function csrfSafeMethod(method) {
-        // these HTTP methods do not require CSRF protection
-        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-    }
-
-    $.ajaxSetup({
-        beforeSend: function(xhr, settings) {
-            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                xhr.setRequestHeader("X-CSRFToken", csrftoken);
-            }
-        }
-    });
     $('.deletes').on('click', function(){
 		confirm = confirm("Are you sure you would like to delete this entry");
 		if(confirm == false){
@@ -70,19 +54,17 @@
 		}
 		else{
 			$.ajax({
-	            url : "/analysis/delete_word/", // the endpoint
-	            type : "POST", // http method
-	            data : {'word_id': this.value}, // data sent with the post request
+	            url : "/analysis/delete_word/",
+	            type : "POST",
+	            data : {'word_id': this.value},
 	            // handle a successful response
 	            success : function(json) {
-	                console.log("success"); // another sanity check
+	                console.log("success");
 	                location.reload()
 	            },
 	            // handle a non-successful response
 	            error : function(xhr,errmsg,err) {
-	            	$('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
-                    " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
-                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+                console.log(xhr.status + ": " + xhr.responseText);
             }
         });
 		}
