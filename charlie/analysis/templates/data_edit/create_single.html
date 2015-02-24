@@ -2,44 +2,41 @@
 {% block content %}
 {% load staticfiles %}
 
+<link rel="stylesheet" type="text/css" href="{% static 'analysis/css/create_single.css' %}" />
 
-<br>
-<br>
-<br>
 <div id='upload_data'>
-	<br>
-	<br>
 	<form action="{{request.path}}" method="post">
 	{% csrf_token %}
 	{{form.as_p}}
 	<p><input type="submit" value="Upload" /></p>
 	</form>
 </div>
-<br>
-{{title}}
-			<table id="edit_table" cellspacing="0" width="100%">
-				<thead>
-					<tr>
-					<th></th>
-					{% for header in headers %}
-					<th>{{header}}</th>
-					{% endfor %}
-					</tr>
 
-				</thead>
-		 
-				<tbody>
-					{% for entry in list %}
-					<tr>
-						<td><input type='radio' class='deletes' value={{entry.id}}></td>
-						{% for e in entry.values %}
-							<td>{{e}}</td>
-						{% endfor %}
-					</tr>
-					{% endfor %}
+<div id="title"> <span>{{title}}</span></div>
+<table id="edit_table" cellspacing="0" width="100%">
+	
+	<thead>
+		<tr>
+		<th></th>
+		{% for header in headers %}
+		<th>{{header}}</th>
+		{% endfor %}
+		</tr>
 
-					</tbody>
-			</table>
+	</thead>
+
+	<tbody>
+		{% for entry in list %}
+		<tr>
+			<td><input type='radio' class='deletes' value={{entry.id}}></td>
+			{% for e in entry.values %}
+				<td>{{e}}</td>
+			{% endfor %}
+		</tr>
+		{% endfor %}
+
+		</tbody>
+</table>
 
         <script>
     var table = $('#edit_table').DataTable({
