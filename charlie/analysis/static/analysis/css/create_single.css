@@ -5,7 +5,7 @@
 }
 
 #title{
-	padding-left:10px;
+	padding:10px;
 	position:fixed;
 	top:230px;
 	font-size:2em;
@@ -15,7 +15,7 @@
 
 #edit_table_wrapper{
 	position:fixed;
-	top:270px;
+	top:280px;
 	width:100%;
 	padding:10px;
 	overflow-y:scroll;

@@ -3,19 +3,23 @@
 		<ul class="menulist">
             {% with request.resolver_match.url_name as url_name %}
             <li><a href="#" id='delete_selected'>Delete Selected</a></li>
-			<li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'replaceNames' datasource_id %}">Neutralise Names</a></li>
-            <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'repSlang' datasource_id %}">Replace slang</a></li>
-            <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'remNonAlpha' datasource_id %}">Remove NonAlphaBeticals</a></li>
-            <li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'remSkips' datasource_id %}">Remove skip words</a></li>
-            <li class='{% if url_name = "download" %}active{%endif%}'><a href="{% url "analysis" datasource_id %}" id="download_button">Visualize</a></li>
+			<li id='mod'>Modifications
+				<ul id='mod_dropdown'>
+					<li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'replaceNames' datasource_id %}">Remove names</a></li>
+					<li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'repSlang' datasource_id %}">Replace slang</a></li>
+					<li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'remNonAlpha' datasource_id %}">Remove non-alphabetical characters</a></li>
+					<li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'remSkips' datasource_id %}">Remove skip words</a></li>
+				</ul>
+			</li>			
+            <li class='{% if url_name = "download" %}active{%endif%}'><a href="{% url "analysis" datasource_id %}" id="download_button">Visualise</a></li>
             <li class='{% if url_name = "download" %}active{%endif%}'><a href="{% url "download" datasource_id %}" id="download_button">Download File</a></li>
 			<li class='{% if url_name = "dashboard" %}active{%endif%}'id="save"><a href="#" id="savelink">Save Changes</a></li>
             {% endwith %}
-          </ul>
+        </ul>
+		
 	</div>
-    <br>
-    <br>
-        <div id='data_pane'>
+
+	<div id='data_pane'>
           {% block table %}
 				<table id="edit_table" cellspacing="0" width="100%">
 				<thead>
@@ -48,7 +52,7 @@
 						<td><input type='checkbox' class='checking' value={{sms.Index}}></td>
 						<td>{{sms.Country}}</td>
 						<td>{{sms.RStation}}</td>
-						<td><input type='text' id="edit_{{sms.Index}}" value="{{sms.Edited}}" size="80" ></td>
+						<td><input type='text' id="edit_{{sms.Index}}" value="{{sms.Edited}}" size="60" ></td>
 						<td>{{sms.Original}}</td>
 						<td>{{sms.Language}}</td>
 						<td><select size="1" id="op_{{sms.Index}}" class='option_selection'>
