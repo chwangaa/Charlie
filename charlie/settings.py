@@ -36,8 +36,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'charlie.analysis',
-    'dictionary',
-    'django_tables2',
 )
 
 TEMPLATE_LOADERS = (

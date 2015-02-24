@@ -7,14 +7,11 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.template.loader import render_to_string
-from table import NameTable, WordTable
 from models import DataSource, Word
-import modification_rules as mo
 from forms import DataUploadForm, CreateNameForm, CreateDictForm, \
                   CreateSkipForm
 from utils import initializeDatabaseForDataSource, getCount,\
                   renderOpinion, getDataSourceOpinions, getFrequencyList
-from django_tables2 import RequestConfig
 from django.db.models import Q
 import json
 

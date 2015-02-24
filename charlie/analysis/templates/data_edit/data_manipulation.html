@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {%block content%}
-{{table}}
 {% load staticfiles %}
-<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'analysis/css/table_edit.css' %}" />
+<link rel="stylesheet" type="text/css" href="https://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css">
 <script src ="{% static 'analysis/js/jquery.cookie.js' %}"></script>
-
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.4/js/jquery.dataTables.js"></script>
 <div>
 	<form method="post" id='add_name_form' call='/analaysis/addName' style='display:none'>
 	{% csrf_token %}
@@ -20,7 +20,7 @@
 	<p><input type="submit" value="Upload" /></p>
 	</form>
 </div>
-
+{{table}}
 <script type="text/javascript">
 
 $('#add_name_form').submit(function(){
