@@ -9,7 +9,7 @@ file_path = os.path.join(module_dir, 'base_db.dict')
 # db = pickle.load(f)
 
 def teach(message,lang):
-    with open("../base_db.dict", "rb") as f:
+    with open(file_path, "rb") as f:
         db = pickle.load(f)
 #   loc = '/home/swaraj/Code/Python/Charlie/base_db.dict'
 #   db = pickle.load(open(loc,'rb'))
@@ -24,20 +24,16 @@ def teach(message,lang):
     words = set(words) # Uniqueness
 
     for word in words:
+        for language in db.keys():
+            db[language].difference_update({word})
+
+    for word in words:
         db[lang].update({word})
 
-    print os.getcwd()
-    with open("../base_db.dict", "wb") as f:
+    with open(file_path, "wb") as f:
         pickle.dump(db, f)
 #   pickle.dump(db,open(loc,'wb'))
 
-#   other_langs = [key for key in db.keys() if key != lang]
-#   for word in words:
-#       is_there = [word in db[language] for language in other_langs]
-#       print(is_there)
-#       if set(is_there) == {False}:
-#           db[lang].update({word})
-#           print(lang)
 
 def guess(message):
     with open(file_path, "rb") as f:
