@@ -2,6 +2,20 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from models import DataSource
+import lang
+
+
+@login_required
+def updateLanguages(request, datasource_id):
+    datasource = DataSource.objects.get(id=datasource_id)
+    datasource.modified = True
+    datasource.save()
+    sms_set = datasource.sms_set.all()
+    from modification_rules import deleteSkipWords
+    for sms in sms_set:
+        sms.language = lang.guess(modifield_text)
+        sms.save()
+    return HttpResponseRedirect(reverse('manipulation', args=[datasource_id]))
 
 
 @login_required
