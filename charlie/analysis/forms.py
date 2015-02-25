@@ -77,3 +77,9 @@ class CreateSkipForm(forms.Form):
         label='Please enter the translation (optional)', required=False)
     language = forms.CharField(
         label='Please enter the language (optional)', required=False)
+
+class CreateTypoForm(forms.Form):
+    word = forms.CharField(
+        label='Please enter the word')
+    translation = forms.CharField(
+        label='Please enter the correction')

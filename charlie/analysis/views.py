@@ -9,7 +9,7 @@ from django.contrib.auth import logout
 from django.template.loader import render_to_string
 from models import DataSource, Word
 from forms import DataUploadForm, CreateNameForm, CreateDictForm, \
-                  CreateSkipForm
+                  CreateSkipForm, CreateTypoForm
 from utils import initializeDatabaseForDataSource, getCount,\
                   renderOpinion, getDataSourceOpinions, getFrequencyList
 from django.db.models import Q
@@ -295,6 +295,38 @@ def addSkipView(request):
     return render_to_response(
         'data_edit/create_single.html',
         {"title": "Skip List", "headers": headers, "list": skip_list, 'form': form,
+         'name': request.user.username},
+        context_instance=RequestContext(request)
+    )
+
+def addTypoView(request):
+    if request.method == 'POST':
+        form = CreateTypoForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            word = data['word']
+            trans = data['translation']
+            new_typo = Word(word=word, translation=trans, word_type="TYPO")
+            new_typo.save()
+
+            # Redirect to the document list after POST
+            return HttpResponseRedirect(reverse('add_typo'))
+        else:
+            print "not valid form"
+    else:
+        form = CreateTypoForm()  # A empty, unbound form
+    # Load documents for the list page
+    typos = Word.objects.all().filter(word_type="TYPO")
+    typo_list = []
+    for d in typos:
+        typo_list.append({"id": d.id, "values": [d.word, d.translation]})
+
+    headers = ['Word', 'Correction']
+
+    # Render list page with the documents and the form
+    return render_to_response(
+        'data_edit/create_single.html',
+        {"title": "Typo List", "headers": headers, "list": typo_list, 'form': form,
          'name': request.user.username},
         context_instance=RequestContext(request)
     )
