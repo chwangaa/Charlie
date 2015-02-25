@@ -2,6 +2,7 @@ import json
 from models import DataSource, Word, SMS
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
+import lang
 
 
 @login_required
@@ -15,10 +16,12 @@ def update_manipulated(request, datasource_id):
             index = elem['index']
             opinion = elem['opinion']
             sms = elem['sms']
+            language = elem['lang']
             edited_sms = sms_set.get(index=index)
             edited_sms.opinion = opinion
             edited_sms.modifield_text = sms
             edited_sms.text = sms
+            lang.teach(sms,language)
             edited_sms.save()
 
         if datasource.modified is True:

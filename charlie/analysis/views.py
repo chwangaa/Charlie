@@ -155,9 +155,13 @@ def dataManipulation(request, datasource_id):
     print datasource_id
     opinions = getDataSourceOpinions(datasource_id=1)
 
+    languages = ['Swahili', 'Portuguese', 'Dholuo', 'Luganda', 'Nyanja', 'Chichewa', 'English', 'Unknown']
+    languages = sorted(languages)
+
     table = render_to_string("data_edit/table_edit.html",
                              {"data": data, "opinions": opinions,
-                              "datasource_id": datasource_id})
+                              "datasource_id": datasource_id,
+                              "languages": languages})
 
     name_form = CreateNameForm()
     dict_form = CreateDictForm()
