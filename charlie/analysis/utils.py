@@ -14,16 +14,19 @@ def initializeDatabaseForDataSource(source, answer):
 
     for sms in csv_dict:
         import re
+        original_msg = sms['SMS']
         # to lower case
-        original_msg = sms['SMS'].lower()
+        text = original_msg.lower()
         # remove non alphanumberical characters
-        text = re.sub(r'[^\w]', ' ', original_msg)
+        text = re.sub(r'[^\w]', ' ', text)
         # remove extra spaces
         text = re.sub(r'\s+', ' ', text)
         # remove any space at the front
         text = text.lstrip()
         # apply rules
         text = applyCustomizedRules(text)
+        if text == "":
+            continue
         opinion_found = False
         for kw in interested_kwards:
             if kw in text:
@@ -36,11 +39,13 @@ def initializeDatabaseForDataSource(source, answer):
         rstation = sms['RStation'].lower()
         country = sms['Country'].lower()
         index = sms['Index']
+        g_lang = lang.guess(text)
         s = SMS(text=original_msg, rstation=rstation, country=country,
                 source=source, opinion=opinion, index=index,
-                modifield_text=text,language=lang.guess(text))
+                modifield_text=text, language=g_lang)
         s.save()
-
+    source.modified = True
+    source.save()
     # write the modified back to the file
     updateFile(source)
 
