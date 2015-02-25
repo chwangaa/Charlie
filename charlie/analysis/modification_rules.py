@@ -133,15 +133,19 @@ def deleteNumbers(text):
 
 
 def replaceSlangWords(text):
-    typos = Word.objects.all().filter(word_type="TYPO").values_list(
-                'word', flat=True)
+    typos = Word.objects.all().filter(word_type="TYPO")
+    typo_names = Word.objects.all().filter(word_type="TYPO").values_list(
+                 'word', flat=True)
     words = text.split()
     words_modified = []
     for w in words:
-        if w in typos:
-            correction = str(typos.filter(word=w)[0])
-            words_modified.append(correction)
-            continue
+        if w in typo_names:
+            for d in typos:
+                if w==d.word:
+                    w = w.replace(w,d.translation)
+                    words_modified.append(w)
+                else:
+                    continue
         else:
             words_modified.append(w)
     new_text = ' '.join(words_modified)
