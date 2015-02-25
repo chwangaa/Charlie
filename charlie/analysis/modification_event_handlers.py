@@ -11,7 +11,6 @@ def updateLanguages(request, datasource_id):
     datasource.modified = True
     datasource.save()
     sms_set = datasource.sms_set.all()
-    from modification_rules import deleteSkipWords
     for sms in sms_set:
         sms.language = lang.guess(modifield_text)
         sms.save()

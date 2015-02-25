@@ -54,8 +54,8 @@
 						<td>{{sms.RStation}}</td>
 						<td><input type='text' id="edit_{{sms.Index}}" value="{{sms.Edited}}" size="60" ></td>
 						<td>{{sms.Original}}</td>
-						<!--td>{{sms.Language}}</td-->
-						<td><select size="1" id="lang_{{sms.Index}}" class='language_selection'>
+						<td>{{sms.Language}}</td>
+						<!--td><select size="1" id="lang_{{sms.Index}}" class='language_selection'>
 							{% for lang in languages %}
 								{% if lang == sms.Language %}
 									<option value="{{lang}}" selected>
@@ -68,7 +68,7 @@
 								{% endif %}                            
 							{% endfor %}
 						</select>
-						</td>
+						</td-->
 						<td><select size="1" id="op_{{sms.Index}}" class='option_selection'>
 							{% for opinion in opinions %}
 								{% if opinion == sms.opinion %}
@@ -125,13 +125,13 @@
             change_list[pos].sms = this.value
         } else {
             opinion = $('#op_'+index).val()
-            language = $('#lang_'+index).val()
+//          language = $('#lang_'+index).val()
             edited_sms = this.value
             item = {
                 index: index,
                 opinion: opinion,
                 sms: edited_sms,
-                lang: language
+//              lang: language
             }
             changed_indexes[index] = change_list.length
             change_list.push(item)
@@ -189,13 +189,14 @@
             change_list[pos].opinion = this.value
         } else {
             opinion = this.value
-            language = this.value
+//          language = this.value
             edited_sms = $('#edit_'+index).val()
             item = {
                 index: index,
                 opinion: opinion,
                 sms: edited_sms,
-                lang: language 
+//              lang: "English" 
+//              opinion is lang (extremely hacky)
             }
         }
         changed_indexes[index] = change_list.length
