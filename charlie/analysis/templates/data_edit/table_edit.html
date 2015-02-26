@@ -54,8 +54,8 @@
 						<td>{{sms.RStation}}</td>
 						<td><input type='text' id="edit_{{sms.Index}}" value="{{sms.Edited}}" size="60" ></td>
 						<td>{{sms.Original}}</td>
-						<td>{{sms.Language}}</td>
-						<!--td><select size="1" id="lang_{{sms.Index}}" class='language_selection'>
+						<!--td>{{sms.Language}}</td-->
+						<td><select onchange="changeLang(this.id)" size="1" id="lang_{{sms.Index}}" class='language_selection'>
 							{% for lang in languages %}
 								{% if lang == sms.Language %}
 									<option value="{{lang}}" selected>
@@ -68,8 +68,8 @@
 								{% endif %}                            
 							{% endfor %}
 						</select>
-						</td-->
-						<td><select size="1" id="op_{{sms.Index}}" class='option_selection'>
+						</td>
+						<td><select onchange="changeOp(this.id)" size="1" id="op_{{sms.Index}}" class='option_selection'>
 							{% for opinion in opinions %}
 								{% if opinion == sms.opinion %}
 									<option value="{{opinion}}" selected>
@@ -120,21 +120,30 @@
         id = this.id
         index = id.split('_')[1]
 
+        var o = document.getElementById("op_"+index);
+        var opinion = o.options[o.selectedIndex].text;
+
+        var l = document.getElementById("lang_"+index);
+        var language = l.options[l.selectedIndex].text;
+
         if (changed_indexes[index] != null) {
             pos = changed_indexes[index]
             change_list[pos].sms = this.value
+//          change_list[pos].opinion = opinion
+//          change_list[pos].lang = language
         } else {
-            opinion = $('#op_'+index).val()
+//          opinion = $('#op_'+index).val()
 //          language = $('#lang_'+index).val()
             edited_sms = this.value
             item = {
                 index: index,
                 opinion: opinion,
                 sms: edited_sms,
-//              lang: language
+                lang: language
             }
-            changed_indexes[index] = change_list.length
-            change_list.push(item)
+        changed_indexes[index] = change_list.length
+        change_list.push(item)
+        alert(item.toSource())
         }
     });
 
@@ -180,28 +189,66 @@
         });        
     })
     
-    $('#edit_table').on('change', 'select', function() {
-        id = this.id
+//  $('#edit_table').on('change', 'select', function() {
+    function changeLang(id) {
+//      id = this.id
         index = id.split('_')[1]
+
+        var o = document.getElementById("op_"+index);
+        var opinion = o.options[o.selectedIndex].text;
+
+        var l = document.getElementById("lang_"+index);
+        var language = l.options[l.selectedIndex].text;
 
         if (changed_indexes[index] != null) {
             pos = changed_indexes[index]
-            change_list[pos].opinion = this.value
+//          change_list[pos].opinion = opinion
+            change_list[pos].lang = language
         } else {
-            opinion = this.value
-//          language = this.value
+//            lang = $('#lang_'+index).value
             edited_sms = $('#edit_'+index).val()
             item = {
                 index: index,
                 opinion: opinion,
                 sms: edited_sms,
-//              lang: "English" 
-//              opinion is lang (extremely hacky)
+                lang: language
             }
-        }
         changed_indexes[index] = change_list.length
         change_list.push(item)
-    });
+        alert(item.toSource())
+        }
+    }//);
+
+    function changeOp(id) {
+//      id = this.id
+        index = id.split('_')[1]
+
+        var o = document.getElementById("op_"+index);
+        var opinion = o.options[o.selectedIndex].text;
+
+        var l = document.getElementById("lang_"+index);
+        var language = l.options[l.selectedIndex].text;
+
+        if (changed_indexes[index] != null) {
+            pos = changed_indexes[index]
+            change_list[pos].opinion = opinion
+//          change_list[pos].lang = language
+        } else {
+//          opinion = this.value
+//            lang = $('#lang_'+index).value
+            edited_sms = $('#edit_'+index).val()
+            item = {
+                index: index,
+                opinion: opinion,
+                sms: edited_sms,
+                lang: language
+//              opinion is lang (extremely hacky)
+            }
+        changed_indexes[index] = change_list.length
+        change_list.push(item)
+        alert(item.toSource())
+        }
+    }//);
 
     $('#save').on('click', function() {
         change_list = change_list.map(function(e) {
