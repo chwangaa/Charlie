@@ -1,6 +1,34 @@
 from models import Word
 
 
+def cleanForWordCloud(text):
+
+    replace_list = Word.objects.all().filter(word_type__in=['TYPO', 'DICT'])
+    removes = Word.objects.all().filter(word_type__in=[
+                'NAME', 'SKIP']).values_list('word', flat=True)
+    replaces = replace_list.values_list('word', flat=True)
+
+    text = text.replace(".", " ")
+    words = text.split()
+    words_modified = []
+
+    for w in words:
+        if len(w) == 1:
+            continue
+        if w in replaces:
+            correction = replace_list.filter(word=w)[0]
+            correction = str(correction.translation)
+            w = correction
+        if w in removes:
+            continue
+        if w.isdigit() and w.isalnum():
+            continue
+        else:
+            words_modified.append(w)
+    new_text = ' '.join(words_modified)
+    return new_text
+
+
 def applyCustomizedRules(text):
 
     names = Word.objects.all().filter(word_type="NAME").values_list(
@@ -105,15 +133,19 @@ def deleteNumbers(text):
 
 
 def replaceSlangWords(text):
-    typos = Word.objects.all().filter(word_type="TYPO").values_list(
-                'word', flat=True)
+    typos = Word.objects.all().filter(word_type="TYPO")
+    typo_names = Word.objects.all().filter(word_type="TYPO").values_list(
+                 'word', flat=True)
     words = text.split()
     words_modified = []
     for w in words:
-        if w in typos:
-            correction = str(typos.filter(word=w)[0])
-            words_modified.append(correction)
-            continue
+        if w in typo_names:
+            for d in typos:
+                if w==d.word:
+                    w = w.replace(w,d.translation)
+                    words_modified.append(w)
+                else:
+                    continue
         else:
             words_modified.append(w)
     new_text = ' '.join(words_modified)

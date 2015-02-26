@@ -52,7 +52,7 @@
 						<td><input type='checkbox' class='checking' value={{sms.Index}}></td>
 						<td>{{sms.Country}}</td>
 						<td>{{sms.RStation}}</td>
-						<td><input type='text' id="edit_{{sms.Index}}" value="{{sms.Edited}}" size="60" ></td>
+						<td><input type='text' class='modify_text' id="edit_{{sms.Index}}" value="{{sms.Edited}}" size="60" ></td>
 						<td>{{sms.Original}}</td>
 						<!--td>{{sms.Language}}</td-->
 						<td><select onchange="changeLang(this.id)" size="1" id="lang_{{sms.Index}}" class='language_selection'>
@@ -116,7 +116,7 @@
         We need to bind the event handler to a parent container, since the html gets rerendered when the page table is changed.
         We need to be able to get the data from the table across pages, so we keep it in a datastructure (change_list).
     */
-    $('#edit_table').on('change', 'input', function() {
+    $('.modify_text').on('change', function() {
         id = this.id
         index = id.split('_')[1]
 
@@ -151,11 +151,9 @@
     $('.checking').on('change', function(){
         index = this.value
         if(this.checked == false){
-            console.log("unchecking")
             delete checked_list[index]
         }
         else{
-            console.log("checking")
             checked_list[index] = 1
         }
     });
@@ -166,7 +164,6 @@
             list_to_send.push(i)
         }
         num_deleted = list_to_send.length
-        console.log(num_deleted)
         if(num_deleted == 0){
             return;
         }
@@ -251,9 +248,11 @@
     }//);
 
     $('#save').on('click', function() {
+        console.log("save button clicked")
         change_list = change_list.map(function(e) {
             return JSON.stringify(e)
         });
+        console.log(change_list)
         sendPostRequestToSave()
     });
 

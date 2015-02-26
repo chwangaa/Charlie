@@ -1,6 +1,6 @@
 import csv
-from models import SMS, DataSource
-from modification_rules import applyCustomizedRules
+from models import SMS, DataSource, Word
+from modification_rules import applyCustomizedRules, cleanForWordCloud
 import lang
 
 
@@ -66,7 +66,7 @@ def getFrequencyList(datasource_id):
 
     text = ""
     for d in sms_set:
-        text = text + applyCustomizedRules(d.modifield_text) + " "
+        text = text + cleanForWordCloud(d.modifield_text) + " "
 
     from collections import Counter
 
@@ -75,6 +75,7 @@ def getFrequencyList(datasource_id):
     freq_list = []
     for key in freq:
         freq_list.append({"text": key, "weight": freq[key]})
+
     return sorted(freq_list, key=lambda e: -e['weight'])
 
 
