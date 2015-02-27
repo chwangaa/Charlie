@@ -13,7 +13,7 @@ def initializeDatabaseForDataSource(source, answer):
     dictionary = answer
     interested_kwards = dictionary.keys()
 
-    with transaction.commit_on_success():
+    with transaction.atomic():
         for sms in csv_dict:
             import re
             original_msg = sms['SMS']
