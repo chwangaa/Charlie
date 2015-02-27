@@ -330,7 +330,8 @@ def addTypoView(request):
     # Render list page with the documents and the form
     return render_to_response(
         'data_edit/create_single.html',
-        {"title": "Typo List", "headers": headers, "list": typo_list, 'form': form,
+        {"title": "Typo List", "desc":"If you've spotted a slang/misspelt word, enter your correction to alter the dataset please.",
+        "headers": headers, "list": typo_list, 'form': form,
          'name': request.user.username},
         context_instance=RequestContext(request)
     )

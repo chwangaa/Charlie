@@ -5,7 +5,6 @@
 <link rel="stylesheet" type="text/css" href="{% static 'analysis/css/create_single.css' %}" />
 
 <div id='upload_data'>
-	<p><b>If you have spotted a slang/misspelt word, please enter the correction to rectify the dataset.</b></p>
 	<form action="{{request.path}}" method="post">
 	{% csrf_token %}
 	{{form.as_p}}
@@ -14,6 +13,7 @@
 </div>
 
 <div id="title"> <span>{{title}}</span></div>
+<div id="desc"> <span>{{desc}}</span></div>
 <table id="edit_table" cellspacing="0" width="100%">
 	
 	<thead>
