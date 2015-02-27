@@ -9,6 +9,7 @@
 					<li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'repSlang' datasource_id %}">Replace slang</a></li>
 					<li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'remNonAlpha' datasource_id %}">Remove non-alphabetical characters</a></li>
 					<li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'remSkips' datasource_id %}">Remove skip words</a></li>
+					<li class='{% if url_name = "dashboard" %}active{%endif%}'><a href="{% url 'updLangs' datasource_id %}">Update languages</a></li>
 				</ul>
 			</li>			
 			<li class='{% if url_name = "dashboard" %}active{%endif%}'id="save"><a href="#" id="savelink">Save Changes</a></li>
@@ -139,11 +140,12 @@
                 index: index,
                 opinion: opinion,
                 sms: edited_sms,
+                langModded: "false",
                 lang: language
             }
         changed_indexes[index] = change_list.length
         change_list.push(item)
-//      alert(item.toSource())
+        alert(item.toSource())
         }
     });
 
@@ -208,11 +210,12 @@
                 index: index,
                 opinion: opinion,
                 sms: edited_sms,
+                langModded: "true",
                 lang: language
             }
         changed_indexes[index] = change_list.length
         change_list.push(item)
-//      alert(item.toSource())
+        alert(item.toSource())
         }
     }//);
 
@@ -238,12 +241,13 @@
                 index: index,
                 opinion: opinion,
                 sms: edited_sms,
+                langModded: "false",
                 lang: language
 //              opinion is lang (extremely hacky)
             }
         changed_indexes[index] = change_list.length
         change_list.push(item)
-//      alert(item.toSource())
+        alert(item.toSource())
         }
     }//);
 

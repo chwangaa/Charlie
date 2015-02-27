@@ -27,5 +27,6 @@ urlpatterns = patterns('',
     url(r'^(?P<datasource_id>\d+)/remSkip/$', events.removeSkipWords, name='remSkips'),
     url(r'^(?P<datasource_id>\d+)/remNonAlpha/$', events.removeNonAlphaBetical, name='remNonAlpha'),
     url(r'^(?P<datasource_id>\d+)/repSlang/$', events.replaceSlang, name='repSlang'),
+    url(r'^(?P<datasource_id>\d+)/updLangs/$', events.updateLanguages, name='updLangs'),
 
 )

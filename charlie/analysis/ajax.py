@@ -22,7 +22,8 @@ def update_manipulated(request, datasource_id):
             edited_sms.modifield_text = sms
             edited_sms.text = sms
             edited_sms.language = language
-#           lang.teach(sms,language)
+            if elem['langModded'] == 'true':
+                lang.teach(sms,language)
             edited_sms.save()
 
         if datasource.modified is True:

@@ -12,7 +12,7 @@ def updateLanguages(request, datasource_id):
     datasource.save()
     sms_set = datasource.sms_set.all()
     for sms in sms_set:
-        sms.language = lang.guess(modifield_text)
+        sms.language = lang.guess(sms.modifield_text)
         sms.save()
     return HttpResponseRedirect(reverse('manipulation', args=[datasource_id]))
 
