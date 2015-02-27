@@ -55,6 +55,8 @@ def deleteSMS(request, datasource_id):
 def deleteWord(request):
     if request.method == 'POST':
         word_id = int(request.POST.get('word_id'))
+        word = request.POST.get('word')
+        lang.teach(word,"Unknown")
         Word.objects.get(id=word_id).delete()
         return HttpResponse(
                             json.dumps({'text': "deleted"}),

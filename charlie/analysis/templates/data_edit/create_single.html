@@ -29,9 +29,9 @@
 		{% for entry in list %}
 		<tr>
 			<td><input type='radio' class='deletes' value={{entry.id}}></td>
-			{% for e in entry.values %}
-				<td>{{e}}</td>
-			{% endfor %}
+            <td id={{entry.id}}>{{entry.values.0}}</td>
+			<td>{{entry.values.1}}</td>
+			<td>{{entry.values.2}}</td>
 		</tr>
 		{% endfor %}
 
@@ -45,7 +45,8 @@
 
 
     $('.deletes').on('click', function(){
-		confirm = confirm("Are you sure you would like to delete this entry");
+        word = document.getElementById(this.value).innerHTML
+		confirm = confirm("Are you sure you would like to delete this entry?");
 		if(confirm == false){
 			this.checked = false;
 		}
@@ -53,7 +54,7 @@
 			$.ajax({
 	            url : "/analysis/delete_word/",
 	            type : "POST",
-	            data : {'word_id': this.value},
+	            data : {'word_id': this.value, 'word': word},
 	            // handle a successful response
 	            success : function(json) {
 	                console.log("success");

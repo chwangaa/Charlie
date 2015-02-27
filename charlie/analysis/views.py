@@ -14,6 +14,7 @@ from utils import initializeDatabaseForDataSource, getCount,\
                   renderOpinion, getDataSourceOpinions, getFrequencyList
 from django.db.models import Q
 import json
+import lang
 
 
 @login_required
@@ -244,6 +245,7 @@ def addDictView(request):
             new_dict = Word(word=word, translation=trans,
                             language=language, word_type="DICT")
             new_dict.save()
+            lang.teach(word,language)
 
             # Redirect to the document list after POST
             return HttpResponseRedirect(reverse('add_dict'))
