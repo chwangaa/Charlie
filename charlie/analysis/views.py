@@ -227,7 +227,8 @@ def addNameView(request):
     # Render list page with the documents and the form
     return render_to_response(
         'data_edit/create_single.html',
-        {"title": "Name List", "headers": headers, "list": name_list, 'form': form,
+        {"title": "Name List", "desc":"If you see a name in the data, enter it here and have it replaced with an 'NE' to help you focus on the important stuff.",
+        "headers": headers, "list": name_list, 'form': form,
          'name': request.user.username},
         context_instance=RequestContext(request)
     )
@@ -263,7 +264,8 @@ def addDictView(request):
     # Render list page with the documents and the form
     return render_to_response(
         'data_edit/create_single.html',
-        {"title": "Dict List", "headers": headers, "list": dict_list, 'form': form,
+        {"title": "Dict List", "desc":"If you see two words that mean the same thing, enter the word, translation and language to enhance data analysis.",
+        "headers": headers, "list": dict_list, 'form': form,
          'name': request.user.username},
         context_instance=RequestContext(request)
     )
@@ -298,7 +300,8 @@ def addSkipView(request):
     # Render list page with the documents and the form
     return render_to_response(
         'data_edit/create_single.html',
-        {"title": "Skip List", "headers": headers, "list": skip_list, 'form': form,
+        {"title": "Skip List", "desc":"If you've spotted an unnecessary word, please enter it here to remove it from the data.",
+        "headers": headers, "list": skip_list, 'form': form,
          'name': request.user.username},
         context_instance=RequestContext(request)
     )
