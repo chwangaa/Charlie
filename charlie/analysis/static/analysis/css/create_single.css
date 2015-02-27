@@ -13,9 +13,17 @@
 	border-top:1px solid;
 }
 
-#edit_table_wrapper{
+#desc{
+	padding:10px;
 	position:fixed;
 	top:280px;
+	font-size:1.3em;
+	width:100%;
+}
+
+#edit_table_wrapper{
+	position:fixed;
+	top:320px;
 	width:100%;
 	padding:10px;
 	overflow-y:scroll;
