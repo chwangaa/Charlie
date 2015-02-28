@@ -17,9 +17,9 @@
 						<div class='uploaded_file'>
 							<div class='uploaded_file_question'>{{document.name}}</div>
 							<div id='datasource{{document.pk}}' class='delete glyphicon glyphicon-remove'> </div>
-							<div class='uploaded_file_name'>{{ document.docfile.name }}</div>
+							<div class='uploaded_file_name'>{{ document.docfile.name }} </div>
 							<div class='q_link'> <a href="{% url "manipulation" document.id %}">Data Manipulation</a> </div>
-							<div class='q_link'> <a href="{% url "analysis" document.id %}">Visualized Analysis</a> </div>
+							<div class='q_link'> <a href="{% url "analysis" document.id %}">Visualised Analysis</a> </div>
 						</div>
 						<br/>
 					{% endfor %}
@@ -47,7 +47,8 @@
 				<p class="formfield">
 					{{ form.opinions}}{{ form.opinions.errors }}
 				</p>
-				<p><input type="submit" value="Upload" /></p>
+				<br>
+				<p><input type="submit" value="Upload"/></p>
 				</form>
 			</div>
 		

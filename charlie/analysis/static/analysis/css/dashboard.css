@@ -34,14 +34,15 @@ h1{
 }
 
 .uploaded_file{
-	height:330px;
+	height:270px;
 	width:240px;
-	margin:20px;
+	margin:10px;
 	margin-bottom:0px;
 	border-radius:10px;
 	border-style:solid;
 	border-color:black;
 }
+
 .uploaded_file_question{
 	padding:10px;
 	font-size:1.25em;
@@ -90,11 +91,11 @@ h1{
 
 #upload_data{
 	position:absolute;
-	width:700px;
-	height:400px;
+	width:600px;
+	height:420px;
 	top:50%;
 	left:50%;
-	margin:-200px 0 0 -350px;
+	margin:-210px 0 0 -300px;
 	background-color:white;
 	padding:20px 40px 20px 40px;
 	display:none;

@@ -73,3 +73,7 @@
 .carousel-indicators .active {
   background-color: #444;
 }
+
+#opinion_table_wrapper{
+	padding:10px;
+}
