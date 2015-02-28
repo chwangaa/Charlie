@@ -156,8 +156,7 @@ def dataManipulation(request, datasource_id):
     print datasource_id
     opinions = getDataSourceOpinions(datasource_id=1)
 
-    languages = ['Swahili', 'Portuguese', 'Dholuo', 'Luganda', 'Nyanja', 'Chichewa', 'English', 'Unknown']
-    languages = sorted(languages)
+    languages = lang.get_langs()
 
     table = render_to_string("data_edit/table_edit.html",
                              {"data": data, "opinions": opinions,

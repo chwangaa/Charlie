@@ -8,6 +8,12 @@ file_path = os.path.join(module_dir, 'base_db.dict')
 # f = open('/home/swaraj/Code/Python/Charlie/base_db.dict','rb')
 # db = pickle.load(f)
 
+def get_langs():
+    with open(file_path, "rb") as f:
+        db = pickle.load(f)
+
+    return sorted(db.keys())
+
 def teach(message,lang):
     with open(file_path, "rb") as f:
         db = pickle.load(f)
