@@ -30,9 +30,9 @@
 		{% for entry in list %}
 		<tr>
 			<td><input type='radio' class='deletes' value={{entry.id}}></td>
-            <td id={{entry.id}}>{{entry.values.0}}</td>
-			<td>{{entry.values.1}}</td>
-			<td>{{entry.values.2}}</td>
+            {% for e in entry.values %}
+				<td>{{e}}</td>
+			{% endfor %}
 		</tr>
 		{% endfor %}
 
