@@ -126,7 +126,7 @@ def getOpinionCountryBreakDown(datasource_id):
 
 def updateFile(datasource):
     headings = ['Index', 'Country', 'RStation',
-                'Text', 'Modified', 'Language', 'Opinion']
+                'Text', 'Language', 'Opinion']
 
     sms_set = datasource.sms_set.all()
     # data is what to write to the file
@@ -139,10 +139,9 @@ def updateFile(datasource):
         country = sms.country.encode('utf-8')
         rstation = sms.rstation.encode('utf-8')
         text = sms.text.encode('utf-8')
-        modified_text = sms.modifield_text.encode('utf-8')
         language = sms.language.encode('utf-8')
         opinion = sms.opinion.encode('utf-8')
-        entry = [index, country, rstation, text, modified_text, language, opinion]
+        entry = [index, country, rstation, text, language, opinion]
         data.append(entry)
 
     csv_file_path = datasource.docfile.path

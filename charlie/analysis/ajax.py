@@ -67,40 +67,6 @@ def deleteWord(request):
 
 
 @login_required
-def addName(request):
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        new_name = Word(word=name, word_type="NAME")
-        new_name.save()
-        print "new name created", name
-        return HttpResponse(
-                            json.dumps({'text': "new name entry made"}),
-                            content_type='application/json'
-                            )
-    else:
-        return HttpResponse("Creating Name Failed")
-
-
-@login_required
-def addDict(request):
-    if request.method == 'POST':
-        word = request.POST.get('word')
-        trans = request.POST.get('trans')
-        lang = request.POST.get('lang')
-        new_dict = Word(word=word, language=lang, translation=trans,
-                        word_type="DICT")
-        new_dict.save()
-        print "new name created", new_dict
-
-        return HttpResponse(
-                            json.dumps({'text': "new dict entry made"}),
-                            content_type='application/json'
-                            )
-    else:
-        return HttpResponse("Creating dictionary entry failed")
-
-
-@login_required
 def delete_datasource(request):
     if request.method == 'POST':
         document_id = request.POST.get('document_id')

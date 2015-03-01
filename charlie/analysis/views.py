@@ -205,10 +205,12 @@ def addNameView(request):
         form = CreateNameForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            name = data['name']
-            print name
-            new_name = Word(word=name, word_type="NAME")
-            new_name.save()
+            name = data['name'].title()
+            if Word.objects.filter(word=name, word_type="NAME").exists():
+                pass
+            else:
+                new_name = Word(word=name, word_type="NAME")
+                new_name.save()
 
             # Redirect to the document list after POST
             return HttpResponseRedirect(reverse('add_name'))
@@ -242,10 +244,14 @@ def addDictView(request):
             word = data['word']
             trans = data['trans']
             language = data['language']
-            new_dict = Word(word=word, translation=trans,
+            language = language.title()
+            if Word.objects.filter(word=word, language=language, translation=trans).exists():
+                pass
+            else:
+                new_dict = Word(word=word, translation=trans,
                             language=language, word_type="DICT")
-            new_dict.save()
-            lang.teach(word,language)
+                new_dict.save()
+                lang.teach(word,language)
 
             # Redirect to the document list after POST
             return HttpResponseRedirect(reverse('add_dict'))
@@ -278,11 +284,15 @@ def addSkipView(request):
         if form.is_valid():
             data = form.cleaned_data
             word = data['word']
-            trans = data['trans']
+            word = word.lower()
+            trans = data['trans'].title()
             language = data['language']
-            new_skip = Word(word=word, translation=trans,
+            if Word.objects.filter(word=word, language=language, translation=trans).exists():
+                pass
+            else:
+                new_skip = Word(word=word, translation=trans,
                             language=language, word_type="SKIP")
-            new_skip.save()
+                new_skip.save()
 
             # Redirect to the document list after POST
             return HttpResponseRedirect(reverse('add_skip'))
@@ -312,10 +322,13 @@ def addTypoView(request):
         form = CreateTypoForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            word = data['word']
-            trans = data['translation']
-            new_typo = Word(word=word, translation=trans, word_type="TYPO")
-            new_typo.save()
+            word = data['word'].lower()
+            trans = data['translation'].lower()
+            if Word.objects.filter(word=word, translation=trans).exists():
+                pass
+            else:
+                new_typo = Word(word=word, translation=trans, word_type="TYPO")
+                new_typo.save()
 
             # Redirect to the document list after POST
             return HttpResponseRedirect(reverse('add_typo'))

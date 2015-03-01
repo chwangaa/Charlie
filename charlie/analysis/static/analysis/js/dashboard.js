@@ -1,8 +1,9 @@
-document.getElementById('addbutton').addEventListener("click",
-            function(e){
-				document.getElementById("overlay").style.display='block';
-				document.getElementById("upload_data").style.display='block';  
-        });
+function presentUploadForm(){
+    document.getElementById("overlay").style.display='block';
+    document.getElementById("upload_data").style.display='block';  
+}
+
+document.getElementById('addbutton').addEventListener("click", presentUploadForm);
 		
 document.getElementById('cancel').addEventListener("click",
             function(e){
