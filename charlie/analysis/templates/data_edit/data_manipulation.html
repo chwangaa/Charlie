@@ -4,46 +4,5 @@
 <link rel="stylesheet" type="text/css" href="{% static 'analysis/css/table_edit.css' %}" />
 {{table}}
 <script type="text/javascript">
-
-$('#add_name_form').submit(function(){
-	name = document.getElementById('id_name').value
-    
-    $.ajax({
-        url : "/analysis/addName/",
-        type : "POST", // http method
-        data : { "name" : name },
-        // handle a successful response
-        success : function(json) {
-            alert(name + " is documented"); // log the returned json to the console
-        },
-
-        error : function(xhr,errmsg,err) {
-        }
-    });
-})
-
-$('#add_dict_form').submit(function(){
-	word = document.getElementById('id_word').value
-	trans = document.getElementById('id_trans').value
-	lang = document.getElementById('id_language').value
-
-    $.ajax({
-        url : "/analysis/addDict/",
-        type : "POST", // http method
-        data : { "word": word,
-        		 "trans": trans,
-        		 "lang": lang 
-        		},
-        // handle a successful response
-        success : function(json) {
-            alert(word + " is documented"); // log the returned json to the console
-        },
-
-        error : function(xhr,errmsg,err) {
-    	}
-    });
-})
-
-
 </script>
 {%endblock%}

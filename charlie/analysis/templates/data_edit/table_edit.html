@@ -253,11 +253,9 @@
     }//);
 
     $('#save').on('click', function() {
-        console.log("save button clicked")
         change_list = change_list.map(function(e) {
             return JSON.stringify(e)
         });
-        console.log(change_list)
         sendPostRequestToSave()
     });
 
@@ -272,7 +270,6 @@
             success : function(json) {
                 $('#post-text').val(''); // remove the value from the input
                 console.log(json); // log the returned json to the console
-                console.log("success"); // another sanity check
                 changed_indexes = {}
                 change_list = []
                 location.reload()
