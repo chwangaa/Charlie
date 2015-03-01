@@ -39,7 +39,7 @@ def dashboard(request):
         else:
             return render_to_response(
                 'dashboard.html',
-                {'form': form, 'name': request.user.username},
+                {'form': form, 'name': request.user.username, "upload_fail": True},
                 context_instance=RequestContext(request))
     else:
         form = DataUploadForm()  # A empty, unbound form
