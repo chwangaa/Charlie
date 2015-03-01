@@ -31,8 +31,11 @@
 		<tr>
 			<td><input type='radio' class='deletes' value={{entry.id}}></td>
             <td id={{entry.id}}>{{entry.values.0}}</td>
-			<td>{{entry.values.1}}</td>
-			<td>{{entry.values.2}}</td>
+			<!--td>{{entry.values.1}}</td-->
+            {% for e in entry.values|slice:"1:" %}
+                <td>{{e}}</td>
+            {% endfor %}
+			<!--td>{{entry.values.2}}</td-->
 		</tr>
 		{% endfor %}
 
