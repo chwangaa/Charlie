@@ -23,6 +23,7 @@
 
 #edit_table_wrapper{
 	position:fixed;
+	height:50%;
 	top:320px;
 	width:100%;
 	padding:10px;
