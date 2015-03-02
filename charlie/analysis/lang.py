@@ -2,7 +2,7 @@ import os
 import pickle
 import re
 
-module_dir = os.path.dirname(__file__)  # get current directory
+module_dir = os.path.split(os.path.realpath(__file__))[0]  # get current directory
 file_path = os.path.join(module_dir, 'base_db.dict')
 
 # f = open('/home/swaraj/Code/Python/Charlie/base_db.dict','rb')
