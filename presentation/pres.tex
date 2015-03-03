@@ -110,11 +110,15 @@ Format --- {\tt {\bf Cat1}:\ KeyA, KeyB; {\bf Cat2}:\ KeyC, KeyD, KeyE}
 \begin{frame}
 \frametitle{Technical details}
 \setbeamertemplate{itemize items}[triangle]
+Language module:
 \begin{itemize}[<+->]
-\item Server implemented in django
-\item Frontend stuff using Bootstrap
-\item Language module does cool things
-\item Messages are internally associated with labels, blah blah
+\item Language identification for such languages is expensive, similar to machine translation.
+\item Our solution: do frequency analysis. Works out much better in the long run.
+\end{itemize}
+\onslide<+->{Other details:}
+\begin{itemize}[<+->]
+\item Backend: Django
+\item Frontend: Bootstrap
 \end{itemize}
 \end{frame}
 
