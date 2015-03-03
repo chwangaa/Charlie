@@ -166,7 +166,7 @@ function appendWordFilterToSidebar(word) {
         $('#filterbyword').show();
         $('#wordfilter').show();
         showWordFilter = true;
-        document.getElementById("arrow4").className="glyphicon glyphicon-triangle-top arrow";
+        document.getElementById("arrow4").className="glyphicon glyphicon-triangle-top farrow";
     }
 }
 
