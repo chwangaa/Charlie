@@ -1,5 +1,6 @@
 \documentclass{beamer}
 \usepackage[utf8]{inputenc}
+\usepackage{graphicx}
  \usetheme{CambridgeUS}
 \title[Group Charlie --- Multi-Lingual SMS]{Group Charlie\\Multi-Lingual SMS}
 \author[aw625, chw43, did23, sd660, tsp31]{Andrew, Chihang, Daria, Swaraj and Tanvi}
@@ -47,7 +48,7 @@ User input:
 \begin{itemize}[<+->]
 \item CSV file containing relevant columns (country, radio station, message)
 \item Categories and respective keywords associated with them\\
-Format --- {\tt Cat1:\ KeyA, KeyB; Cat2:\ KeyC, KeyD, KeyE}
+Format --- {\tt {\bf Cat1}:\ KeyA, KeyB; {\bf Cat2}:\ KeyC, KeyD, KeyE}
 \end{itemize}
 \onslide<+->{Viewing `modes' implemented:}
 \begin{itemize}[<+->]
@@ -61,19 +62,50 @@ Format --- {\tt Cat1:\ KeyA, KeyB; Cat2:\ KeyC, KeyD, KeyE}
 
 \begin{frame}
 \frametitle{Word Cloud}
+  \begin{figure}
+    \centering
+    \includegraphics[scale=0.3]{./word.png}
+    \caption{Word cloud --- useful for viewing major keywords/concerns}
+  \end{figure}
 \end{frame}
 
 \begin{frame}
 \frametitle{Pie Chart}
+  \begin{figure}
+    \centering
+    \includegraphics[scale=0.3]{./pie.png}
+    \caption{Pie chart --- useful for viewing major opinions}
+  \end{figure}
 \end{frame}
 
 \begin{frame}
 \frametitle{Bar Graph}
+  \begin{figure}
+    \centering
+    \includegraphics[scale=0.3]{./bar.png}
+    \caption{Bar graph --- allows for breakdown by country}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Table View}
+  \begin{figure}
+    \centering
+    \includegraphics[scale=0.3]{./table.png}
+    \caption{Table view --- used to view individual SMS messages}
+  \end{figure}
 \end{frame}
 
 \begin{frame}
 \frametitle{Data Manipulation}
+  \begin{figure}
+    \centering
+    \includegraphics[scale=0.3]{./manip.png}
+    \caption{Data manipulation --- used to modify/correct data}
+  \end{figure}
 \end{frame}
+
+% Talk about general workflow at some point
 
 \begin{frame}
 \frametitle{Technical details}
@@ -81,6 +113,16 @@ Format --- {\tt Cat1:\ KeyA, KeyB; Cat2:\ KeyC, KeyD, KeyE}
 
 \begin{frame}
 \frametitle{Lessons learned}
+\setbeamertemplate{itemize items}[triangle]
+\begin{itemize}[<+->]
+\item I hate SWEng
+\end{itemize}
+\end{frame}
+
+\begin{frame}[c]
+\begin{center}
+\Huge Thanks for listening!
+\end{center}
 \end{frame}
 
 \end{document}
