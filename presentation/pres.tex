@@ -13,16 +13,26 @@
 \setbeamertemplate{itemize items}[triangle]
 \begin{itemize}[<+->]
 \item Africa's Voices: Opinion polling done by broadcasting a variety of questions from several radio stations, where answers were received as SMS messages.
-\item The SMS messages were in different languages and sometimes included irrelevant information, such as details of the sender.
-\item Problem we're trying to solve: allow for easy detection of opinion trends in such data.
+\item Main problem: The SMS messages were in different languages and sometimes included irrelevant information, such as details of the sender.
+\item Sub-problem: Machine translation is not feasible for minority languages with little economic value. As a result of this, translation was taken to be an expensive task.
+\item Problem we're trying to solve: allow for easy detection of opinion trends in such data, despite it being in several languages.
 \end{itemize}
 \end{frame}
 
 \begin{frame}
-\frametitle{Our goal}
+\frametitle{Our goals}
 \setbeamertemplate{itemize items}[triangle]
 \begin{itemize}[<+->]
-\item This is a tool for scientists
+\item This is a tool for scientists --- it should have a friendly and interactive UI while not getting in the way.
+\item Due to translation being expensive, we need to allow for the researchers to determine more important words/topics for which they can prioritise translation.
+\end{itemize}
+
+\onslide<+->{Additional requirements set along the way:}
+
+% \pause
+\begin{itemize}[<+->]
+\item Allow for identification of the language that a message was written in.
+\item Allow for `cleaning up' of the data by removing names, {\tt txt-speak} and other slang.
 \end{itemize}
 \end{frame}
 
