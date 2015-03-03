@@ -1,5 +1,5 @@
 import csv
-from models import SMS, DataSource
+from models import SMS, DataSource, Word
 from modification_rules import applyCustomizedRules, cleanForWordCloud
 import lang
 from django.db import transaction
@@ -12,26 +12,37 @@ def initializeDatabaseForDataSource(source, answer):
 
     dictionary = answer
     interested_kwards = dictionary.keys()
+    possible_matchings = Word.objects.filter(word_type='DICT').values_list(
+                            'translation', flat=True)
+    all_trans = Word.objects.filter(word_type='DICT')
+    for word in interested_kwards:
+        if word in possible_matchings:
+            correction = all_trans.filter(translation=word)[0]
+            correction = str(correction.word)
+            interested_kwards.append(correction)
+            dictionary[correction] = word
 
     with transaction.atomic():
         for sms in csv_dict:
             import re
             original_msg = sms['SMS']
+            # remove non alphanumberical characters
+            original_msg = re.sub(r'[^\w]', ' ', original_msg)
+            # remove extra spaces
+            original_msg = re.sub(r'\s+', ' ', original_msg)
             # to lower case
             text = original_msg.lower()
-            # remove non alphanumberical characters
-            text = re.sub(r'[^\w]', ' ', text)
-            # remove extra spaces
-            text = re.sub(r'\s+', ' ', text)
             # remove any space at the front
-            text = text.lstrip()
+            text = text.strip()
             # apply rules
             text = applyCustomizedRules(text)
             if text == "":
                 continue
+            text = " " + text + " "
             opinion_found = False
             for kw in interested_kwards:
-                if kw in text:
+                matching = " " + kw + " "
+                if matching in text:
                     opinion = dictionary[kw]
                     opinion_found = True
                     break
@@ -42,11 +53,12 @@ def initializeDatabaseForDataSource(source, answer):
             country = sms['Country'].lower()
             index = sms['Index']
             g_lang = lang.guess(text)
-            s = SMS(text=original_msg, rstation=rstation, country=country,
+            text = text.strip()
+            s = SMS(text=text, rstation=rstation, country=country,
                     source=source, opinion=opinion, index=index,
                     modifield_text=text, language=g_lang)
             s.save()
-    source.modified = True
+    source.modified = False
     source.save()
     # write the modified back to the file
     updateFile(source)
