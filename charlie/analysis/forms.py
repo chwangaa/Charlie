@@ -9,7 +9,7 @@ class DataUploadForm(forms.Form):
     question = forms.CharField(
         label='What is your question?')
     opinions = forms.CharField(
-        label='What opinions are you interested at?')
+        label='What opinions are you interested in?')
 
     def clean_opinions(self):
         opinions = self.cleaned_data['opinions']
