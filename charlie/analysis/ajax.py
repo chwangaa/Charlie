@@ -6,6 +6,20 @@ import lang
 
 
 @login_required
+def renderWordCloud(request, datasource_id):
+    if request.method == 'POST':
+        data = request.POST.get('data')
+        from utils import getFreq
+        y = getFreq(data)
+        return HttpResponse(
+                    json.dumps({'data': y}),
+                    content_type='application/json'
+                    )
+    else:
+        return HttpResponse("bla")
+
+
+@login_required
 def update_manipulated(request, datasource_id):
     if request.method == 'POST':
         change_list = request.POST.getlist('changes[]')
@@ -23,7 +37,7 @@ def update_manipulated(request, datasource_id):
             edited_sms.text = sms
             edited_sms.language = language
             if elem['langModded'] == 'true':
-                lang.teach(sms,language)
+                lang.teach(sms, language)
             edited_sms.save()
 
         if datasource.modified is True:
@@ -56,7 +70,7 @@ def deleteWord(request):
     if request.method == 'POST':
         word_id = int(request.POST.get('word_id'))
         word = request.POST.get('word')
-        lang.teach(word,"Unknown")
+        lang.teach(word, "Unknown")
         Word.objects.get(id=word_id).delete()
         return HttpResponse(
                             json.dumps({'text': "deleted"}),

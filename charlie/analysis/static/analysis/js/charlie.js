@@ -7,35 +7,31 @@ function Counter(list){
 }
 
 
-function getWordFrequencyList(data){
-	var words = []
+function getWordFrequencyListAjax(data){
+	var words = ""
 	for(var i in data){
 		var entry = data[i]
 		if('modified_text' in entry) {
-			var sms = entry['modified_text'].toLowerCase()
-			// Remove non alphanumerical characters.
-			sms = sms.replace(/\W+/g, ' ');
-			sms = sms.split(' ');
-			// Filter empty strings.
-			sms = sms.filter(function(element) {
-		        return element.replace(/\s+/g, ' ') != "";
-		    });
-		    words = words.concat(sms);
+			words = words + " " + entry['modified_text']
 		}
 	}
-	
- 	var counter = Counter(words)
-	var word_list = []
-	for(var key in counter){
-		var c = {text: key, weight: counter[key]}
-		word_list.push(c)
-	}
-	word_list.sort(function(a,b){
-		return b["weight"] - a["weight"]
-	})
-  
-  return word_list
+    $.ajax({
+        // This will go to /analysis/datasource_id/manip/update/
+        url : "renderWordCloud/", // the endpoint
+        type : "POST", // http method
+        data : {'data': words}, // data sent with the post request
+        // handle a successful response
+        success : function(json) {
+            freqs = json.data
+  			drawCloudMap(freqs, '#cloud_tags')
+        },
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+        	console.log("severe error here")
+        }
+    });
 }
+
 
 function getAttributeList(data, attribute){
 	var attribute_list = [];

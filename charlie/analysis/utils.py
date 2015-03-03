@@ -1,5 +1,5 @@
 import csv
-from models import SMS, DataSource, Word
+from models import SMS, DataSource
 from modification_rules import applyCustomizedRules, cleanForWordCloud
 import lang
 from django.db import transaction
@@ -68,24 +68,34 @@ def getFrequencyList(datasource_id):
 
     text = ""
     for d in sms_set:
-        text = text + cleanForWordCloud(d.modifield_text) + " "
+        text = text + d.modifield_text + " "
 
+    return getFreq(text)
+
+
+def getFreq(texts):
+    synonyms, text = cleanForWordCloud(texts)
     from collections import Counter
-
     words = text.split()
     freq = dict(Counter(words))
     freq_list = []
     for key in freq:
-        freq_list.append({"text": key, "weight": freq[key]})
+        if key in synonyms:
+            freq_list.append({"text": key, "weight": freq[key],
+                              "label": synonyms[key]})
+        else:
+            freq_list.append({"text": key, "weight": freq[key],
+                              "label": key})
 
-    return sorted(freq_list, key=lambda e: -e['weight'])
+    freq_list = sorted(freq_list, key=lambda e: -e['weight'])
+    return freq_list
 
 
 def renderOpinion(opinions_raw):
     opinions = {}
     for key, value in opinions_raw.iteritems():
         opinions[value] = 1
-    print opinions
+
     unique_opinions = ""
     for key in opinions.keys():
         unique_opinions = unique_opinions+key+","

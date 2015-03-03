@@ -9,9 +9,8 @@ function updateData(){
   filtered_country = filterByCountry(data_raw, countries)
   filtered_station = filterByStation(filtered_country, rstations)
   data_filtered = filterByOpinion(filtered_station, opinions)
-  data_wordcloud = getWordFrequencyList(data_filtered)
+  getWordFrequencyListAjax(data_filtered)
   applyFiltersToTables(countries, rstations, opinions);
-  drawCloudMap(data_wordcloud, '#cloud_tags')
 }
 
 function getSelectedOpinions(){
@@ -167,7 +166,7 @@ function appendWordFilterToSidebar(word) {
         $('#filterbyword').show();
         $('#wordfilter').show();
         showWordFilter = true;
-        document.getElementById("arrow4").className="glyphicon glyphicon-triangle-top arrow";
+        document.getElementById("arrow4").className="glyphicon glyphicon-triangle-top farrow";
     }
 }
 

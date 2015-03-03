@@ -1,6 +1,18 @@
 from models import Word
 
 
+def getLabels(setofLabels):
+    # get a set like (("aids": "sida"), ("aids": "bla"))
+    # return a dict {"aids": "aids sida bla"}
+    labels = {}
+    for i, j in setofLabels:
+        labels[i] = i
+    for i, j in setofLabels:
+        labels[i] = labels[i] + "#@#" + j
+
+    return labels
+
+
 def cleanForWordCloud(text):
 
     replace_list = Word.objects.all().filter(word_type__in=['TYPO', 'DICT'])
@@ -12,12 +24,15 @@ def cleanForWordCloud(text):
     words = text.split()
     words_modified = []
 
+    list_words_replaced = set()
+
     for w in words:
         if len(w) == 1:
             continue
         if w in replaces:
             correction = replace_list.filter(word=w)[0]
             correction = str(correction.translation)
+            list_words_replaced.add((correction, str(w)))
             w = correction
         if w in removes:
             continue
@@ -26,7 +41,10 @@ def cleanForWordCloud(text):
         else:
             words_modified.append(w)
     new_text = ' '.join(words_modified)
-    return new_text
+
+    labels = getLabels(list_words_replaced)
+
+    return labels, new_text
 
 
 def applyCustomizedRules(text):
