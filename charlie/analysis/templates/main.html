@@ -131,8 +131,6 @@ var table;
 
 // global state variables
 var WINDOW = {
-    HOME: {id: 'page_dashboard'},
-    UPLOAD: {id: 'page_upload'},
     CHART: {id: 'page_charts'},
     CLOUD: {id: 'page_cloudmap'},
     LIST: {id: 'page_text'}
@@ -142,13 +140,13 @@ var CTR_WINDOW;
 
 data_raw = {{data_raw | safe}};
 data_filtered = data_raw
-data_wordfreq = {{word_freq | safe }}
+data_wordcloud = {{word_freq | safe }}
 data_countries = {{data_countries | safe}}
 data_rstations = {{data_rstations | safe}}
 data_opinions = {{data_opinions | safe}}
 data_clicked_words = [];
 
-drawCloudMap(data_wordfreq, '#cloud_tags')
+drawCloudMap(data_wordcloud, '#cloud_tags')
 renderSideBars({{sidebar_filters | safe}})
 CTR_WINDOW = WINDOW.CHART;
 $("#wrapper").toggleClass("toggled");
@@ -157,12 +155,16 @@ switchView();
 
 document.getElementById("cloud_tags").addEventListener("click",
     function(e){
-        word = e.target.id
+        labels = e.target.id
+        words = labels.split('#@#')
         // If word doesn't exist in list, add it and show the filters in the sidebar.
-        if (data_clicked_words.indexOf(word) < 0) {
-            data_clicked_words.push(word)
-            appendWordFilterToSidebar(word)
-            applyWordFilterToTable()
+        for(i in words){
+            word = words[i]
+            if (data_clicked_words.indexOf(word) < 0) {
+                data_clicked_words.push(word)
+                appendWordFilterToSidebar(word)
+                applyWordFilterToTable()
+            }
         }
         CTR_WINDOW = WINDOW.LIST
         switchView()
@@ -197,22 +199,25 @@ function switchView(){
 }
     
 //Collapse filters - if you're here to clean up, this only exists here atm
-var showOpinionFilter = false;
+var showOpinionFilter = true;
 var showCountryFilter = false;
 var showStationFilter = false;
 var showWordFilter = false;
 
+document.getElementById("opinionfilter").style.display="block";
+document.getElementById("arrow1").className="glyphicon glyphicon-triangle-top farrow";
+
 document.getElementById("filterbyopinion").addEventListener("click",
 	function(e){
-		if(showCountryFilter){
+		if(showOpinionFilter){
 			document.getElementById("opinionfilter").style.display="none";
 			document.getElementById("arrow1").className="glyphicon glyphicon-triangle-bottom farrow";
-			showCountryFilter = false;
+			showOpinionFilter = false;
 		}
 		else{
 			document.getElementById("opinionfilter").style.display="block";
 			document.getElementById("arrow1").className="glyphicon glyphicon-triangle-top farrow";
-			showCountryFilter = true;
+			showOpinionFilter = true;
     };
 });
 document.getElementById("filterbycountry").addEventListener("click",

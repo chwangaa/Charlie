@@ -49,11 +49,12 @@ function reWeigh(words) {
 */
 function drawCloudMap(words, container) {
     var colour;
-    words = words.slice(0,30);
+    words = words.slice(0,40);
     words = reWeigh(words);
     list = "<ul>";
     for(var i = 0; i < words.length; i++) {
         text = words[i].text;
+        label = words[i].label;
         weight = words[i].weight;
         topic = words[i].topic;
         if (words[i].topic != null) {
@@ -61,7 +62,7 @@ function drawCloudMap(words, container) {
         } else {
             colour = topicColour[0];
         }
-        new_item = "<li> <a data-weight="+weight+" id=" +text+ " style=\"color:"+colour+"\" href=\"#\">"+text+"</a></li>"
+        new_item = "<li><a data-weight="+weight+" id=" +label+ " style=\"color:"+colour+"\" href=\"#\">"+text+"</a></li>"
         list = list.concat(new_item)
     }
     list = list.concat("</ul>");

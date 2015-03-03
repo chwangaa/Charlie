@@ -12,7 +12,6 @@ from forms import DataUploadForm, CreateNameForm, CreateDictForm, \
                   CreateSkipForm, CreateTypoForm
 from utils import initializeDatabaseForDataSource, getCount,\
                   renderOpinion, getDataSourceOpinions, getFrequencyList
-from django.db.models import Q
 import json
 import lang
 
@@ -39,7 +38,8 @@ def dashboard(request):
         else:
             return render_to_response(
                 'dashboard.html',
-                {'form': form, 'name': request.user.username, "upload_fail": True},
+                {'form': form, 'name': request.user.username,
+                 "upload_fail": True},
                 context_instance=RequestContext(request))
     else:
         form = DataUploadForm()  # A empty, unbound form
@@ -76,7 +76,7 @@ def analysis(request, datasource_id):
                     'opinion': d.opinion,
                     'modified_text': d.modifield_text,
                     'Index': d.index,
-                    'Language':d.language
+                    'Language': d.language
                     }
         data.append(instance)
 
@@ -86,8 +86,8 @@ def analysis(request, datasource_id):
                              {"data": data, "opinions": opinions})
 
     # get data for word_cloud_view
-    word_freq = json.dumps(getFrequencyList(datasource_id))
-
+    freq_list = getFrequencyList(datasource_id)
+    word_freq = json.dumps(freq_list)
     # get pie_chart
     data_js = json.dumps(data)
     opinions = sms_set.values_list('opinion', flat=True)
@@ -150,7 +150,7 @@ def dataManipulation(request, datasource_id):
                     'Edited': d.modifield_text,
                     'opinion': d.opinion,
                     'Index': d.index,
-                    'Language':d.language
+                    'Language': d.language
                     }
         data.append(instance)
     print datasource_id
@@ -163,41 +163,11 @@ def dataManipulation(request, datasource_id):
                               "datasource_id": datasource_id,
                               "languages": languages})
 
-    name_form = CreateNameForm()
-    dict_form = CreateDictForm()
     return render(request, 'data_edit/data_manipulation.html',
-                  {"name": request.user.username, "name_form": name_form,
-                   "dict_form": dict_form, "table": table,
-                   "datasource_id": datasource_id})
-
-
-def delD(request, datasource_id):
-    data_set = DataSource.objects.get(id=datasource_id).sms_set.all()
-    remove_dupes = data_set
-    data = []
-    for d in data_set:
-        remove_dupes = remove_dupes.exclude(Q(country__contains=d.country)& Q(rstation__contains = d.rstation)
-            &Q(text__contains=d.text)& ~Q(index__contains=d.index))
-    for d in remove_dupes:
-        instance = {'Country': d.country,
-                    'RStation': d.rstation,
-                    'Original': d.text,
-                    'Edited': d.modifield_text, 
-                    'opinion': d.opinion,
-                    'Index': d.index,
-                    'Language':d.language
-                    }
-        data.append(instance)
-
-    opinions = getDataSourceOpinions(datasource_id)
-
-    table = render_to_string("data_edit/table_edit.html",
-                             {"data": data, "opinions": opinions})
-
-    name_form = CreateNameForm()
-    dict_form = CreateDictForm()
-    return render(request, 'data_edit/data_manipulation.html',
-                  {"name_form": name_form, "dict_form": dict_form, "table": table})
+                  {"name": request.user.username,
+                   "table": table,
+                   "datasource_id": datasource_id}
+                  )
 
 
 def addNameView(request):
@@ -226,11 +196,14 @@ def addNameView(request):
         name_list.append({"id": name.id, "values": [name.word]})
 
     headers = ['Name']
+    description = "If you see a name in the data, enter it here \
+                   and have it replaced with an 'NE' to help you \
+                   focus on the important stuff."
     # Render list page with the documents and the form
     return render_to_response(
         'data_edit/create_single.html',
-        {"title": "Name List", "desc":"If you see a name in the data, enter it here and have it replaced with an 'NE' to help you focus on the important stuff.",
-        "headers": headers, "list": name_list, 'form': form,
+        {"title": "Name List", "desc": description,
+         "headers": headers, "list": name_list, 'form': form,
          'name': request.user.username},
         context_instance=RequestContext(request)
     )
@@ -245,13 +218,14 @@ def addDictView(request):
             trans = data['trans']
             language = data['language']
             language = language.title()
-            if Word.objects.filter(word=word, language=language, translation=trans).exists():
+            if Word.objects.filter(word=word, language=language,
+                                   translation=trans).exists():
                 pass
             else:
                 new_dict = Word(word=word, translation=trans,
-                            language=language, word_type="DICT")
+                                language=language, word_type="DICT")
                 new_dict.save()
-                lang.teach(word,language)
+                lang.teach(word, language)
 
             # Redirect to the document list after POST
             return HttpResponseRedirect(reverse('add_dict'))
@@ -267,12 +241,14 @@ def addDictView(request):
         dict_list.append({"id": d.id, "values": [d.word, d.language, d.translation]})
 
     headers = ['Word', 'Language', 'Translation']
-
+    description = "If you see two words that mean the same thing, \
+                   enter the word, translation and language to \
+                   enhance data analysis."
     # Render list page with the documents and the form
     return render_to_response(
         'data_edit/create_single.html',
-        {"title": "Dict List", "desc":"If you see two words that mean the same thing, enter the word, translation and language to enhance data analysis.",
-        "headers": headers, "list": dict_list, 'form': form,
+        {"title": "Dict List", "desc": description,
+         "headers": headers, "list": dict_list, 'form': form,
          'name': request.user.username},
         context_instance=RequestContext(request)
     )
@@ -287,11 +263,12 @@ def addSkipView(request):
             word = word.lower()
             trans = data['trans'].title()
             language = data['language']
-            if Word.objects.filter(word=word, language=language, translation=trans).exists():
+            if Word.objects.filter(word=word, language=language,
+                                   translation=trans).exists():
                 pass
             else:
                 new_skip = Word(word=word, translation=trans,
-                            language=language, word_type="SKIP")
+                                language=language, word_type="SKIP")
                 new_skip.save()
 
             # Redirect to the document list after POST
@@ -304,18 +281,22 @@ def addSkipView(request):
     skips = Word.objects.all().filter(word_type="SKIP")
     skip_list = []
     for d in skips:
-        skip_list.append({"id": d.id, "values": [d.word, d.language, d.translation]})
+        skip_list.append({"id": d.id, "values":
+                         [d.word, d.language, d.translation]})
 
     headers = ['Word', 'Language', 'Translation']
 
+    description = "If you've spotted an unnecessary word, \
+                   please enter it here to remove it from the data."
     # Render list page with the documents and the form
     return render_to_response(
         'data_edit/create_single.html',
-        {"title": "Skip List", "desc":"If you've spotted an unnecessary word, please enter it here to remove it from the data.",
-        "headers": headers, "list": skip_list, 'form': form,
+        {"title": "Skip List", "desc": description,
+         "headers": headers, "list": skip_list, 'form': form,
          'name': request.user.username},
         context_instance=RequestContext(request)
     )
+
 
 def addTypoView(request):
     if request.method == 'POST':
@@ -343,12 +324,13 @@ def addTypoView(request):
         typo_list.append({"id": d.id, "values": [d.word, d.translation]})
 
     headers = ['Word', 'Correction']
+    description = "If you've spotted a slang/misspelt word, \
+                   enter your correction to alter the dataset please."
 
-    # Render list page with the documents and the form
     return render_to_response(
         'data_edit/create_single.html',
-        {"title": "Typo List", "desc":"If you've spotted a slang/misspelt word, enter your correction to alter the dataset please.",
-        "headers": headers, "list": typo_list, 'form': form,
+        {"title": "Typo List", "desc": description,
+         "headers": headers, "list": typo_list, 'form': form,
          'name': request.user.username},
         context_instance=RequestContext(request)
     )
