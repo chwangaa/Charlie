@@ -52,8 +52,6 @@ def applyCustomizedRules(text):
     names = Word.objects.all().filter(word_type="NAME").values_list(
                 'word', flat=True)
     names = [name.lower() for name in names]
-    skips = Word.objects.all().filter(word_type="SKIP").values_list(
-                'word', flat=True)
     typos = Word.objects.all().filter(word_type="TYPO").values_list(
                 'word', flat=True)
 
@@ -62,12 +60,6 @@ def applyCustomizedRules(text):
     words_modified = []
 
     for w in words:
-        if len(w) == 1:
-            continue
-        if w in skips:
-            continue
-        if w.isdigit() and w.isalnum():
-            continue
         if w in names:
             w = w.replace(w, "#NE")
             continue

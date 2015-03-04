@@ -13,6 +13,7 @@ class DataUploadForm(forms.Form):
 
     def clean_opinions(self):
         opinions = self.cleaned_data['opinions']
+        opinions = opinions.lower()
         opinions = opinions.replace(" ", "")
         # all the possible group of opinions
         groups = opinions.split(';')
@@ -77,6 +78,7 @@ class CreateSkipForm(forms.Form):
         label='Please enter the translation (optional)', required=False)
     language = forms.CharField(
         label='Please enter the language (optional)', required=False)
+
 
 class CreateTypoForm(forms.Form):
     word = forms.CharField(
